@@ -1,0 +1,44 @@
+/* Code / terminal / formula styling — SYSTEM MONOSPACE ONLY (design-system carve-out).
+   No downloaded font; Montserrat stays the only display typeface. */
+code, kbd, pre, samp, .mono {
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-variant-ligatures: none;
+}
+
+/* Multi-line code block (navy terminal card) */
+.code-block {
+  background: var(--navy-deepest);
+  color: #E6EDF5;
+  border-radius: 12px;
+  padding: 22px 28px;
+  font-size: 22px;
+  line-height: 1.5;
+  white-space: pre;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+.code-block .c-key { color: var(--gold); }   /* keyword */
+.code-block .c-com { color: #8597AC; }        /* comment */
+.code-block .c-str { color: #9BD0A0; }        /* string / literal */
+
+/* Inline code on light slides */
+.slide :not(pre) > code {
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1px 8px;
+  font-size: 0.92em;
+  color: var(--navy);
+}
+
+/* Inline formula chip (math set in mono, not a second display font) */
+.formula {
+  font-family: "SF Mono", ui-monospace, Menlo, monospace;
+  background: var(--surface-subtle);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  display: inline-block;
+  color: var(--navy);
+  font-size: 0.95em;
+}

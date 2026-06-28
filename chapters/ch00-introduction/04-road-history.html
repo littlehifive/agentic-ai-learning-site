@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The road to agentic AI</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .timeline { margin-top: 20px; }
+  .tl-row { padding: 7px 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>A brief history</p>
+    <h1 data-reveal>The road to agentic AI, in <span class="accent">ten milestones</span></h1>
+
+    <div class="timeline">
+      <div class="tl-row" data-reveal><span class="tl-year">1997</span><span class="tl-event"><b>Deep Blue</b> beats the world chess champion. Machines can win in narrow, well-defined games.</span></div>
+      <div class="tl-row" data-reveal><span class="tl-year">2011</span><span class="tl-event"><b>IBM Watson</b> wins Jeopardy. AI can handle messy, open-domain questions at scale.</span></div>
+      <div class="tl-row" data-reveal><span class="tl-year">2012</span><span class="tl-event"><b>AlexNet</b> wins ImageNet. Deep networks on GPUs learn from raw data, starting the deep-learning era.</span></div>
+      <div class="tl-row" data-reveal><span class="tl-year">2016</span><span class="tl-event"><b>AlphaGo</b> beats the Go champion. Reinforcement learning masters a game too vast to brute-force.</span></div>
+      <div class="tl-row" data-reveal><span class="tl-year">2019-20</span><span class="tl-event"><b>GPT-2 / GPT-3</b>. Scaling up transformers produces few-shot learning: new tasks from examples alone.</span></div>
+      <div class="tl-row" data-reveal><span class="tl-year">2020</span><span class="tl-event"><b>AlphaFold</b> predicts protein structures, cracking a 50-year scientific problem.</span></div>
+      <div class="tl-row" data-reveal><span class="tl-year">2022</span><span class="tl-event"><b>ChatGPT</b> and RLHF. Alignment turns a raw model into a genuinely useful assistant.</span></div>
+      <div class="tl-row" data-reveal><span class="tl-year">2023</span><span class="tl-event"><b>GPT-4</b>. Multimodal input, longer context, and the first hints of tool use.</span></div>
+      <div class="tl-row" data-reveal><span class="tl-year">2024</span><span class="tl-event"><b>Reasoning models</b> (o1, DeepSeek-R1). RL teaches step-by-step reasoning, not just answers.</span></div>
+      <div class="tl-row" data-reveal><span class="tl-year">2025</span><span class="tl-event"><b>Agentic AI</b>. Reasoning, tools, memory, and orchestration converge into autonomous agents.</span></div>
+    </div>
+
+    <div class="footnote" data-reveal>
+      <span class="mark"></span>
+      <span>Every leap shares one arc: a new architecture, more scale, and a better learning signal.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

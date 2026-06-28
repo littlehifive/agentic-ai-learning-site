@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tokenization</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/code.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .demo { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .tok { font-family: "SF Mono", Menlo, monospace; font-size: 26px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; color: var(--navy); box-shadow: var(--shadow-md); }
+  .tok.split { border-color: var(--gold); border-width: 2px; }
+  .demo .word { font-size: 26px; color: var(--ink-secondary); }
+  .demo .eq { color: var(--gold); font-size: 28px; font-weight: 800; margin: 0 4px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>1.2 Tokenization</p>
+    <h1 data-reveal>First, text is broken into <span class="accent">reusable pieces</span></h1>
+    <p class="lead" data-reveal>Models do not read letters or whole words. They use <b>subword</b> pieces: common words stay whole, while rare words split into familiar fragments. This keeps the vocabulary manageable and lets the model handle words it has never seen.</p>
+
+    <div class="demo" data-reveal>
+      <span class="word">"cryptocurrency"</span>
+      <span class="eq">&#8594;</span>
+      <span class="tok split">crypt</span>
+      <span class="tok split">ocur</span>
+      <span class="tok split">rency</span>
+      <span class="word" style="margin-left:24px;">"the"</span>
+      <span class="eq">&#8594;</span>
+      <span class="tok">the</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> Lego bricks for language. A small set of pieces can be snapped together to spell almost any word, so the model never hits a word it cannot represent.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Vocabulary</span><span class="def">The fixed set of pieces a model knows, usually 32,000 to 128,000 of them.</span></div>
+      <div class="row"><span class="term">Subword</span><span class="def">A piece smaller than a word; the sweet spot between single letters and whole words.</span></div>
+      <div class="row"><span class="term">BPE (Byte-Pair Encoding)</span><span class="def">The common recipe for choosing pieces: repeatedly merge the most frequent neighbouring pair.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

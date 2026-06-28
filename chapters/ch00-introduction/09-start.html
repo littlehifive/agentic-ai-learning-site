@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Start with Part I</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<style>
+  body.dark .slide { justify-content: center; position: relative;
+    background: radial-gradient(120% 120% at 30% 20%, #0B2341, #061A2E 75%); }
+  .topbar { position: absolute; top: 96px; left: 120px; display: flex; align-items: center; gap: 22px; }
+  .topbar .tick { width: 56px; height: 6px; background: var(--gold); border-radius: 3px; }
+  .topbar .wm { font-size: 20px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); }
+  .d-eyebrow { font-size: 22px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin: 0 0 28px; }
+  h1 { font-size: 78px; font-weight: 800; line-height: 1.07; letter-spacing: -0.02em; color: var(--white); max-width: 1500px; }
+  h1 .accent { color: var(--gold); }
+  .sub { margin: 36px 0 0; font-size: 28px; line-height: 1.5; color: rgba(220,230,245,0.8); max-width: 1200px; }
+  .nextcard { margin-top: 48px; display: inline-flex; align-items: center; gap: 20px; background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14); border-left: 5px solid var(--gold); border-radius: 12px; padding: 24px 30px; }
+  .nextcard .n { color: var(--gold); font-size: 18px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+  .nextcard .t { color: #fff; font-size: 26px; font-weight: 800; margin-top: 4px; }
+</style>
+</head>
+<body class="dark">
+  <div class="slide">
+    <div class="topbar" data-reveal><span class="tick"></span><span class="wm">Introduction</span></div>
+    <p class="d-eyebrow" data-reveal>Ready to begin</p>
+    <h1 data-reveal="scale">Start with <span class="accent">Part I: Foundations</span></h1>
+    <p class="sub" data-reveal>Chapter 1 explains how a language model actually works, one piece at a time. It is the map the rest of the guide builds on.</p>
+    <div class="nextcard" data-reveal>
+      <span>
+        <span class="n">Next up</span>
+        <span class="t">Chapter 1 &#183; LLM Architecture and Optimization</span>
+      </span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

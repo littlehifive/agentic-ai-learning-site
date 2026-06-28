@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Transformer block</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .fig-notes li { padding: 16px 0; }
+  .fig-notes .t { font-size: 22px; }
+  .plain { margin-top: 22px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>1.3 The Transformer block, from the book</p>
+    <h1 data-reveal>All the pieces, stacked into <span class="accent">one repeating block</span></h1>
+
+    <div class="fig-spotlight">
+      <figure class="card" data-reveal="scale">
+        <img src="./figures/fig01-transformer-block.png" alt="Decoder-only Transformer block: input tokens, embedding, repeated Pre-Norm attention and feed-forward sub-layers with residual connections, final normalization, and a linear head to vocabulary scores.">
+        <figcaption class="fig-cap">
+          <span class="mark"></span>
+          <span>
+            <span class="cap-t">The decoder-only Transformer block (GPT-style, Pre-Norm)</span>
+            <span class="fig-src">Source: Roitman, Hitchhiker's Guide to Agentic AI, Fig. 1.3, p.40</span>
+          </span>
+        </figcaption>
+      </figure>
+
+      <div>
+        <p class="fig-notes-head">What to notice</p>
+        <ol class="fig-notes">
+          <li data-reveal><span class="n">1</span><span class="t">Attention and a small neural network (the feed-forward layer) sit one after the other inside the block.</span></li>
+          <li data-reveal><span class="n">2</span><span class="t">The dashed lines are residual connections: the input skips around each step and is added back, which keeps deep stacks trainable.</span></li>
+          <li data-reveal><span class="n">3</span><span class="t">This block is repeated many times, then a final step turns the result into scores for the next token.</span></li>
+        </ol>
+        <div class="plain" data-reveal>
+          <p class="plain-h">In plain terms</p>
+          <div class="row"><span class="term">Feed-forward network</span><span class="def">A small per-word neural network that stores much of the model's knowledge.</span></div>
+          <div class="row"><span class="term">Residual connection</span><span class="def">A shortcut that adds a layer's input to its output, so signal is never lost.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

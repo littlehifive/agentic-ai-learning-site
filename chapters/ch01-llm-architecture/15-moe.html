@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mixture of Experts</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .fig-spotlight { grid-template-columns: 1.15fr 0.85fr; }
+  .fig-spotlight figure.card img { max-height: 470px; }
+  .fig-notes li { padding: 16px 0; }
+  .fig-notes .t { font-size: 22px; }
+  .plain { margin-top: 20px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>1.10 Mixture of Experts (MoE)</p>
+    <h1 data-reveal>A panel of specialists, with a <span class="accent">router</span> that picks a few</h1>
+
+    <div class="fig-spotlight">
+      <figure class="card" data-reveal="scale">
+        <img src="./figures/fig02-moe.png" alt="A Mixture-of-Experts layer: a router scores eight experts and sends each token to the top two, which are combined into the output.">
+        <figcaption class="fig-cap">
+          <span class="mark"></span>
+          <span>
+            <span class="cap-t">A router sends each token to the top 2 of 8 experts</span>
+            <span class="fig-src">Source: Roitman, Hitchhiker's Guide to Agentic AI, Fig. 1.11, p.79</span>
+          </span>
+        </figcaption>
+      </figure>
+
+      <div>
+        <p class="fig-notes-head">What to notice</p>
+        <ol class="fig-notes">
+          <li data-reveal><span class="n">1</span><span class="t">A small router looks at each word and picks just two experts to handle it; the other six stay idle.</span></li>
+          <li data-reveal><span class="n">2</span><span class="t">So the model can hold a lot of knowledge across many experts, while the work per word stays small.</span></li>
+        </ol>
+        <div class="plain" data-reveal>
+          <p class="plain-h">In plain terms</p>
+          <div class="row"><span class="term">Expert</span><span class="def">One of several sub-networks; different ones specialise in different inputs.</span></div>
+          <div class="row"><span class="term">Router</span><span class="def">The chooser that sends each word to its best-matching experts.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

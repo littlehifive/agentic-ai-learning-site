@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GQA and the KV cache</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>The cost of attention at generation time</p>
+    <h1 data-reveal>Two tricks keep long conversations <span class="accent">affordable</span></h1>
+    <p class="lead" data-reveal>Attention is powerful but memory-hungry. As text gets longer, the model needs ways to avoid redoing work and to stop its memory from ballooning.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">The KV cache</p>
+        <p>When generating, the model would otherwise recompute its view of every earlier word at each step. Instead it saves that work in a cache and reuses it, so each new word is cheap. The catch: the cache grows with the length of the conversation.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Grouped-Query Attention (GQA)</p>
+        <p>The cache is dominated by the per-head keys and values. GQA lets several attention heads share one set of keys and values instead of each keeping its own, shrinking the cache roughly fourfold with almost no loss in quality.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a scratchpad of notes from earlier in the chat. The KV cache is the scratchpad; GQA is agreeing that several readers can share one copy of the notes instead of each printing their own.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">KV cache</span><span class="def">Saved results for earlier words so the model does not recompute them every step.</span></div>
+      <div class="row"><span class="term">GQA</span><span class="def">Heads sharing keys and values to cut that memory, with negligible quality cost.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

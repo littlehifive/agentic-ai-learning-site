@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Anti-patterns</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .panel { margin-top: 44px; background: var(--navy-deep); border-radius: 16px; padding: 44px 56px; flex: 1;
+    display: flex; flex-direction: column; justify-content: center; gap: 26px; }
+  .ap { display: grid; grid-template-columns: 56px 1fr; gap: 26px; align-items: start; }
+  .ap .x { color: var(--gold); font-size: 34px; font-weight: 900; line-height: 1; }
+  .ap .t { color: rgba(225,233,245,0.92); font-size: 25px; line-height: 1.4; }
+  .ap .t b { color: var(--white); font-weight: 800; }
+  .ap .t .g { color: var(--gold); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Anti-patterns &#183; common mistakes</p>
+    <h1 data-reveal>Four habits that quietly <span class="accent">waste effort</span></h1>
+
+    <div class="panel">
+      <div class="ap" data-reveal>
+        <span class="x">1</span>
+        <span class="t"><b>Ignoring the memory cost of attention.</b> On long inputs the naive approach becomes <span class="g">painfully slow</span>. Use Flash Attention, which is the standard fix.</span>
+      </div>
+      <div class="ap" data-reveal>
+        <span class="x">2</span>
+        <span class="t"><b>Reaching for full retraining first.</b> It is expensive and often unnecessary. <span class="g">Start with LoRA</span>; only go further if it falls short.</span>
+      </div>
+      <div class="ap" data-reveal>
+        <span class="x">3</span>
+        <span class="t"><b>Skipping the learning-rate search.</b> The wrong value <span class="g">breaks training</span> no matter what else you do. Tune it before anything else.</span>
+      </div>
+      <div class="ap" data-reveal>
+        <span class="x">4</span>
+        <span class="t"><b>Forcing step-by-step reasoning everywhere.</b> On simple questions it just <span class="g">adds delay</span> and can introduce mistakes. Save it for genuinely hard problems.</span>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

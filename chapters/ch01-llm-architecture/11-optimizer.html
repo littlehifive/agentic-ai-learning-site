@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The optimizer</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 34px; }
+  .cardo .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo p { font-size: 20px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo .hl { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>1.5 Optimization: how a model learns</p>
+    <h1 data-reveal>Training nudges billions of dials toward <span class="accent">fewer mistakes</span></h1>
+    <p class="lead" data-reveal>Learning means repeatedly checking how wrong the model is, then adjusting its internal numbers a little to do better next time. Two choices dominate how well this goes.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">The optimizer: AdamW</p>
+        <p>The optimizer decides how big each adjustment should be. <span class="hl">AdamW</span> gives every dial its own adaptive step size and gently shrinks unused dials toward zero. It is the default for training language models because it is stable across very different layers.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">The learning rate: the key knob</p>
+        <p>The <span class="hl">learning rate</span> sets the overall step size. Too high and training blows up; too low and it crawls. It is the single most important setting, so it is the first thing practitioners tune.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> walking downhill in fog to find the lowest point. The learning rate is your step size: big strides risk overshooting the valley, tiny steps take forever.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Gradient descent</span><span class="def">Repeatedly step in the direction that reduces error, a little at a time.</span></div>
+      <div class="row"><span class="term">Weight decay</span><span class="def">A gentle pull on the dials toward zero, which discourages overcomplicated solutions.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

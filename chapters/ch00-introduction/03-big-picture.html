@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The big picture</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+  .stack { margin-top: 40px; display: flex; flex-direction: column; gap: 16px; }
+  .layer { display: grid; grid-template-columns: 250px 1fr; gap: 26px; align-items: center;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 22px 30px; }
+  .layer .l-n { font-size: 23px; font-weight: 800; color: var(--navy); }
+  .layer .l-d { font-size: 21px; color: var(--ink-secondary); line-height: 1.4; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>The big picture</p>
+    <h1 data-reveal>Great AI systems need the <span class="accent">whole stack</span>, not one layer</h1>
+    <p class="lead" data-reveal>The book's core thesis: you cannot build or debug a modern AI system by knowing only one part. Each layer below depends on the ones beneath it.</p>
+
+    <div class="stack">
+      <div class="layer" data-reveal><span class="l-n">Model internals</span><span class="l-d">How a language model represents and processes text.</span></div>
+      <div class="layer" data-reveal><span class="l-n">Systems &amp; hardware</span><span class="l-d">The GPUs and memory that make training and serving possible.</span></div>
+      <div class="layer" data-reveal><span class="l-n">Training &amp; alignment</span><span class="l-d">The methods that teach a model to follow instructions and reason.</span></div>
+      <div class="layer" data-reveal><span class="l-n">Evaluation</span><span class="l-d">How we measure whether any of it actually works.</span></div>
+      <div class="layer" data-reveal><span class="l-n">Agentic systems</span><span class="l-d">Tools, memory, and orchestration that turn a model into an autonomous agent.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

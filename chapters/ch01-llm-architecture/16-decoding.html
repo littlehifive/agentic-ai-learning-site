@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Decoding: choosing the next word</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/code.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .hint { font-size: 18px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); margin: 8px 0 0; }
+  .panel-cap { font-size: 20px; color: var(--ink-secondary); line-height: 1.4; margin: 14px 0 0; max-width: 1300px; }
+  .panel-cap b { color: var(--navy); }
+  .cmp { margin-top: 22px; }
+  .cmp-panel + .cmp-panel { margin-top: 20px; }
+  .dist { gap: 9px; }
+  .bar-track { height: 26px; }
+  .cmp-take { margin-top: 18px; }
+  .plain { margin-top: 20px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>1.12 Decoding methods</p>
+    <h1 data-reveal>How the model turns scores into an <span class="accent">actual word</span></h1>
+    <p class="hint" data-reveal>Click a prompt to switch the example</p>
+
+    <div class="cmp" data-reveal>
+      <div class="cmp-tabs">
+        <button class="cmp-tab is-active" data-panel="a">After: 2 + 2 =</button>
+        <button class="cmp-tab" data-panel="b">After: I enjoy eating</button>
+      </div>
+
+      <div class="cmp-panel is-shown" data-panel="a">
+        <div class="dist">
+          <div class="bar-row"><span class="tok">"4"</span><span class="bar-track"><span class="bar-fill peak" data-grow-w style="width:100%"></span></span><span class="pct">96%</span></div>
+          <div class="bar-row"><span class="tok">"four"</span><span class="bar-track"><span class="bar-fill" data-grow-w style="width:3%"></span></span><span class="pct">2%</span></div>
+          <div class="bar-row"><span class="tok">"five"</span><span class="bar-track"><span class="bar-fill" data-grow-w style="width:2%"></span></span><span class="pct">1%</span></div>
+        </div>
+        <p class="panel-cap">A confident moment: <b>top-p</b> keeps essentially just "4", while a fixed <b>top-k</b> would needlessly keep dozens of near-zero options.</p>
+      </div>
+
+      <div class="cmp-panel" data-panel="b">
+        <div class="dist">
+          <div class="bar-row"><span class="tok">"pizza"</span><span class="bar-track"><span class="bar-fill" data-grow-w style="width:100%"></span></span><span class="pct">11%</span></div>
+          <div class="bar-row"><span class="tok">"sushi"</span><span class="bar-track"><span class="bar-fill" data-grow-w style="width:91%"></span></span><span class="pct">10%</span></div>
+          <div class="bar-row"><span class="tok">"pasta"</span><span class="bar-track"><span class="bar-fill" data-grow-w style="width:82%"></span></span><span class="pct">9%</span></div>
+        </div>
+        <p class="panel-cap">An open moment: <b>top-p</b> widens to cover the many good options, while a small fixed <b>top-k</b> would cut most of them off.</p>
+      </div>
+
+      <div class="cmp-take">
+        <span class="mark"></span>
+        <span>Top-p adapts to how sure the model is: it shrinks when the model is confident and grows when it is not. Top-k always keeps the same fixed number of options.</span>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Greedy</span><span class="def">Always take the single highest-scoring word: safe for facts, but repetitive.</span></div>
+      <div class="row"><span class="term">Temperature</span><span class="def">A creativity dial: low makes the model cautious, high makes it adventurous.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

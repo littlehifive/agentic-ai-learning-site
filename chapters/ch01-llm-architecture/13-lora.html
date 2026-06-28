@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LoRA and QLoRA</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .diagram2 { margin-top: 28px; display: flex; align-items: center; gap: 26px; }
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px; text-align: center; }
+  .box.frozen { opacity: 0.75; }
+  .box .bt { font-size: 23px; font-weight: 800; color: var(--navy); }
+  .box .bd { font-size: 18px; color: var(--ink-muted); margin-top: 6px; }
+  .box.small { border-color: var(--gold); border-width: 2px; }
+  .plus { font-size: 36px; color: var(--gold); font-weight: 800; }
+  .pct { font-size: 18px; color: var(--gold); font-weight: 800; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>1.9 LoRA and parameter-efficient fine-tuning</p>
+    <h1 data-reveal>Adapt a giant model by training a <span class="accent">tiny add-on</span></h1>
+    <p class="lead" data-reveal>Fully retraining a large model is expensive. LoRA freezes the original and learns a small set of extra numbers alongside it, capturing the new skill at a fraction of the cost. The add-on can even be merged back in so it adds no slowdown.</p>
+
+    <div class="diagram2" data-reveal>
+      <div class="box frozen"><div class="bt">Original model</div><div class="bd">frozen, untouched</div></div>
+      <span class="plus">+</span>
+      <div class="box small"><div class="bt">LoRA add-on</div><div class="bd">small, trainable</div><div class="pct">under 1% of the size</div></div>
+      <span class="plus">&#8594;</span>
+      <div class="box"><div class="bt">Adapted model</div><div class="bd">new skill, low cost</div></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> sticky notes in a textbook. You leave the printed pages untouched and just add a few notes; cheap to write, easy to swap out, and you can keep different note sets for different tasks.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Fine-tuning</span><span class="def">Taking a trained model and teaching it a narrower skill or style.</span></div>
+      <div class="row"><span class="term">LoRA</span><span class="def">Low-Rank Adaptation: train a small add-on instead of the whole model.</span></div>
+      <div class="row"><span class="term">QLoRA</span><span class="def">LoRA on top of a compressed base model, so even very large models fit on one GPU.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The pattern behind breakthroughs</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+  .eq { margin-top: 48px; display: flex; align-items: stretch; gap: 0; }
+  .term-card { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 30px 32px; }
+  .term-card .t { font-size: 27px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .term-card .d { font-size: 21px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+  .op { flex: 0 0 70px; display: flex; align-items: center; justify-content: center; font-size: 44px; font-weight: 800; color: var(--gold); }
+  .result { margin-top: 30px; display: flex; align-items: center; gap: 18px; }
+  .result .arrow { color: var(--gold); font-size: 34px; font-weight: 800; }
+  .result .r { font-size: 30px; font-weight: 800; color: var(--navy); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>The pattern behind every leap</p>
+    <h1 data-reveal>Three ingredients keep producing <span class="accent">breakthroughs</span></h1>
+
+    <div class="eq">
+      <div class="term-card" data-reveal>
+        <p class="t">Architecture innovation</p>
+        <p class="d">A new design for the model itself, like attention, that lets it learn things older designs could not.</p>
+      </div>
+      <div class="op" data-reveal>+</div>
+      <div class="term-card" data-reveal>
+        <p class="t">Scale</p>
+        <p class="d">More data and more computation. Bigger models trained on more text reliably get better.</p>
+      </div>
+      <div class="op" data-reveal>+</div>
+      <div class="term-card" data-reveal>
+        <p class="t">Learning signal</p>
+        <p class="d">What the model learns from: game outcomes, internet text, human preferences, or verified rewards.</p>
+      </div>
+    </div>
+
+    <div class="result" data-reveal>
+      <span class="arrow">&#8594;</span>
+      <span class="r">a breakthrough</span>
+    </div>
+
+    <div class="footnote" data-reveal>
+      <span class="mark"></span>
+      <span>Deep Blue searched by hand, AlphaGo learned from self-play, GPT-3 learned from the internet. The learning signal keeps getting richer, and the architectures grow to match.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Smaller and cheaper models</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .three { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 32px; }
+  .cardo .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo p { font-size: 20px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo .an { font-size: 18px; color: var(--ink-muted); margin-top: 14px; line-height: 1.4; }
+  .cardo .an b { color: var(--gold); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>1.14 Model compression</p>
+    <h1 data-reveal>Three ways to make a model <span class="accent">smaller and faster</span></h1>
+    <p class="lead" data-reveal>A trained model can be large and slow to run. These methods shrink it for cheaper deployment, usually with little loss in quality.</p>
+
+    <div class="three">
+      <div class="cardo" data-reveal>
+        <p class="h">Quantization</p>
+        <p>Store each number with fewer digits of precision. The model gets much smaller and faster, and quality barely moves.</p>
+        <p class="an"><b>Like</b> writing prices as whole dollars instead of to the cent: far less to store, still close enough.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Knowledge distillation</p>
+        <p>Train a small "student" model to copy a large "teacher" model's behaviour, inheriting much of its skill in a fraction of the size.</p>
+        <p class="an"><b>Like</b> an apprentice learning by watching an expert, then doing the job alone.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Pruning</p>
+        <p>Remove parts of the network that contribute little, like trimming dead branches, leaving a leaner model.</p>
+        <p class="an"><b>Like</b> editing a draft down to only the words that carry weight.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Precision</span><span class="def">How many digits are used to store each number; fewer digits means a smaller, faster model.</span></div>
+      <div class="row"><span class="term">Teacher and student</span><span class="def">A big capable model and the small one trained to imitate it.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

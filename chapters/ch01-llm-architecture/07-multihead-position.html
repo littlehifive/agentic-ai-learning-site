@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Multi-head attention and position</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .heads { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .head { font-size: 16px; color: var(--navy); background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 999px; padding: 6px 14px; }
+  .head .d { color: var(--ink-muted); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>1.3.6 to 1.3.7 Multi-head attention and position</p>
+    <h1 data-reveal>Many viewpoints at once, plus a sense of <span class="accent">word order</span></h1>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Multi-head attention</p>
+        <p>Instead of paying attention one way, the model runs several attention operations in parallel. Each "head" learns to track a different kind of relationship, and their results are combined.</p>
+        <div class="heads">
+          <span class="head">grammar <span class="d">subject &#8594; verb</span></span>
+          <span class="head">meaning <span class="d">pronoun &#8594; noun</span></span>
+          <span class="head">nearby words</span>
+        </div>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Positional encoding (RoPE)</p>
+        <p>Attention by itself ignores order, yet "dog bites man" and "man bites dog" differ. The model adds position information so it knows where each word sits. The common method today, RoPE, encodes position by rotating each word's numbers by an amount that depends on its place in the sentence.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Head</span><span class="def">One independent attention operation; many run side by side, each catching a different pattern.</span></div>
+      <div class="row"><span class="term">RoPE</span><span class="def">Rotary Position Embedding: a way to tell the model the order of words, and it stretches gracefully to longer text.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

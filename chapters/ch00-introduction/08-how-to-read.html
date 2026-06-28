@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How to read this deck</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+  .three { margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .hc { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 34px; }
+  .hc .t { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .hc p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .hc .key { font-family: "SF Mono", Menlo, monospace; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 6px; padding: 1px 8px; color: var(--navy); font-size: 0.92em; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>How to read this deck</p>
+    <h1 data-reveal>Three things to know before you <span class="accent">start</span></h1>
+
+    <div class="three">
+      <div class="hc" data-reveal>
+        <p class="t">Navigating</p>
+        <p>Pick a chapter from the home grid. Inside, use the arrow keys or the side arrows to move, click the dots to jump, and press <span class="key">Esc</span> to return home.</p>
+      </div>
+      <div class="hc" data-reveal>
+        <p class="t">Look for "In plain terms"</p>
+        <p>Most slides carry a gold-edged box that defines the technical words on that slide in one plain sentence each. No prior jargon needed.</p>
+      </div>
+      <div class="hc" data-reveal>
+        <p class="t">Interactives</p>
+        <p>Some slides invite a click: step through a build, flip a question to its answer, or toggle two examples. Try them.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span>Every chapter follows the same shape: the core idea, then the key concepts explained one at a time, a worked example, common mistakes, and a short self-check. All ideas and figures are from the book by Haggai Roitman.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

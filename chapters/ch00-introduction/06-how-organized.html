@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How this guide is organized</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .figband { margin-top: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 20px 26px; }
+  .figband img { width: 100%; max-width: 1480px; height: auto; display: block; margin: 0 auto; }
+  .figband .src { font-size: 16px; color: var(--ink-muted); margin-top: 10px; text-align: center; }
+  .pgrid { margin-top: 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .pcell { background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; padding: 16px 20px; }
+  .pcell .p { font-size: 16px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); }
+  .pcell .n { font-size: 21px; font-weight: 800; color: var(--navy); margin-top: 3px; }
+  .pcell .d { font-size: 16px; color: var(--ink-secondary); margin-top: 5px; line-height: 1.35; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>How this guide is organized</p>
+    <h1 data-reveal>One thread: from a base model to an <span class="accent">autonomous agent</span></h1>
+
+    <div class="figband" data-reveal="scale">
+      <img src="./figures/fig01-modern-ai-pipeline.png" alt="The modern AI pipeline: Base Model, then SFT, then Alignment, then Reasoning RL, then Agentic. Each stage maps to a part of the guide.">
+      <p class="src">Source: Roitman, Hitchhiker's Guide to Agentic AI, Fig. 1, p.33. Each stage maps to a part of this guide.</p>
+    </div>
+
+    <div class="pgrid">
+      <div class="pcell" data-reveal><div class="p">Part I</div><div class="n">Foundations</div><div class="d">How LLMs work, the hardware, and RL from scratch.</div></div>
+      <div class="pcell" data-reveal><div class="p">Part II</div><div class="n">RL Methods for LLMs</div><div class="d">Aligning and fine-tuning: PPO, DPO, GRPO, and more.</div></div>
+      <div class="pcell" data-reveal><div class="p">Part III</div><div class="n">Reasoning</div><div class="d">Teaching models to reason through multi-step problems.</div></div>
+      <div class="pcell" data-reveal><div class="p">Part IV</div><div class="n">Evaluation</div><div class="d">Measuring whether any of it actually works.</div></div>
+      <div class="pcell" data-reveal><div class="p">Part V</div><div class="n">Agentic AI</div><div class="d">Memory, tools, and orchestration for real agents.</div></div>
+      <div class="pcell" data-reveal><div class="p">Part VI</div><div class="n">Assessment &amp; Reference</div><div class="d">Quizzes, a quick reference, and a look ahead.</div></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

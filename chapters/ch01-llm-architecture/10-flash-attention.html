@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Flash Attention</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .evo-node .name { font-size: 26px; }
+  .evo-node .fixes { font-size: 19px; }
+  .plain { margin-top: 26px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>1.6 Flash Attention, and how attention got efficient</p>
+    <h1 data-reveal>Each step removed the previous one's <span class="accent">bottleneck</span></h1>
+
+    <div class="evo-wrap">
+      <div class="evo-baseline" data-grow-w style="width:100%"></div>
+      <div class="evo-rail">
+        <div class="evo-node" data-reveal>
+          <p class="year">2017</p><p class="name">Plain attention</p>
+          <p class="fixes"><b>The baseline.</b> Comparing every word with every other builds a huge grid of scores that is slow to move in and out of memory.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">grid too big</span></div>
+        <div class="evo-node" data-reveal>
+          <p class="year">2022</p><p class="name">Flash Attention</p>
+          <p class="fixes"><b>Fixes memory traffic.</b> Does the work in small tiles on the chip's fast memory, never writing the full grid out. Same answer, 2 to 4 times faster.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">cache too big</span></div>
+        <div class="evo-node" data-reveal>
+          <p class="year">2023</p><p class="name">Grouped-Query Attention</p>
+          <p class="fixes"><b>Fixes the running memory.</b> Shares keys and values across heads, shrinking the per-conversation cache about fourfold.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">long text</span></div>
+        <div class="evo-node evo-node--now" data-reveal>
+          <p class="year">Now</p><p class="name">Sparse and windowed attention</p>
+          <p class="fixes"><b>Fixes long-context cost.</b> Lets each word look at only the most relevant others, and stacks on top of Flash Attention.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Fast vs slow memory</span><span class="def">A chip has a tiny fast workspace (SRAM) and a big slow store (HBM). Flash Attention keeps the heavy work in the fast workspace.</span></div>
+      <div class="row"><span class="term">Exact, not approximate</span><span class="def">It gives the same result as plain attention; only the bookkeeping changes, so there is no quality cost.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

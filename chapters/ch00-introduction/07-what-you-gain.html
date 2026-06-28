@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What you will gain</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>What you will gain</p>
+    <h1 data-reveal>By the end, you will be able to <span class="accent">make sense of</span></h1>
+
+    <div class="gains">
+      <div class="gain" data-reveal><span class="ck">&#10003;</span><span class="t"><b>How LLMs work inside.</b> Attention, position, and why design choices change what a model can do.</span></div>
+      <div class="gain" data-reveal><span class="ck">&#10003;</span><span class="t"><b>The systems beneath them.</b> GPU memory, distributed training, and fast serving.</span></div>
+      <div class="gain" data-reveal><span class="ck">&#10003;</span><span class="t"><b>Efficient fine-tuning.</b> LoRA, quantization, and distillation to adapt models cheaply.</span></div>
+      <div class="gain" data-reveal><span class="ck">&#10003;</span><span class="t"><b>Alignment with human preferences.</b> RLHF, DPO, GRPO, and how to pick among them.</span></div>
+      <div class="gain" data-reveal><span class="ck">&#10003;</span><span class="t"><b>How reasoning models learn.</b> How o1 and DeepSeek-R1 discover step-by-step thinking.</span></div>
+      <div class="gain" data-reveal><span class="ck">&#10003;</span><span class="t"><b>How to architect agents.</b> Memory, tools, coordination, and rigorous evaluation.</span></div>
+    </div>
+
+    <div class="footnote" data-reveal>
+      <span class="mark"></span>
+      <span>The book assumes only basic neural networks and probability. Everything else is built from first principles, and this deck keeps it plain.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>
