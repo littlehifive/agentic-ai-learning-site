@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Check yourself</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Check yourself &#183; click a card to reveal</p>
+    <h1 data-reveal>Can you explain these in <span class="accent">plain words</span>?</h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is the TD error, and why call it surprise?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">It is the gap between what the agent expected and what actually happened plus what it now expects next. A positive gap means better than predicted, so raise that state's value; a negative gap means worse, so lower it. Drive the gap to zero and the estimates have settled.</p>
+          <p class="qa-review">Review: Chapter 3</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Why do language models use policy methods, not Q-learning?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Q-learning has to score every possible action to pick the best. A language model has tens of thousands of actions, the whole vocabulary, at every token. Scoring them all per step is intractable, so LLMs tune the policy directly instead.</p>
+          <p class="qa-review">Review: Chapter 3</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What does the lambda dial in GAE control?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">The balance between bias and variance in the advantage estimate. Near 0 it trusts the critic: steady but biased. Near 1 it trusts real returns: accurate but noisy. Around 0.95 is the sweet spot used for language models.</p>
+          <p class="qa-review">Review: Chapter 3</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

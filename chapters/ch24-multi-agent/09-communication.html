@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How agents talk</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo ul { margin: 0; padding: 0; list-style: none; }
+  .cardo li { position: relative; padding: 9px 0 9px 30px; font-size: 21px; line-height: 1.4; color: var(--ink-secondary); }
+  .cardo li::before { content: ''; position: absolute; left: 0; top: 16px; width: 14px; height: 6px; background: var(--gold); border-radius: 3px; }
+  .cardo li b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>24.3.2 &#38; 24.4 Communication protocols</p>
+    <h1 data-reveal>Agents coordinate by sending <span class="accent">clear messages</span></h1>
+    <p class="lead" data-reveal>The most natural way for language-model agents to work together is to send each other structured text. To stay reliable, those messages need an agreed shape, and the system needs a rule for how much past conversation to forward.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">What a message says</p>
+        <ul>
+          <li><b>Inform</b> share a finding.</li>
+          <li><b>Request</b> ask another agent to do something.</li>
+          <li><b>Propose, accept, reject</b> negotiate a plan.</li>
+          <li><b>Confirm, failure</b> report done, or report that it broke.</li>
+        </ul>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">How much history to share</p>
+        <ul>
+          <li><b>Full history</b> for short chats; most informative, but fills the context window.</li>
+          <li><b>Summary</b> for medium chats; cheaper, but can drop details.</li>
+          <li><b>Relevant excerpt</b> for long sessions; fetch only the messages that matter.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a well-run email thread. A clear subject line and request type means the reader knows what to do at a glance, and you do not forward the entire thread when a one-line summary will do.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Message passing</span><span class="def">Agents coordinate by sending each other structured text messages.</span></div>
+      <div class="row"><span class="term">Performative</span><span class="def">A label on a message saying what it is for: inform, request, propose, and so on.</span></div>
+      <div class="row"><span class="term">Context sharing</span><span class="def">The choice of how much prior conversation to pass to the next agent.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

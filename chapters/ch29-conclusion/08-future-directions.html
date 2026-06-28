@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Future directions</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .gains { margin-top: 40px; gap: 22px 64px; }
+  .gain .t { font-size: 23px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>29.2 The road ahead</p>
+    <h1 data-reveal>The directions the field is <span class="accent">heading</span></h1>
+
+    <div class="gains">
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>From one-time training to continuous learning.</b> Agents that improve safely from deployment, not just from a fixed dataset.</span>
+      </div>
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>From reacting to planning.</b> Internal world models that let an agent look ahead before it commits to an action.</span>
+      </div>
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>From single models to ecosystems.</b> Open protocols so agents from different teams can find and trust each other.</span>
+      </div>
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>From humans grading every output to scalable oversight.</b> Using AI, debate, and step-level rewards to keep up with capable models.</span>
+      </div>
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>From benchmarks to real deployment metrics.</b> Cost-aware, safety-aware evaluation that survives messy, shifting tasks.</span>
+      </div>
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>From costly cloud runs to broad access.</b> Smaller distilled agents, leaner algorithms, and capable open-weight models.</span>
+      </div>
+    </div>
+
+    <div class="footnote" data-reveal>
+      <span class="mark"></span>
+      <span>Each direction turns a current limit into the next research frontier. The arc that built this field is the one that will keep extending it.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

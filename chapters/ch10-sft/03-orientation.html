@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Where SFT sits</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .flow { margin-top: 44px; display: flex; align-items: stretch; gap: 0; }
+  .fnode { flex: 1 1 0; min-width: 0; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 28px 32px; display: flex; flex-direction: column; }
+  .fnode.is-here { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+  .fnode .step { font-size: 17px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .fnode .nm { font-size: 27px; font-weight: 800; color: var(--navy); line-height: 1.15; margin: 0 0 12px; }
+  .fnode .ds { font-size: 20px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .farrow { flex: 0 0 56px; display: flex; align-items: center; justify-content: center; }
+  .farrow span { color: var(--gold); font-size: 34px; font-weight: 700; line-height: 1; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Chapter 10 &#183; SFT Best Practices and Techniques</p>
+    <h1 data-reveal>SFT is the <span class="accent">first teaching step</span> after pre-training</h1>
+    <p class="lead" data-reveal>A fresh model can only continue text. Supervised fine-tuning, SFT for short, is where it first learns to follow instructions and answer in a useful format. It sets the ceiling for everything that comes after: reward-based tuning can polish a skill but cannot add one the model never learned here.</p>
+
+    <div class="flow">
+      <div class="fnode" data-reveal>
+        <p class="step">Stage 1</p>
+        <p class="nm">Pre-training</p>
+        <p class="ds">The model reads a huge pile of text and learns to predict the next word. It knows a lot but does not yet take instructions.</p>
+      </div>
+      <div class="farrow" data-reveal><span>&#8594;</span></div>
+      <div class="fnode is-here" data-reveal>
+        <p class="step">Stage 2 &#183; this chapter</p>
+        <p class="nm">Supervised fine-tuning</p>
+        <p class="ds">The model copies thousands of example prompts and answers, learning to follow instructions and reply in the expected style.</p>
+      </div>
+      <div class="farrow" data-reveal><span>&#8594;</span></div>
+      <div class="fnode" data-reveal>
+        <p class="step">Stage 3</p>
+        <p class="nm">Reward-based tuning</p>
+        <p class="ds">The model practises against human preferences, amplifying good behaviour. It can only build on what SFT already taught.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">SFT</span><span class="def">Supervised fine-tuning: teaching by imitation, where the model copies many correct prompt-and-answer examples.</span></div>
+      <div class="row"><span class="term">SFT sets the ceiling</span><span class="def">Later tuning can strengthen a skill that is present but weak; it cannot create a skill that was never taught.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

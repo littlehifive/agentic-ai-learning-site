@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Temporal-difference learning</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .gps { margin-top: 26px; display: flex; align-items: stretch; gap: 14px; }
+  .gstep { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 22px 24px; }
+  .gstep .gh { font-size: 17px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .gstep .gv { font-size: 32px; font-weight: 900; color: var(--navy); margin: 0 0 8px; font-variant-numeric: tabular-nums; }
+  .gstep .gd { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .garrow { flex: 0 0 46px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 32px; font-weight: 700; }
+  .gstep.surprise { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+  .gstep.surprise .gv { color: var(--gold); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>3.4 Temporal-difference (TD) learning</p>
+    <h1 data-reveal>Learn from <span class="accent">surprise</span>, without waiting for the end</h1>
+    <p class="lead" data-reveal>You do not need to finish the whole trip to learn. The moment reality differs from your guess, you can update. TD learning measures that gap, the <b>TD error</b>, and nudges its estimate toward the new, better guess at every single step.</p>
+
+    <div class="gps">
+      <div class="gstep" data-reveal>
+        <p class="gh">Your prediction</p>
+        <p class="gv">30 min</p>
+        <p class="gd">You set off expecting the drive home to take half an hour.</p>
+      </div>
+      <div class="garrow" data-reveal>&#8594;</div>
+      <div class="gstep" data-reveal>
+        <p class="gh">Reality hits</p>
+        <p class="gv">45 min</p>
+        <p class="gd">Ten minutes in you meet roadworks; the GPS now says 35 left, so 45 total.</p>
+      </div>
+      <div class="garrow" data-reveal>&#8594;</div>
+      <div class="gstep surprise" data-reveal>
+        <p class="gh">The TD error</p>
+        <p class="gv">+15 min</p>
+        <p class="gd">The new estimate beats the old by 15 minutes. That surprise is the learning signal.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Read it like</span> a positive surprise means a state turned out better than expected, so raise its value and seek it out. A negative surprise means it was worse than expected, so lower its value and avoid it. Drive the surprise toward zero and the estimates have converged.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Bootstrapping</span><span class="def">Updating a guess using another guess (the value of the next state), instead of waiting for the final outcome.</span></div>
+      <div class="row"><span class="term">TD vs Monte Carlo</span><span class="def">Monte Carlo waits for the full episode: unbiased but jumpy. TD updates each step: a little biased but far steadier.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

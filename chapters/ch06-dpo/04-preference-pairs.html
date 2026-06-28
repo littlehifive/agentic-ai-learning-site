@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Preference pairs</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .pair { margin-top: 30px; display: grid; grid-template-columns: 230px 1fr; gap: 22px 30px; align-items: start; }
+  .pl { font-size: 20px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; padding-top: 22px; }
+  .pl.prompt { color: var(--ink-muted); }
+  .pl.chosen { color: var(--gold); }
+  .pl.rejected { color: var(--ink-muted); }
+  .ans { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 20px 26px; font-size: 22px; line-height: 1.45; color: var(--ink); }
+  .ans.prompt { background: var(--surface-subtle); color: var(--navy); font-weight: 700; }
+  .ans.chosen { border-left: 6px solid var(--gold); }
+  .ans.rejected { border-left: 6px solid var(--border); color: var(--ink-secondary); }
+  .tag { display: inline-block; font-size: 15px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+  .tag.up { color: var(--gold); }
+  .tag.down { color: var(--ink-muted); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>6.1 Motivation &#183; the training data</p>
+    <h1 data-reveal>The whole recipe runs on <span class="accent">preference pairs</span></h1>
+    <p class="lead" data-reveal>Each training example is one prompt with two answers: a <b>chosen</b> one that people preferred and a <b>rejected</b> one they preferred less. The model never sees a numeric score, only which of the two was better.</p>
+
+    <div class="pair">
+      <span class="pl prompt" data-reveal>Prompt</span>
+      <div class="ans prompt" data-reveal>Explain quantum entanglement to a 10-year-old.</div>
+
+      <span class="pl chosen" data-reveal>Chosen</span>
+      <div class="ans chosen" data-reveal>
+        <span class="tag up">&#9650; Preferred</span><br>
+        Imagine two magic coins. Flip one and it lands heads, and the other instantly becomes tails, no matter how far apart they are.
+      </div>
+
+      <span class="pl rejected" data-reveal>Rejected</span>
+      <div class="ans rejected" data-reveal>
+        <span class="tag down">&#9660; Not preferred</span><br>
+        Quantum entanglement is a phenomenon where two particles become correlated such that the state of one cannot be described independently.
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> A vs B taste tests, not a scored exam. You do not tell the model the dish earned 8.5 out of 10. You just say this plate beat that plate, again and again.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Chosen answer</span><span class="def">The response people preferred for that prompt; the target to move toward.</span></div>
+      <div class="row"><span class="term">Rejected answer</span><span class="def">The weaker response for the same prompt; the one to move away from.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

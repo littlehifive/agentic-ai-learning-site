@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The problem PPO solves</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .chain { margin-top: 32px; display: flex; align-items: stretch; }
+  .ch { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 26px; display: flex; flex-direction: column; }
+  .ch.bad { border-color: var(--gold); }
+  .ch .t { font-size: 21px; line-height: 1.4; color: var(--ink); margin: 0; }
+  .ch .t b { color: var(--navy); font-weight: 800; }
+  .ar { flex: 0 0 50px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 30px; font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>5.1 Motivation and history</p>
+    <h1 data-reveal>Plain reward learning has <span class="accent">no brakes</span></h1>
+    <p class="lead" data-reveal>The simplest way to learn from rewards just pushes the model harder toward whatever scored well, with <b>no limit on how big each push can be</b>. One unlucky batch can shove the model into a region where it produces nonsense, and from there it cannot find its way back.</p>
+
+    <div class="chain">
+      <div class="ch" data-reveal>
+        <p class="t"><b>A big, careless step</b> moves the model far from where it was.</p>
+      </div>
+      <div class="ar" data-reveal>&#8594;</div>
+      <div class="ch" data-reveal>
+        <p class="t">In this <b>untested region</b> it starts generating garbage.</p>
+      </div>
+      <div class="ar" data-reveal>&#8594;</div>
+      <div class="ch" data-reveal>
+        <p class="t">Garbage earns <b>low rewards</b>, which look like new lessons.</p>
+      </div>
+      <div class="ar" data-reveal>&#8594;</div>
+      <div class="ch bad" data-reveal>
+        <p class="t"><b>Collapse.</b> Each step makes it worse, with no way to recover.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> turning a steering wheel as hard as you can at every correction. You do not gently track the road, you swerve off it, and once you are in the ditch the next yank only digs you deeper.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Policy</span><span class="def">The model itself, seen as the thing that chooses each next token.</span></div>
+      <div class="row"><span class="term">Policy gradient</span><span class="def">The basic recipe: push the model toward choices that earned higher reward.</span></div>
+      <div class="row"><span class="term">Collapse</span><span class="def">An update so large the model breaks and cannot be trained back to health.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

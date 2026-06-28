@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The cost of no standard</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .stbl { margin-top: 34px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-md); }
+  .strow { display: grid; grid-template-columns: 1.4fr 1fr 1fr; align-items: center; }
+  .strow + .strow { border-top: 1px solid var(--border); }
+  .strow.head { background: var(--navy); }
+  .strow.head .c { color: var(--white); font-weight: 800; font-size: 22px; letter-spacing: 0.04em; }
+  .strow .c { padding: 24px 34px; font-size: 26px; color: var(--ink); }
+  .strow .c.lbl { font-weight: 700; color: var(--navy); }
+  .strow .c.bad { color: var(--ink-secondary); font-variant-numeric: tabular-nums; }
+  .strow .c.good { color: var(--navy); font-weight: 800; font-variant-numeric: tabular-nums; }
+  .strow .c.good .tag { color: var(--gold); font-weight: 900; margin-left: 10px; font-size: 21px; }
+  .strow:nth-child(even):not(.head) { background: var(--surface-subtle); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>21.1 Why standardization matters</p>
+    <h1 data-reveal>A quadratic problem becomes a <span class="accent">linear one</span></h1>
+    <p class="lead" data-reveal>The custom-connector count grows by multiplication, so it explodes. The protocol count grows by addition, so it stays small. At real scale the difference is the difference between feasible and hopeless.</p>
+
+    <div class="stbl" data-reveal>
+      <div class="strow head">
+        <div class="c">Scenario</div>
+        <div class="c">Without MCP</div>
+        <div class="c">With MCP</div>
+      </div>
+      <div class="strow">
+        <div class="c lbl">20 agents, 50 tools</div>
+        <div class="c bad">1,000 connectors</div>
+        <div class="c good">70 implementations <span class="tag">14&#215; less</span></div>
+      </div>
+      <div class="strow">
+        <div class="c lbl">50 agents, 200 tools</div>
+        <div class="c bad">10,000 connectors</div>
+        <div class="c good">250 implementations <span class="tag">40&#215; less</span></div>
+      </div>
+      <div class="strow">
+        <div class="c lbl">100 agents, 500 tools</div>
+        <div class="c bad">50,000 connectors</div>
+        <div class="c good">600 implementations <span class="tag">83&#215; less</span></div>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> the way USB replaced dozens of proprietary ports. Once one connector wins, every device and every machine only has to support that one shape.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tool composition</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .compose { margin-top: 30px; display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .subs { display: flex; flex-direction: column; gap: 12px; }
+  .sub { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-md); padding: 14px 24px; font-size: 22px; font-weight: 700; color: var(--navy); }
+  .arrow { color: var(--gold); font-size: 40px; font-weight: 900; }
+  .big { background: var(--navy); color: var(--white); border-radius: 12px; padding: 28px 36px; box-shadow: var(--shadow-md); }
+  .big .bh { font-size: 26px; font-weight: 800; margin: 0 0 8px; }
+  .big .bd { font-size: 20px; line-height: 1.4; color: rgba(220,230,245,0.85); margin: 0; max-width: 420px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>22.2.3 Hierarchical skill composition</p>
+    <h1 data-reveal>Combine small skills into one <span class="accent">bigger capability</span></h1>
+    <p class="lead" data-reveal>Skills can depend on other skills. A high-level skill calls a handful of simpler ones, and the orchestrator works out the order before anything runs. Sub-skills can be shared, so you build each piece once.</p>
+
+    <div class="compose" data-reveal>
+      <div class="subs">
+        <div class="sub">Run Tests</div>
+        <div class="sub">Build Docker Image</div>
+        <div class="sub">Update DNS</div>
+      </div>
+      <span class="arrow">&#8594;</span>
+      <div class="big">
+        <p class="bh">Deploy Application</p>
+        <p class="bd">One skill that calls the three smaller skills in the right order to ship a release.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a recipe that calls smaller recipes. "Make lasagna" pulls in "make the sauce" and "make the pasta", each of which you can also use on its own for other dishes.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Sub-skill</span><span class="def">A smaller skill that a larger one depends on and calls.</span></div>
+      <div class="row"><span class="term">Orchestrator</span><span class="def">The part that resolves which sub-skills to run, and in what order.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

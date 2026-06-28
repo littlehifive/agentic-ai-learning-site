@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Check yourself</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Check yourself &#183; click a card to reveal</p>
+    <h1 data-reveal>Can you explain these in <span class="accent">plain words</span>?</h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">How is a skill different from a tool?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">A tool is a single function the agent can call. A skill is a whole package for one kind of task: instructions, the tools it needs, reference knowledge, the workflow, and guardrails, all bundled so the agent knows how and when to use it.</p>
+          <p class="qa-review">Review: Chapter 22</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Why load skills dynamically instead of all at once?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Every loaded skill takes up the agent's limited context window. Loading only the skills that match the current task keeps context lean and lets the skill library grow to hundreds of entries. The cost is a small chance the router misses a relevant skill.</p>
+          <p class="qa-review">Review: Chapter 22</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is the augmented LLM, and how does it relate to skills?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">It is the atomic unit of an agent: a model plus retrieval, tools, and memory, never the bare model alone. A skill is just a choice of which retrieval, tools, and memory the model gets for a particular task.</p>
+          <p class="qa-review">Review: Chapter 22</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

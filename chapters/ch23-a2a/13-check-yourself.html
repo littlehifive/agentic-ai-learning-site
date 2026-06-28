@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Check yourself</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Check yourself &#183; click a card to reveal</p>
+    <h1 data-reveal>Can you explain these in <span class="accent">plain words</span>?</h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is an Agent Card and why does it matter?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">It is an agent's public profile, hosted at a known address, listing its skills, how to authenticate, and where to send work. It lets other agents discover and call it with no hardcoded wiring, like a business card or a LinkedIn profile.</p>
+          <p class="qa-review">Review: Chapter 23</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Why does A2A model work as a task with states?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Because jobs can take seconds or hours. A task with states like submitted, working, and completed lets the caller track progress, answer a clarifying question, and stream or get notified about results without holding a connection open the whole time.</p>
+          <p class="qa-review">Review: Chapter 23</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">How is A2A different from MCP?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">MCP connects an agent downward to tools and data, where only the agent reasons. A2A connects an agent sideways to another agent, where both sides reason. They complement each other: an orchestrator delegates via A2A, and each specialist reaches its tools via MCP.</p>
+          <p class="qa-review">Review: Chapter 23</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

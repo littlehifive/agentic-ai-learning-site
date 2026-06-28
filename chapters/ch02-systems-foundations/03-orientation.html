@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What this chapter covers</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .parts-list { margin-top: 34px; }
+  .pl-row .pl-d { font-size: 21px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Chapter 2 &#183; Systems Foundations for LLMs</p>
+    <h1 data-reveal>From a single chip to a <span class="accent">whole data center</span></h1>
+    <p class="lead" data-reveal>This chapter zooms out one level from the model itself to the machines that run it. We go from inside one GPU, to many GPUs working together, to the software that serves answers to thousands of users at once.</p>
+
+    <div class="parts-list" data-reveal>
+      <div class="pl-row">
+        <span class="pl-p">2.1</span>
+        <div><div class="pl-n">Inside one GPU</div><div class="pl-d">Why GPUs beat CPUs for this work, the chip's layout, its memory levels, and what makes a job fast or slow.</div></div>
+      </div>
+      <div class="pl-row">
+        <span class="pl-p">2.1.10</span>
+        <div><div class="pl-n">Many GPUs together</div><div class="pl-d">The high-speed cables that link chips, and the ways a model is split across them to train at scale.</div></div>
+      </div>
+      <div class="pl-row">
+        <span class="pl-p">2.2</span>
+        <div><div class="pl-n">Serving at speed</div><div class="pl-d">vLLM and PagedAttention: software that packs the GPU full so it can answer many users at once.</div></div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

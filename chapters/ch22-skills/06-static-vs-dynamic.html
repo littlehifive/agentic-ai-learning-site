@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Static vs dynamic loading</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo .meta { margin-top: 16px; font-size: 19px; color: var(--ink); }
+  .cardo .meta b { color: var(--navy); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>22.2 Skill architecture patterns</p>
+    <h1 data-reveal>Load every skill always, or only the ones <span class="accent">the task needs</span></h1>
+    <p class="lead" data-reveal>Each loaded skill takes up room in the agent's limited context window. So the central choice is timing: keep all skills on at all times, or fetch them only when they become relevant.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Static loading: always on</p>
+        <p>All skills are loaded when the agent starts. Simple, predictable, and fast, because nothing has to be chosen at runtime.</p>
+        <p class="meta"><b>Cost:</b> unused skills waste context, and it will not scale to hundreds of skills.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Dynamic loading: only when relevant</p>
+        <p>A lightweight router matches the request to the few skills that fit, and activates just those. Context stays lean and the library can grow large.</p>
+        <p class="meta"><b>Cost:</b> the router can miss a relevant skill, and matching adds a little latency.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> apps on a phone. Static loading is keeping every app open at once. Dynamic loading is opening an app only when you need it, so the phone stays responsive.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Context window</span><span class="def">The limited space holding everything the agent can read at once.</span></div>
+      <div class="row"><span class="term">Skill router</span><span class="def">A small matcher that picks which skills fit the current request.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

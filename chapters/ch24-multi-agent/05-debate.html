@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Debate pattern</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .step { font-size: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 22px; color: var(--navy); font-weight: 700; box-shadow: var(--shadow-md); }
+  .step.judge { border-color: var(--gold); border-width: 2px; }
+  .flow .eq { color: var(--gold); font-size: 28px; font-weight: 800; margin: 0 2px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>24.6.1 Debate pattern</p>
+    <h1 data-reveal>Agents argue to reach a <span class="accent">better answer</span></h1>
+    <p class="lead" data-reveal>Several agents take different positions on the same question, then read each other's arguments and push back. After a round or two, a separate <b>judge</b> agent weighs the arguments and decides. Forcing answers to survive cross-examination catches errors a lone agent would miss.</p>
+
+    <div class="flow" data-reveal>
+      <span class="step">Agents state positions</span>
+      <span class="eq">&#8594;</span>
+      <span class="step">They rebut each other</span>
+      <span class="eq">&#8594;</span>
+      <span class="step">Repeat a round</span>
+      <span class="eq">&#8594;</span>
+      <span class="step judge">Judge decides</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a review panel cross-checking each other. One reviewer alone can be confidently wrong; a panel that has to defend its claims out loud, with a chair to call the result, lands closer to the truth.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Debate</span><span class="def">Agents argue opposing positions; the disagreement surfaces flaws and hallucinations.</span></div>
+      <div class="row"><span class="term">Judge agent</span><span class="def">A neutral agent that reads the final arguments and picks the verdict.</span></div>
+      <div class="row"><span class="term">Cost</span><span class="def">Several agents plus several rounds use far more compute than one answer.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

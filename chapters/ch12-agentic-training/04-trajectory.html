@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trajectories</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .traj { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
+  .trow { display: grid; grid-template-columns: 64px 1fr 150px; align-items: center; gap: 22px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 16px 26px; }
+  .trow .s { font-size: 26px; font-weight: 900; color: var(--gold); font-variant-numeric: tabular-nums; line-height: 1; }
+  .trow .act { font-size: 21px; color: var(--ink); line-height: 1.35; }
+  .trow .act b { color: var(--navy); font-weight: 700; }
+  .trow .rew { text-align: right; font-size: 20px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .trow .rew.zero { color: var(--ink-muted); }
+  .trow .rew.win { color: var(--gold); }
+  .trow--win { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>12.2 Trajectory buffers for LLM agents</p>
+    <h1 data-reveal>One full attempt at a task is called a <span class="accent">trajectory</span></h1>
+    <p class="lead" data-reveal>A trajectory is the whole episode: every state the agent saw, every action it took, and what it observed in return. Here is a real one, fixing a failing test. Notice the reward stays at zero until the very last step.</p>
+
+    <div class="traj">
+      <div class="trow" data-reveal>
+        <span class="s">1</span>
+        <span class="act"><b>Think:</b> "Let me read the file first." &#8594; reads utils.py</span>
+        <span class="rew zero">0</span>
+      </div>
+      <div class="trow" data-reveal>
+        <span class="s">2</span>
+        <span class="act"><b>Think:</b> "The bug is an off-by-one on line 42." &#8594; edits the file</span>
+        <span class="rew zero">0</span>
+      </div>
+      <div class="trow trow--win" data-reveal>
+        <span class="s">3</span>
+        <span class="act"><b>Think:</b> "Let me verify the fix." &#8594; runs the tests, all pass</span>
+        <span class="rew win">+1.0</span>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a flight recorder. It logs every reading and every control input across the whole flight, so afterwards you can study the entire run, not just the landing.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Trajectory</span><span class="def">The full sequence of state, action, and observation for one attempt at a task.</span></div>
+      <div class="row"><span class="term">Trajectory buffer</span><span class="def">A store of past attempts, kept as text and tool output, that training can sample from.</span></div>
+      <div class="row"><span class="term">Sparse reward</span><span class="def">A score that arrives only at the end, so most steps get a flat zero along the way.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

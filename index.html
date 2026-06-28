@@ -250,6 +250,11 @@
     var d = e.data || {};
     if (d.deckFontsReady) unveil();
     if (d.deckKey) document.dispatchEvent(new KeyboardEvent('keydown', { key: d.deckKey, bubbles: true }));
+    if (d.deckGo) {
+      if (d.deckGo === 'home') { toLauncher(); return; }
+      var g = String(d.deckGo).match(/^(ch\d{2})\/(\d+)$/);
+      if (g && chapters[g[1]] && chapters[g[1]].active) openChapter(g[1], parseInt(g[2], 10) - 1);
+    }
   });
 
   function buildDots() {

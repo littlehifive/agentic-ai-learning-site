@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Value and the Bellman equation</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .vrow { margin-top: 26px; display: flex; gap: 18px; }
+  .vcard { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 22px 26px 24px; }
+  .vcard .vh { font-size: 17px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .vcard .vt { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .vcard .vd { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .bellman { margin-top: 24px; display: flex; align-items: center; gap: 18px; background: var(--surface-subtle); border: 1px solid var(--border); border-left: 6px solid var(--gold); border-radius: 10px; padding: 20px 28px; }
+  .bellman .bt { font-size: 23px; color: var(--ink); line-height: 1.4; }
+  .bellman .bt b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>3.2 Core concepts: value, Q, and Bellman</p>
+    <h1 data-reveal>How good is this spot? <span class="accent">Value answers that</span></h1>
+    <p class="lead" data-reveal>To choose well, the agent needs to know what a situation is worth, not just the reward right now but all the reward it can expect from here on. These value estimates are the agent's compass.</p>
+
+    <div class="vrow">
+      <div class="vcard" data-reveal>
+        <p class="vh">Value, V(s)</p>
+        <p class="vt">Worth of a state</p>
+        <p class="vd">Total reward you can expect starting from this situation and playing on.</p>
+      </div>
+      <div class="vcard" data-reveal>
+        <p class="vh">Q-value, Q(s, a)</p>
+        <p class="vt">Worth of a move</p>
+        <p class="vd">Total reward from taking one specific action here, then continuing.</p>
+      </div>
+      <div class="vcard" data-reveal>
+        <p class="vh">Advantage, A(s, a)</p>
+        <p class="vt">Better than average?</p>
+        <p class="vd">How much this action beats the typical action from this state: Q minus V.</p>
+      </div>
+    </div>
+
+    <div class="bellman" data-reveal>
+      <span class="bt"><b>The Bellman equation</b> ties it together: the value of where you are equals the reward you get next plus the (discounted) value of where you land. Value is defined in terms of itself, one step at a time.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Return</span><span class="def">The full sum of rewards from now on, with later rewards shrunk by the discount factor.</span></div>
+      <div class="row"><span class="term">Optimal policy</span><span class="def">Once you know the best Q-value for every move, the best policy is simple: in each state, pick the action with the highest Q.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

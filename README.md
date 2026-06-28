@@ -5,8 +5,11 @@ A self-contained static website that teaches the book chapter by chapter as a cu
 and click-to-reveal self-checks. Built on the TAF deck system (navy / gold / Montserrat),
 one 1920x1080 HTML file per slide, with a 6-Part home launcher and `#chNN/N` deep links.
 
-Status: **Chapter 1 pilot** is complete (12 slides). Chapters 2 to 29 are listed on the
-launcher as "coming soon" and are filled in during rollout.
+Status: **Complete.** The Introduction plus all 29 chapters are built (426 slides total),
+each following the book's own section structure with plain-English explanations, analogies,
+"In plain terms" callouts, and selected original figures. Every chapter ends with a hyperlink
+to the next, so the whole guide reads as one continuous path (Introduction to Chapter 29 to
+back home).
 
 ## Run locally
 

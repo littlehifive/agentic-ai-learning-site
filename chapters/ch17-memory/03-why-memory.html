@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why agents need memory</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>17.1 Motivation: why agents need memory</p>
+    <h1 data-reveal>The context window is <span class="accent">finite, and it resets</span></h1>
+    <p class="lead" data-reveal>A model can only attend to a fixed window of recent text. A long-running agent piles up observations, tool outputs, and reasoning far beyond that window. Once something scrolls out, it is gone, and the next session starts cold. Memory is the engineering answer to that hard limit.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a worker with no long-term recall and a small desk. Only what fits on the desk right now can be used; everything else falls off the edge unless it is filed somewhere it can be fetched again later.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Context window</span><span class="def">The fixed amount of text a model can read at once. Large but never unlimited.</span></div>
+      <div class="row"><span class="term">Stateless</span><span class="def">Each call begins from nothing; the model keeps no record of earlier calls on its own.</span></div>
+      <div class="row"><span class="term">Memory system</span><span class="def">External storage plus rules for writing and retrieving, so the agent can refer back.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

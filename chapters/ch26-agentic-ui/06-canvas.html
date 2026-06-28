@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Canvas paradigm</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .split { margin-top: 28px; display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow-md); }
+  .pane { padding: 24px 28px; background: var(--surface); }
+  .pane.chatp { background: var(--surface-subtle); border-right: 1px solid var(--border); }
+  .pane .pt { font-size: 17px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 18px; }
+  .bubble { font-size: 20px; line-height: 1.4; color: var(--ink); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+  .bubble.you { background: var(--navy); color: var(--white); border-color: var(--navy); }
+  .doc { font-family: "SF Mono", Menlo, monospace; font-size: 19px; line-height: 1.5; color: var(--ink); }
+  .doc .edit { background: rgba(241,181,5,0.28); border-radius: 4px; padding: 0 4px; }
+  .vbar { margin-top: 16px; font-size: 16px; color: var(--ink-muted); letter-spacing: 0.04em; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>26.2 Canvas and artifact-based interfaces</p>
+    <h1 data-reveal>A shared workspace you and the agent <span class="accent">edit together</span></h1>
+    <p class="lead" data-reveal>The canvas splits the screen: chat on one side, a live document on the other. The result stays put across turns, you can edit it directly, the agent can react to your edits, and a version history lets you roll back. It suits co-creation: writing, coding, and analysis.</p>
+
+    <div class="split">
+      <div class="pane chatp" data-reveal>
+        <p class="pt">Conversation</p>
+        <div class="bubble you">Draft an intro, then make the tone warmer.</div>
+        <div class="bubble">Done. I updated the first paragraph.</div>
+      </div>
+      <div class="pane" data-reveal>
+        <p class="pt">Canvas &#183; live artifact</p>
+        <p class="doc">Welcome aboard. <span class="edit">We are genuinely glad you are here</span> and cannot wait to get started with you on this.</p>
+        <p class="vbar">Version 3 of 3 &#183; revert anytime</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a shared whiteboard rather than a back-and-forth chat. You both stand at the same board, point at the same draft, and change it in place instead of describing changes in messages.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Artifact</span><span class="def">A persistent piece of work, a doc or code file, that lives beside the chat and can be refined.</span></div>
+      <div class="row"><span class="term">Version history</span><span class="def">Every revision is kept, so you can return to any earlier state.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

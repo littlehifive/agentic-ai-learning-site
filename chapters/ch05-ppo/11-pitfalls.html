@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Common failure modes</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .panel { margin-top: 40px; background: var(--navy-deep); border-radius: 16px; padding: 42px 56px; flex: 1;
+    display: flex; flex-direction: column; justify-content: center; gap: 24px; }
+  .ap { display: grid; grid-template-columns: 56px 1fr; gap: 26px; align-items: start; }
+  .ap .x { color: var(--gold); font-size: 34px; font-weight: 900; line-height: 1; }
+  .ap .t { color: rgba(225,233,245,0.92); font-size: 24px; line-height: 1.4; }
+  .ap .t b { color: var(--white); font-weight: 800; }
+  .ap .t .g { color: var(--gold); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>5.9 Common failure modes</p>
+    <h1 data-reveal>Four ways PPO quietly <span class="accent">goes wrong</span></h1>
+
+    <div class="panel">
+      <div class="ap" data-reveal>
+        <span class="x">1</span>
+        <span class="t"><b>Reward hacking.</b> The model finds a cheap way to score high that misses the point, like padding, flattery, or canned phrases. If the leash is <span class="g">too loose</span>, it exploits the scorer instead of getting genuinely better.</span>
+      </div>
+      <div class="ap" data-reveal>
+        <span class="x">2</span>
+        <span class="t"><b>KL collapse.</b> Tighten the leash too far and the model is <span class="g">stuck at its starting point</span>, too scared to change, so it never actually learns from the reward.</span>
+      </div>
+      <div class="ap" data-reveal>
+        <span class="x">3</span>
+        <span class="t"><b>Overusing one batch.</b> Squeeze too many passes out of the same answers and the model <span class="g">overfits to that batch</span>, while the safety math goes stale because the answers no longer match the changed model.</span>
+      </div>
+      <div class="ap" data-reveal>
+        <span class="x">4</span>
+        <span class="t"><b>A miscalibrated reward model.</b> The scorer is only a stand-in for human taste. If it is wrong, PPO faithfully optimises <span class="g">the wrong target</span>, and the model gets confidently worse.</span>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pipeline parallelism</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 36px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 24px 26px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 16px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .stage .s-d { font-size: 18px; line-height: 1.38; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 46px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 32px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>11.2.4 Pipeline Parallelism</p>
+    <h1 data-reveal>Hand the model down an <span class="accent">assembly line</span> of GPUs</h1>
+    <p class="lead" data-reveal>A model is a tall stack of layers. Pipeline parallelism gives the first few layers to one GPU, the next few to another, and so on. Data flows down the line, each GPU doing its stretch of the work before passing it along.</p>
+
+    <div class="flow">
+      <div class="stage" data-reveal>
+        <p class="s-n">GPU 1</p><p class="s-t">Layers 1 to 20</p>
+        <p class="s-d">Takes the input and does the first stretch of processing.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">GPU 2</p><p class="s-t">Layers 21 to 40</p>
+        <p class="s-d">Picks up where GPU 1 left off and carries on.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">GPU 3</p><p class="s-t">Layers 41 to 60</p>
+        <p class="s-d">Continues the middle of the stack.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">GPU 4</p><p class="s-t">Layers 61 to 80</p>
+        <p class="s-d">Finishes the work and produces the output.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a car assembly line: each station bolts on its part and slides the car to the next. The danger is idle time. If only one car is on the line, three stations stand waiting, so you keep many cars moving at once to keep everyone busy.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Pipeline parallelism</span><span class="def">Splitting layers into stages on different GPUs, passing data down the line.</span></div>
+      <div class="row"><span class="term">Tensor vs pipeline</span><span class="def">Tensor splits one layer sideways across GPUs; pipeline splits the stack of layers into stages along the line.</span></div>
+      <div class="row"><span class="term">The bubble</span><span class="def">Idle GPUs waiting their turn. Feeding many small batches at once keeps the line full.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

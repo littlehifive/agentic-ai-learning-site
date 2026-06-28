@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Capability abstraction</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 23px; font-weight: 800; color: var(--navy); margin: 0 0 16px; }
+  .cardo ul { margin: 0; padding: 0; list-style: none; }
+  .cardo li { position: relative; padding: 10px 0 10px 32px; font-size: 21px; line-height: 1.4; color: var(--ink); }
+  .cardo li::before { content: ''; position: absolute; left: 0; top: 18px; width: 16px; height: 6px; background: var(--gold); border-radius: 3px; }
+  .cardo.face { border-color: var(--gold); border-width: 2px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>22.5 Skill manifests</p>
+    <h1 data-reveal>Hide the messy details behind a <span class="accent">clean interface</span></h1>
+    <p class="lead" data-reveal>A skill exposes a simple front door, its name, what it does, and what goes in and out. The complicated parts, the prompts, the tools, the version, sit behind that door. Whoever uses the skill needs the front door, not the wiring.</p>
+
+    <div class="two">
+      <div class="cardo face" data-reveal>
+        <p class="h">The clean face: a skill manifest</p>
+        <ul>
+          <li>Name and a one-line description</li>
+          <li>What it expects in, and gives back</li>
+          <li>A version number you can pin</li>
+        </ul>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">The hidden machinery</p>
+        <ul>
+          <li>The system prompts and few-shot examples</li>
+          <li>The tools and MCP servers it calls</li>
+          <li>The guardrails and validation rules</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a power socket. You plug in and it works. You do not need to know how the grid routes electricity to your wall, only the shape of the plug.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Manifest</span><span class="def">The label on a skill: its name, inputs, outputs, and version.</span></div>
+      <div class="row"><span class="term">Abstraction</span><span class="def">Showing a simple interface while hiding the complicated inner workings.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>From RLHF to DPO</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .evo-node .name { font-size: 26px; }
+  .evo-node .fixes { font-size: 19px; }
+  .plain { margin-top: 26px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Where DPO sits in the lineage</p>
+    <h1 data-reveal>Each step stripped out <span class="accent">more machinery</span></h1>
+
+    <div class="evo-wrap">
+      <div class="evo-baseline" data-grow-w style="width:100%"></div>
+      <div class="evo-rail">
+        <div class="evo-node" data-reveal>
+          <p class="year">2022</p><p class="name">RLHF with PPO</p>
+          <p class="fixes"><b>The baseline.</b> Train a reward model from preferences, then run a reinforcement loop with four models to chase its score. Powerful, but heavy and unstable.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">too much machinery</span></div>
+        <div class="evo-node evo-node--now" data-reveal>
+          <p class="year">2023</p><p class="name">DPO</p>
+          <p class="fixes"><b>Removes the loop.</b> A clean solution lets the model judge itself, so alignment becomes one supervised step on preference pairs. Two models, no reward model.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">tune the trade-offs</span></div>
+        <div class="evo-node" data-reveal>
+          <p class="year">After</p><p class="name">DPO variants</p>
+          <p class="fixes"><b>Refine the recipe.</b> Follow-ups handle noisy labels, drop even the reference model, or add reasoning quality. Same core idea, different dials.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">RLHF</span><span class="def">Reinforcement learning from human feedback; the family PPO belongs to.</span></div>
+      <div class="row"><span class="term">The trend</span><span class="def">Same alignment goal, steadily fewer models and less moving machinery.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

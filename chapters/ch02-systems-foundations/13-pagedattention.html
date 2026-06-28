@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PagedAttention</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .body { margin-top: 24px; display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 50px; align-items: start; }
+  .pages { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+  .pages .ttl { font-size: 17px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 14px; }
+  .pool { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 16px; }
+  .pg { height: 44px; border-radius: 6px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: #fff; }
+  .pg.a { background: var(--navy); border-color: var(--navy); }
+  .pg.b { background: var(--gold); border-color: var(--gold); color: var(--navy-deep); }
+  .pg.free { background: var(--surface); color: var(--ink-muted); }
+  .legend { font-size: 16px; color: var(--ink-secondary); margin: 0; }
+  .legend b { color: var(--navy); }
+  .copy .lead { margin-top: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>2.2.2 PagedAttention: Virtual Memory for KV Caches</p>
+    <h1 data-reveal>Hand out memory in small pages, <span class="accent">as needed</span></h1>
+
+    <div class="body">
+      <div class="pages" data-reveal>
+        <p class="ttl">Shared pool of small pages</p>
+        <div class="pool">
+          <span class="pg a">A1</span><span class="pg b">B1</span><span class="pg a">A2</span><span class="pg free">free</span><span class="pg b">B2</span><span class="pg free">free</span>
+        </div>
+        <p class="legend">Two replies, <b>A</b> (navy) and <b>B</b> (gold), take pages wherever there is room. A lookup table remembers the order. Free pages are reused the instant a reply finishes.</p>
+      </div>
+
+      <div class="copy">
+        <p class="lead" data-reveal>PagedAttention borrows a classic operating-system trick. Instead of one big reserved block per reply, the notes are stored in many small, fixed-size <b>pages</b>, handed out only when a reply actually needs them. The pages can sit anywhere in memory; a small lookup table keeps track of the order. Waste drops to almost nothing, and three bonuses fall out for free.</p>
+
+        <div class="analogy" data-reveal>
+          <span class="mark"></span>
+          <span><span class="lbl">Think of it like</span> a library that lends books one at a time instead of reserving a whole shelf per reader. Far more readers fit, and a returned book is instantly available to the next person.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">PagedAttention</span><span class="def">Storing the model's notes in small pages handed out on demand, so almost no memory is wasted.</span></div>
+      <div class="row"><span class="term">Prefix sharing</span><span class="def">A bonus: many users with the same opening prompt share its pages, instead of each keeping a copy.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

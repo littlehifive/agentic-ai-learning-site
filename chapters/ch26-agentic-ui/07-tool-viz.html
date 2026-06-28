@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tool-call visualization</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .cards { margin-top: 26px; display: flex; flex-direction: column; gap: 14px; }
+  .tcard { background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; box-shadow: var(--shadow-md); padding: 18px 24px; display: grid; grid-template-columns: 260px 1fr 150px; gap: 22px; align-items: center; }
+  .tcard.err { border-left-color: #C0392B; }
+  .tname { font-family: "SF Mono", Menlo, monospace; font-size: 21px; font-weight: 700; color: var(--navy); }
+  .tio { font-size: 19px; color: var(--ink-secondary); line-height: 1.35; }
+  .tio b { color: var(--navy); }
+  .tmeta { font-size: 18px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+  .tmeta.ok { color: #1E7E34; }
+  .tmeta.bad { color: #C0392B; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>26.3.2 Tool use visualization</p>
+    <h1 data-reveal>Show what the agent <span class="accent">ran</span> and what it <span class="accent">got back</span></h1>
+    <p class="lead" data-reveal>Tool calls are how an agent touches the world: search the web, run code, read a file. Each call is worth showing in four parts: the tool name, the input, the result, and how long it took. That provenance is what lets a person verify a claim or spot where things went wrong.</p>
+
+    <div class="cards">
+      <div class="tcard" data-reveal>
+        <span class="tname">web_search</span>
+        <span class="tio"><b>in:</b> "rainfall Kenya 2024" &#8594; <b>out:</b> 8 results</span>
+        <span class="tmeta ok">342 ms &#183; ok</span>
+      </div>
+      <div class="tcard" data-reveal>
+        <span class="tname">run_python</span>
+        <span class="tio"><b>in:</b> mean of column "yield" &#8594; <b>out:</b> 4.12</span>
+        <span class="tmeta ok">128 ms &#183; ok</span>
+      </div>
+      <div class="tcard err" data-reveal>
+        <span class="tname">read_file</span>
+        <span class="tio"><b>in:</b> /data/notes.csv &#8594; <b>out:</b> file not found</span>
+        <span class="tmeta bad">12 ms &#183; error</span>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a receipt for every errand. Instead of "trust me, I handled it," you get an itemized list of what was done, with what, and the outcome, so a failed line stands out at once.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Tool card</span><span class="def">A compact panel for one tool call: name, a short input summary, and its status.</span></div>
+      <div class="row"><span class="term">Error highlighting</span><span class="def">Failed calls are shown in red with the message, so problems are easy to find.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

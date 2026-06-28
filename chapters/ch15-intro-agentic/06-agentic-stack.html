@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The agentic stack</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .parts-list { margin-top: 26px; gap: 12px; }
+  .pl-row { grid-template-columns: 230px 320px 1fr; padding: 13px 24px; }
+  .pl-row .pl-d { margin-top: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>To address these challenges, a layered architecture</p>
+    <h1 data-reveal>Production agents are built as a <span class="accent">stack of layers</span></h1>
+    <p class="lead" data-reveal>A reasoning model sits at the center. Around it, each layer solves one specific problem. You add only the layers a task needs. This is the map for the rest of Part V, covered bottom to top.</p>
+
+    <div class="parts-list">
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">Chapter 16</span>
+        <span class="pl-n">Grounding &#183; RAG</span>
+        <span class="pl-d">Retrieve outside knowledge at query time, so the agent can use data it never trained on.</span>
+      </div>
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">Chapter 17</span>
+        <span class="pl-n">Persistence &#183; Memory</span>
+        <span class="pl-d">Recall information across steps and sessions, from short-term notes to long-term history.</span>
+      </div>
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">Chapter 18</span>
+        <span class="pl-n">Runtime &#183; Harness</span>
+        <span class="pl-d">The agent's operating system: it runs the loop and decides when to retrieve, call a tool, or ask a human.</span>
+      </div>
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">Chapters 19 to 20</span>
+        <span class="pl-n">Patterns &#183; Evaluation</span>
+        <span class="pl-d">Proven ways to structure an agent, and how to test multi-step behaviour in real environments.</span>
+      </div>
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">Chapters 21 to 24</span>
+        <span class="pl-n">Tools &#183; MCP and Multi-Agent</span>
+        <span class="pl-d">A standard way to plug in tools, and protocols for many specialist agents to work together.</span>
+      </div>
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">Chapters 25 to 26</span>
+        <span class="pl-n">Frameworks &#183; Agentic UI</span>
+        <span class="pl-d">Toolkits that implement the stack, and the interfaces people use to supervise and steer agents.</span>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a network stack. No single layer does the whole job, but stacked together they form one integrated system, and a weak layer drags the rest down with it.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

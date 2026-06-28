@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz, reasoning models</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Reasoning models &#183; click a card to reveal</p>
+    <h1 data-reveal>Teaching a model to <span class="accent">reason</span></h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Why does DeepSeek-R1 skip a process reward model?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Math and code have verifiable ground-truth answers, so a binary accuracy reward gives enough signal even for long chains. Process models add their own hacking, where steps look correct without being correct. GRPO's group normalization already provides relative signal about which chains worked.</p>
+          <p class="qa-review">Review: Chapter 13</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Distillation versus direct RL for small reasoning models?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Distillation fine-tunes the small model on reasoning chains from a large one: cheap, but it can copy surface patterns. Direct RL lets the small model discover its own strategies, at much higher compute. In practice, distilling first then optionally adding RL gives the strongest result.</p>
+          <p class="qa-review">Review: Chapter 13</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">How does SFT quality cap what RL can achieve?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">RL only reinforces behaviors the model can already produce with some probability. If the base never generates a correct solution, there is nothing for RL to amplify. The pass@k diagnostic tests this: generate k samples and check if any is correct, which estimates the ceiling RL can reach.</p>
+          <p class="qa-review">Review: Chapters 7, 10</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

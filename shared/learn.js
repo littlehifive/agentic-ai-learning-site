@@ -7,6 +7,17 @@
   document.addEventListener('click', function (e) {
     var t = e.target;
 
+    // Cross-chapter link: [data-go="chNN/N" | "home"]. Inside the deck shell,
+    // navigate in place via postMessage; standalone, fall through to the anchor href.
+    var go = closest(t, '[data-go]');
+    if (go) {
+      if (window.parent !== window) {
+        e.preventDefault();
+        window.parent.postMessage({ deckGo: go.getAttribute('data-go') }, '*');
+      }
+      return;
+    }
+
     // D1 — Q&A flip: click a card toggles its answer open.
     var qa = closest(t, '.qa-card');
     if (qa) { qa.classList.toggle('is-open'); return; }

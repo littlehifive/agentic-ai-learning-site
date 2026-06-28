@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tool dispatch</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .steps { margin-top: 30px; display: flex; align-items: stretch; }
+  .stp { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 24px 26px; display: flex; flex-direction: column; }
+  .stp .sn { font-size: 30px; font-weight: 900; color: var(--gold); line-height: 1; margin: 0 0 10px; font-variant-numeric: tabular-nums; }
+  .stp .st { font-size: 23px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .stp .sd { font-size: 18px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 44px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 30px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>18.4 Tool integration and execution</p>
+    <h1 data-reveal>The harness is the agent's <span class="accent">hands</span></h1>
+    <p class="lead" data-reveal>Tools are how the model acts in the world: searching the web, reading a file, running code. The model only asks for a tool by name. The harness does the rest, and treats every tool result as untrusted data, never as new instructions.</p>
+
+    <div class="steps">
+      <div class="stp" data-reveal>
+        <p class="sn">1</p><p class="st">Pick</p>
+        <p class="sd">The model chooses a tool from clear descriptions of what each one is for.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stp" data-reveal>
+        <p class="sn">2</p><p class="st">Run</p>
+        <p class="sd">The harness runs it in a sandbox, with timeouts and limits to stay safe.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stp" data-reveal>
+        <p class="sn">3</p><p class="st">Clean</p>
+        <p class="sd">It validates and trims the result, since outputs can be huge.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stp" data-reveal>
+        <p class="sn">4</p><p class="st">Return</p>
+        <p class="sd">The cleaned result goes back into context for the next thought.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a lab assistant. The scientist names an experiment to run; the assistant fetches the equipment, runs it behind a safety screen, tidies the results, and hands back a clean readout, without ever taking orders hidden inside the samples.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Tool description</span><span class="def">A clear note on what a tool does and when to use it, the main signal for picking it.</span></div>
+      <div class="row"><span class="term">Sandboxing</span><span class="def">Running tools in a walled-off space with limits, so a bad call cannot do harm.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

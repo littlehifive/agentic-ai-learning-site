@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Coordination challenges</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .grid { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 36px; }
+  .ch { display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: start; }
+  .ch .t { font-size: 23px; line-height: 1.4; color: var(--ink); }
+  .ch .t b { color: var(--navy); font-weight: 800; }
+  .ch .mk { color: var(--gold); font-size: 30px; font-weight: 900; line-height: 1.1; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>24.8 Challenges and solutions</p>
+    <h1 data-reveal>The hard part is <span class="accent">keeping the team in sync</span></h1>
+    <p class="lead" data-reveal>How agents talk, divide work, and resolve disagreements matters as much as the architecture itself. The same things that make a team powerful are the things that can drag it down.</p>
+
+    <div class="grid">
+      <div class="ch" data-reveal><span class="mk">&#8226;</span><span class="t"><b>Coordination overhead.</b> Every message costs tokens. The rule: talk only when the information is worth more than the message costs.</span></div>
+      <div class="ch" data-reveal><span class="mk">&#8226;</span><span class="t"><b>Redundancy.</b> Two agents may solve the same sub-problem twice. Check shared results and lock tasks in progress.</span></div>
+      <div class="ch" data-reveal><span class="mk">&#8226;</span><span class="t"><b>Attribution.</b> When the team succeeds or fails, which agent was responsible? Hard to assign credit or blame.</span></div>
+      <div class="ch" data-reveal><span class="mk">&#8226;</span><span class="t"><b>Scalability.</b> Naive chatter grows fast: with many agents, all-to-all messaging explodes. Connect only agents that must interact.</span></div>
+      <div class="ch" data-reveal><span class="mk">&#8226;</span><span class="t"><b>Context sharing.</b> How much history does each agent need? Pass full history when short, summaries when medium, relevant excerpts when long.</span></div>
+      <div class="ch" data-reveal><span class="mk">&#8226;</span><span class="t"><b>Emergent failures.</b> A bad input or error in one agent can cascade and be amplified by the next. Keep a safety monitor watching.</span></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a project that drowns in meetings. The work is fine; the coordination is the problem. Too many status messages, duplicated effort, and no clear owner are what sink real teams and agent teams alike.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Coordination overhead</span><span class="def">The token, time, and money cost of agents talking to each other.</span></div>
+      <div class="row"><span class="term">Safety monitor</span><span class="def">An agent that watches all messages and can halt the system if something looks unsafe.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

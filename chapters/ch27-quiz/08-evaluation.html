@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz, evaluation</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Evaluation &#183; click a card to reveal</p>
+    <h1 data-reveal>Knowing if it <span class="accent">actually improved</span></h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">How do you tell if RL really improved the model?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">No single number captures quality. Lead with win-rate against the SFT baseline judged blind on hundreds of prompts. Add capability benchmarks to catch regressions, plus safety and truthfulness checks. A rising reward score with flat win-rate means hacking, not improvement.</p>
+          <p class="qa-review">Review: Chapter 14</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is position bias in LLM-as-judge, and how do you fix it?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">An LLM judge tends to favor whichever response is first or last, regardless of quality. Mitigate by judging each pair both ways and taking the majority, by using a panel of judges, or by scoring each response against a rubric instead of comparing them side by side.</p>
+          <p class="qa-review">Review: Chapter 14</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is benchmark contamination, and how do you catch it?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Contamination is when test items leak into training data, inflating scores. Detect it with n-gram overlap checks, canary strings, or rephrased benchmarks where a big accuracy drop reveals memorization. Defend with dynamic and private test sets and decontamination during training.</p>
+          <p class="qa-review">Review: Chapter 14</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

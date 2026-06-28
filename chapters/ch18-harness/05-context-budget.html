@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The context budget</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .budget { margin-top: 32px; }
+  .b-track { display: flex; height: 92px; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow-md); }
+  .seg { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--white); padding: 0 10px; text-align: center; }
+  .seg .sl { font-size: 19px; font-weight: 800; }
+  .seg .sp { font-size: 16px; font-weight: 600; opacity: 0.85; font-variant-numeric: tabular-nums; }
+  .seg.s1 { flex: 0 0 10%; background: var(--navy); }
+  .seg.s2 { flex: 0 0 20%; background: #2C5685; }
+  .seg.s3 { flex: 0 0 10%; background: var(--navy); }
+  .seg.s4 { flex: 0 0 50%; background: #2C5685; }
+  .seg.s5 { flex: 0 0 10%; background: var(--gold); color: var(--navy-deep); }
+  .b-axis { display: flex; justify-content: space-between; margin-top: 12px; font-size: 18px; color: var(--ink-muted); }
+  .b-axis b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>18.2 Context window management</p>
+    <h1 data-reveal>The context window is a <span class="accent">fixed budget</span></h1>
+    <p class="lead" data-reveal>The context window is the agent's working memory. Every token in it costs money and time, and every token not in it is invisible to the model. The window has a fixed size, but it must hold several things that all compete for room.</p>
+
+    <div class="budget" data-reveal>
+      <div class="b-track">
+        <div class="seg s1"><span class="sl">System</span><span class="sp">10%</span></div>
+        <div class="seg s2"><span class="sl">Memory and RAG</span><span class="sp">20%</span></div>
+        <div class="seg s3"><span class="sl">Tools</span><span class="sp">10%</span></div>
+        <div class="seg s4"><span class="sl">History</span><span class="sp">50%</span></div>
+        <div class="seg s5"><span class="sl">Output</span><span class="sp">10%</span></div>
+      </div>
+      <div class="b-axis"><span>0 tokens</span><span><b>One fixed window</b></span><span>The limit, for example 128,000 tokens</span></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a moving truck of fixed size. The instructions, the notes, the tools, and the room left for the answer all have to fit. The conversation history keeps growing, so something must be left behind once the truck is full.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Token budget</span><span class="def">A hard limit on how much text fits at once, split across the parts that need it.</span></div>
+      <div class="row"><span class="term">Silent truncation</span><span class="def">Many APIs quietly drop text that overflows, so always count tokens before sending.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

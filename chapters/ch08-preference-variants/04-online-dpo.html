@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Online DPO</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>8.1 Online DPO</p>
+    <h1 data-reveal>Train on fresh answers, not <span class="accent">stale ones</span></h1>
+    <p class="lead" data-reveal>The problem it fixes: standard DPO learns from preference pairs written by some <b>other</b> model. As your model improves, it stops sounding like those old pairs, so the lesson no longer matches the student. Online DPO closes the gap by generating new pairs from the current model at every step and having a scorer pick the better one.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> coaching a player with footage of <b>this week's</b> game instead of last season's. The feedback lands because it is about how they play now.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The fix</span><span class="def">Make new preference pairs from the model itself as training goes, so the data never goes out of date.</span></div>
+      <div class="row"><span class="term">The price</span><span class="def">You now need a reward model to judge the fresh answers, and generating them costs extra time.</span></div>
+      <div class="row"><span class="term">Reach for it when</span><span class="def">Plain DPO has stopped improving and you want the model to keep exploring past its dataset.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

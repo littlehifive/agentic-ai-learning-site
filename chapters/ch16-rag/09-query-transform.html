@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Query transformation</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .three { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .lcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 30px 30px; }
+  .lcard .h { font-size: 23px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .lcard p { font-size: 19px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+  .lcard .ex { font-size: 18px; color: var(--ink-muted); margin-top: 12px; line-height: 1.4; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>16.5.1 Query transformation</p>
+    <h1 data-reveal>Fix the question <span class="accent">before you search</span></h1>
+    <p class="lead" data-reveal>A raw question is often short, vague, or worded nothing like the documents. Rewriting it first, before retrieval, closes that gap and surfaces passages a literal search would miss.</p>
+
+    <div class="three">
+      <div class="lcard" data-reveal>
+        <p class="h">Draft a fake answer</p>
+        <p>Have the model sketch a plausible answer, then search with that. It reads like the real documents, so it matches them better.</p>
+        <p class="ex">Known as HyDE: hypothetical document embeddings.</p>
+      </div>
+      <div class="lcard" data-reveal>
+        <p class="h">Step back</p>
+        <p>For a narrow question, also ask a broader one, retrieve for both, and combine. The general context fills in what the specific search alone would miss.</p>
+        <p class="ex">"Boiling point of ethanol at 2 atm?" plus "What affects boiling points?"</p>
+      </div>
+      <div class="lcard" data-reveal>
+        <p class="h">Ask it many ways</p>
+        <p>Generate several rephrasings of the question, search for each, and pool the results. Different wordings reach different passages.</p>
+        <p class="ex">Multi-query retrieval; RAG-Fusion blends the lists with RRF.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> rephrasing a clumsy search before you hit enter. A librarian who hears a half-formed question will quietly translate it into the terms the catalogue actually uses, then look that up instead.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Query transformation</span><span class="def">Rewriting or expanding the question to retrieve better matches.</span></div>
+      <div class="row"><span class="term">HyDE</span><span class="def">Searching with a generated draft answer instead of the bare question.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

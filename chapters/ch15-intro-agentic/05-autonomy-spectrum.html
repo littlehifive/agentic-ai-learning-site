@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The autonomy spectrum</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .spec { margin-top: 34px; display: flex; align-items: stretch; }
+  .lvl { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 28px 28px; display: flex; flex-direction: column; }
+  .lvl .n { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .lvl .t { font-size: 26px; font-weight: 800; color: var(--navy); margin: 0 0 10px; line-height: 1.18; }
+  .lvl .d { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .lvl .who { margin-top: 16px; font-size: 17px; font-weight: 700; color: var(--ink-muted); }
+  .arrow { flex: 0 0 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold); }
+  .arrow .a { font-size: 34px; font-weight: 700; line-height: 1; }
+  .arrow .l { font-size: 14px; color: var(--ink-muted); margin-top: 8px; text-align: center; line-height: 1.2; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>How much control you hand over</p>
+    <h1 data-reveal>Autonomy is a <span class="accent">dial, not a switch</span></h1>
+    <p class="lead" data-reveal>Building with these models is not all-or-nothing. You can ask for a single answer, script the steps yourself, or let the model decide its own steps. More autonomy buys flexibility but costs predictability.</p>
+
+    <div class="spec">
+      <div class="lvl" data-reveal>
+        <p class="n">Least autonomy</p>
+        <p class="t">Single call</p>
+        <p class="d">One prompt, one response. Fast and predictable, but it cannot react to results or take any action.</p>
+        <p class="who">You decide everything</p>
+      </div>
+      <div class="arrow" data-reveal><span class="a">&#8594;</span><span class="l">more flexible</span></div>
+      <div class="lvl" data-reveal>
+        <p class="n">Middle ground</p>
+        <p class="t">Workflow</p>
+        <p class="d">You lay out the steps in advance and the model fills each one in. The path is fixed, so it stays easy to test and to trust.</p>
+        <p class="who">You set the steps</p>
+      </div>
+      <div class="arrow" data-reveal><span class="a">&#8594;</span><span class="l">less predictable</span></div>
+      <div class="lvl" data-reveal>
+        <p class="n">Most autonomy</p>
+        <p class="t">Autonomous agent</p>
+        <p class="d">The model chooses its own steps in the loop, deciding what to do and when to stop. Powerful for open-ended tasks, harder to predict and govern.</p>
+        <p class="who">The model decides the steps</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">The guiding principle</span> Prefer the simplest design that works. Reach for a fixed workflow until the task genuinely needs the model to chart its own course, then add autonomy only where it pays for itself.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

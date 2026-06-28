@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why GPUs</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo .tag { display: inline-block; font-size: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>2.1.1 Why GPUs for Deep Learning?</p>
+    <h1 data-reveal>Why models run on GPUs, not <span class="accent">ordinary CPUs</span></h1>
+    <p class="lead" data-reveal>A model's core work is multiplying huge grids of numbers, the same simple step repeated billions of times. A CPU does a few things very quickly one after another. A GPU does thousands of small things at once, which is exactly the shape of this work, making training <b>100 to 1000 times</b> faster.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <span class="tag">CPU</span>
+        <p class="h">A few fast lanes</p>
+        <p>Built for speed on one task at a time, with 8 to 96 powerful cores. Great for varied, branching work, but it would crawl through billions of identical multiplications.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <span class="tag">GPU</span>
+        <p class="h">Thousands of small lanes</p>
+        <p>Built for volume: thousands of simple units running in parallel. Each does easy math, but together they chew through the grid multiplications that models are made of.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> shipping a million identical postcards. A CPU is one expert courier who is very fast but handles one card at a time. A GPU is a stadium full of helpers, each slower, but all stamping cards at the same moment.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">GPU</span><span class="def">A chip with thousands of small units that do simple math all at once, ideal for the grid multiplications inside a model.</span></div>
+      <div class="row"><span class="term">Parallel</span><span class="def">Many calculations happening at the same time instead of one after another.</span></div>
+      <div class="row"><span class="term">Throughput</span><span class="def">How much total work finishes per second, the thing GPUs are built to maximize.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GRPO variants</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .vlist { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px 36px; }
+  .v { display: grid; grid-template-columns: 180px 1fr; gap: 22px; align-items: baseline; padding: 14px 22px; background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; }
+  .v .name { font-size: 23px; font-weight: 800; color: var(--navy); }
+  .v .fix { font-size: 20px; line-height: 1.35; color: var(--ink-secondary); }
+  .v .fix b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>7.5 Variants and extensions</p>
+    <h1 data-reveal>A family of <span class="accent">small, targeted fixes</span></h1>
+    <p class="lead" data-reveal>Once GRPO was in wide use, practitioners hit specific snags. Each named variant keeps the core loop and patches one of them.</p>
+
+    <div class="vlist">
+      <div class="v" data-reveal>
+        <p class="name">DAPO</p>
+        <p class="fix"><b>Fixes stability.</b> Looser rules for boosting good answers, and drops groups that are all-right or all-wrong.</p>
+      </div>
+      <div class="v" data-reveal>
+        <p class="name">GSPO</p>
+        <p class="fix"><b>Fixes long answers.</b> Judges each answer as a whole instead of word by word, so length cannot distort the signal.</p>
+      </div>
+      <div class="v" data-reveal>
+        <p class="name">Dr. GRPO</p>
+        <p class="fix"><b>Fixes wasted effort.</b> Focuses learning on the words that actually matter, not common filler the model already knows.</p>
+      </div>
+      <div class="v" data-reveal>
+        <p class="name">2-GRPO</p>
+        <p class="fix"><b>Fixes cost.</b> Uses just two answers per prompt and still matches larger groups, cutting generation work sharply.</p>
+      </div>
+      <div class="v" data-reveal>
+        <p class="name">GDPO</p>
+        <p class="fix"><b>Fixes mixed goals.</b> Balances several rewards (say, correctness and format) so a loud one cannot drown out the rest.</p>
+      </div>
+      <div class="v" data-reveal>
+        <p class="name">GOPO</p>
+        <p class="fix"><b>Fixes fuzzy scores.</b> For judged tasks, uses only the rank order of answers, ignoring unreliable raw numbers.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">The pattern</span> None of these reinvents GRPO. Each spots one way the group comparison can go wrong and quietly corrects it.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

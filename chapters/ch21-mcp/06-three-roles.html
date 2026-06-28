@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The three roles</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .roles { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .role { background: var(--surface); border: 1px solid var(--border); border-top: 5px solid var(--gold); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 32px 32px; display: flex; flex-direction: column; }
+  .role .rk { font-size: 17px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .role .rt { font-size: 27px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .role .rd { font-size: 20px; line-height: 1.45; color: var(--ink-secondary); margin: 0 0 16px; }
+  .role .rex { margin-top: auto; font-size: 18px; line-height: 1.4; color: var(--ink); background: var(--surface-subtle); border-radius: 8px; padding: 12px 16px; }
+  .role .rex b { color: var(--navy); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>21.2 Architecture overview: the three-role model</p>
+    <h1 data-reveal>Three jobs: the <span class="accent">host</span>, the <span class="accent">client</span>, the <span class="accent">server</span></h1>
+    <p class="lead" data-reveal>MCP splits the work into three roles. The host is the app you run. Inside it, a client is the connector to one tool. On the other end, a server is the small program that actually exposes that tool or data.</p>
+
+    <div class="roles">
+      <div class="role" data-reveal>
+        <p class="rk">Role 1</p>
+        <p class="rt">Host</p>
+        <p class="rd">The application the user actually opens and talks to. It runs the LLM, decides which servers to connect to, and enforces the security rules.</p>
+        <p class="rex"><b>Like</b> the dining room of a restaurant, where you sit and place your order.</p>
+      </div>
+      <div class="role" data-reveal>
+        <p class="rk">Role 2</p>
+        <p class="rt">Client</p>
+        <p class="rd">A small connector inside the host. Each client holds one dedicated connection to one server and handles the back-and-forth messages. A host can run many clients at once.</p>
+        <p class="rex"><b>Like</b> the waiter who carries one table's orders to and from the kitchen.</p>
+      </div>
+      <div class="role" data-reveal>
+        <p class="rk">Role 3</p>
+        <p class="rt">Server</p>
+        <p class="rd">A lightweight program that exposes one tool or data source, often just a thin wrapper around an existing API, database, or the file system. It is deliberately simple to build.</p>
+        <p class="rex"><b>Like</b> the kitchen that receives a ticket and actually cooks the dish.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">One host, many clients</span><span class="def">A single app can connect to many servers at once, each through its own client.</span></div>
+      <div class="row"><span class="term">Servers stay thin</span><span class="def">The hard protocol work lives in the host and client, so a server is easy to write.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

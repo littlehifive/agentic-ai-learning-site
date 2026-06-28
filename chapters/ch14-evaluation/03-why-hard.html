@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why evaluation is hard</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .three { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .hc { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 32px; }
+  .hc .n { font-size: 40px; font-weight: 900; color: var(--gold); line-height: 1; margin: 0 0 14px; font-variant-numeric: tabular-nums; }
+  .hc .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; line-height: 1.18; }
+  .hc p { font-size: 20px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>14 &#183; Why Evaluation is Hard for LLMs</p>
+    <h1 data-reveal>Classic machine learning had an answer key. <span class="accent">Language does not</span></h1>
+    <p class="lead" data-reveal>In ordinary machine learning you compare a prediction to a known label and count how often it matched. With a language model, three things break that clean picture all at once.</p>
+
+    <div class="three">
+      <div class="hc" data-reveal>
+        <p class="n">1</p>
+        <p class="h">No single right answer</p>
+        <p>A model can produce any string. Most useful questions have many good answers and no fixed key to check against.</p>
+      </div>
+      <div class="hc" data-reveal>
+        <p class="n">2</p>
+        <p class="h">Quality has many axes</p>
+        <p>Helpful, factual, safe, coherent, and well-styled are separate goals. Pushing one up can pull another down.</p>
+      </div>
+      <div class="hc" data-reveal>
+        <p class="n">3</p>
+        <p class="h">Judging is itself hard</p>
+        <p>Deciding if an answer is good takes understanding, so the judge can fail in the same ways the model does.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> grading a math quiz versus grading an essay. Math has a key and grades itself. An essay needs a thoughtful reader, and even two careful readers will disagree.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Intrinsic metric</span><span class="def">A cheap, fast score of the output on its own, good for quick iteration.</span></div>
+      <div class="row"><span class="term">Extrinsic metric</span><span class="def">Did the model help the real task, measured in the field. Slow and costly, but it is what we actually care about.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

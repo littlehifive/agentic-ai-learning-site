@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hybrid search and Reciprocal Rank Fusion</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 32px; }
+  .cardo .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo p { font-size: 20px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+  .fuse { margin-top: 22px; display: flex; align-items: center; gap: 18px; }
+  .fuse .lbl { font-size: 19px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .fuse .line { flex: 1; height: 0; border-top: 3px dashed var(--gold); opacity: 0.8; }
+  .fuse .chip { background: var(--navy); color: var(--white); font-size: 19px; font-weight: 700; padding: 10px 20px; border-radius: 999px; white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>16.3.3 Hybrid retrieval with Reciprocal Rank Fusion</p>
+    <h1 data-reveal>Run both searches, then <span class="accent">merge their rankings</span></h1>
+    <p class="lead" data-reveal>Keyword search and meaning search each have blind spots. Hybrid search runs both, then blends their results. The trick is that their scores are on different scales, so you cannot just add them.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Keyword search (BM25)</p>
+        <p>Matches exact words. Unbeatable for product codes, error codes, names, and rare terms, and it needs no special hardware.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Meaning search (vectors)</p>
+        <p>Matches ideas even when the wording differs. Strong on paraphrases and synonyms, but it can miss an exact string.</p>
+      </div>
+    </div>
+
+    <div class="fuse" data-reveal>
+      <span class="lbl">Each returns a ranked list</span>
+      <span class="line"></span>
+      <span class="chip">Reciprocal Rank Fusion combines them by position, not score</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> two judges scoring the same contest on different scales. Rather than averaging raw points, you trust their ordering: an entry both rank near the top wins. RRF rewards passages that place highly on either list.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">BM25</span><span class="def">A long-trusted keyword scoring formula that favours rare, exactly matched terms.</span></div>
+      <div class="row"><span class="term">Reciprocal Rank Fusion</span><span class="def">Merges lists using each item's rank, so mismatched score scales do not matter.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Matching parallelism to the cables</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .two-col { margin-top: 30px; }
+  .dcard .h { font-size: 24px; }
+  .dcard li { font-size: 22px; }
+  .dcard li b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>2.1.10 Choosing Parallelism Based on Bandwidth</p>
+    <h1 data-reveal>Match the split to the <span class="accent">speed of the link</span></h1>
+    <p class="lead" data-reveal>The rule of thumb is simple: the more often a split needs to exchange data, the faster the cable it needs. Chatty splits stay inside one machine on NVLink. Quieter splits can stretch across the network.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">Keep inside one machine (NVLink)</p>
+        <ul>
+          <li><b>Tensor parallel:</b> exchanges data every single layer, so it demands the fastest link. Standard setup is 8 GPUs in one box.</li>
+          <li>Anything that talks constantly belongs here, where bandwidth is 28 times higher than the network.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Can cross machines (network)</p>
+        <ul>
+          <li><b>Data parallel and FSDP:</b> sync once per step, so the slower network is fine, and they scale well across many machines.</li>
+          <li><b>Pipeline parallel:</b> only hands off at stage boundaries, so it too can span machines when a model is huge.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> seating a project team. People who talk every minute sit at one table (tensor parallel on NVLink). Teams that only sync at daily standup can work in separate buildings (data parallel across the network).</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Bandwidth</span><span class="def">How much data a link can carry per second; it decides which splits can live where.</span></div>
+      <div class="row"><span class="term">Sync</span><span class="def">The moment GPUs pause to share results; doing it less often makes slower links acceptable.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

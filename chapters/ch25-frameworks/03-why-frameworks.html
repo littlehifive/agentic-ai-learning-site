@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why frameworks exist</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>25.1 Motivation: the engineering gap</p>
+    <h1 data-reveal>A demo in a notebook is easy. A <span class="accent">reliable</span> agent is not</h1>
+    <p class="lead" data-reveal>A quick agent assumes a friendly world: clean inputs, working tools, and a human ready to restart it. A real agent gets none of that. It must survive failures, leave a trail you can inspect, be testable, and run for minutes without a babysitter. That gap is what frameworks were built to close.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> the difference between a go-kart you push around a parking lot and a car that has to pass inspection, survive the highway, and start every morning. Same basic idea, vastly more engineering underneath.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms, what production demands</p>
+      <div class="row"><span class="term">Reliability</span><span class="def">Recover from a failed tool or a stuck loop instead of crashing.</span></div>
+      <div class="row"><span class="term">Observability</span><span class="def">A record of every model call and tool use, so you can see why it did what it did.</span></div>
+      <div class="row"><span class="term">Testability and iteration</span><span class="def">A way to check behaviour and to improve it as the world changes.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

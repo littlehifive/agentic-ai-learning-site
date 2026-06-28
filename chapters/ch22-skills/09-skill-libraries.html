@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Skill libraries and reuse</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .grid4 { margin-top: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .gc { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 28px; display: flex; flex-direction: column; }
+  .gc .gh { font-size: 22px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .gc .gd { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>22.5 Skill registries and marketplaces</p>
+    <h1 data-reveal>Build a skill once, then <span class="accent">reuse and share</span> it</h1>
+    <p class="lead" data-reveal>The Voyager agent (2023) showed the payoff: an agent in Minecraft kept a growing library of verified skills and pulled from it to learn faster over time. Production teams do the same, treating skills like packages that can be stored, versioned, and shared across agents.</p>
+
+    <div class="grid4" data-reveal>
+      <div class="gc"><p class="gh">Registry</p><p class="gd">A catalog of available skills the agent can search and load.</p></div>
+      <div class="gc"><p class="gh">Versioning</p><p class="gd">Pin a specific version so results stay reproducible as skills change.</p></div>
+      <div class="gc"><p class="gh">Permissions</p><p class="gd">Control which agents may use which skills, for safety and cost.</p></div>
+      <div class="gc"><p class="gh">Marketplace</p><p class="gd">Publish and install skills, the way a package manager shares code.</p></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> an app store for capabilities. You do not write a calendar app from scratch; you install one, update it when a new version ships, and uninstall it if you no longer need it.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Skill library</span><span class="def">A reusable collection of skills an agent can draw on.</span></div>
+      <div class="row"><span class="term">Reuse</span><span class="def">Sharing one well-built skill across many tasks and agents, instead of rebuilding it.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

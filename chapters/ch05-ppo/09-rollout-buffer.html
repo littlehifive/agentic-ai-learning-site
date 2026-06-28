@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The rollout buffer</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .phases { margin-top: 30px; display: flex; align-items: stretch; }
+  .ph { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 28px 28px; display: flex; flex-direction: column; }
+  .ph .n { font-size: 16px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .ph .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .ph p { font-size: 20px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+  .ar { flex: 0 0 50px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 32px; font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>5.5 Rollout buffer and rollouts</p>
+    <h1 data-reveal>Fresh answers in, used once, then <span class="accent">thrown away</span></h1>
+    <p class="lead" data-reveal>PPO learns only from answers the current model just produced, so it keeps a short-term notebook called the rollout buffer. It fills it, learns from it for a few passes, then wipes it clean. Old answers cannot be reused: once the model has changed, the safety math no longer holds for them.</p>
+
+    <div class="phases">
+      <div class="ph" data-reveal>
+        <p class="n">Phase 1</p>
+        <p class="h">Collect</p>
+        <p>The current model generates a batch of full answers and records each choice it made, ready to learn from.</p>
+      </div>
+      <div class="ar" data-reveal>&#8594;</div>
+      <div class="ph" data-reveal>
+        <p class="n">Phase 2</p>
+        <p class="h">Train</p>
+        <p>Run a few passes of small clipped updates over that batch, squeezing out the lessons without overusing them.</p>
+      </div>
+      <div class="ar" data-reveal>&#8594;</div>
+      <div class="ph" data-reveal>
+        <p class="n">Phase 3</p>
+        <p class="h">Purge</p>
+        <p>Erase the whole notebook. The model has moved on, so the old answers are stale and unsafe to reuse.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a chef tasting today's batch of soup to adjust the recipe, then pouring it out. Yesterday's soup was made with a different recipe, so tasting it again would teach the wrong lesson.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Rollout</span><span class="def">One full answer the model generates from a prompt, token by token, to the end.</span></div>
+      <div class="row"><span class="term">Rollout buffer</span><span class="def">The short-term store of the current batch, used for a few passes then emptied.</span></div>
+      <div class="row"><span class="term">Generation bottleneck</span><span class="def">Producing fresh answers is slow, often most of the training time, because the buffer must be refilled every cycle.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

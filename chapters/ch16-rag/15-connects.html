@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Connects to</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  body.dark .slide { position: relative; background: radial-gradient(120% 120% at 30% 18%, #0B2341, #061A2E 76%); }
+  .c-eyebrow { color: var(--gold); font-size: 22px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 26px; }
+  h1 { font-size: 58px; color: var(--white); max-width: 1500px; }
+  h1 .accent { color: var(--gold); }
+  .links { margin-top: 52px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; align-items: start; }
+  .lcard { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-left: 5px solid var(--gold);
+    border-radius: 12px; padding: 34px 34px 36px; display: flex; flex-direction: column; }
+  .lcard .w { color: var(--gold); font-size: 19px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 14px; }
+  .lcard .t { color: var(--white); font-size: 26px; font-weight: 800; margin: 0 0 12px; line-height: 1.2; }
+  .lcard .d { color: rgba(220,230,245,0.8); font-size: 21px; line-height: 1.45; margin: 0; }
+  .foot { margin-top: auto; border-top: 1px solid rgba(255,255,255,0.16); padding-top: 24px; color: rgba(220,230,245,0.7); font-size: 19px; letter-spacing: 0.04em; }
+</style>
+</head>
+<body class="dark">
+  <div class="slide">
+    <p class="c-eyebrow" data-reveal>Connects to</p>
+    <h1 data-reveal>Where this chapter <span class="accent">leads</span></h1>
+
+    <div class="links">
+      <div class="lcard" data-reveal>
+        <p class="w">Chapter 1</p>
+        <p class="t">LLM Architecture</p>
+        <p class="d">Embeddings return here as the basis for searching by meaning rather than by exact words.</p>
+      </div>
+      <div class="lcard" data-reveal>
+        <p class="w">Chapter 15</p>
+        <p class="t">Introduction to Agents</p>
+        <p class="d">Agentic RAG makes retrieval an action the agent chooses, looping until it has gathered enough.</p>
+      </div>
+      <div class="lcard" data-reveal>
+        <p class="w">Chapter 17</p>
+        <p class="t">Agentic Memory Systems</p>
+        <p class="d">Retrieval over a fixed corpus becomes memory: what an agent stores, recalls, and forgets over time.</p>
+      </div>
+    </div>
+
+    <div class="continue-row" data-reveal><a class="nextlink" data-go="ch17/1" href="../../index.html#ch17/1" target="_top">Continue to Chapter 17: Agentic Memory Systems <span class="arw">&#8594;</span></a><a class="homelink" data-go="home" href="../../index.html" target="_top">All chapters</a></div>
+
+    <div class="foot" data-reveal>The Hitchhiker's Guide to Agentic AI &#183; Chapter 16 of 29 &#183; from the book by Haggai Roitman</div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

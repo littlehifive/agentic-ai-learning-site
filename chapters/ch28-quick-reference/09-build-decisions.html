@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Build decisions</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1680px; }
+  .lead { font-size: 25px; margin-top: 4px; }
+  .cards { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; flex: 1; }
+  .bcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 30px; display: flex; flex-direction: column; }
+  .bcard .q { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 18px; line-height: 1.22; }
+  .opt { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--border); }
+  .opt:first-of-type { border-top: none; }
+  .opt .k { font-size: 21px; font-weight: 900; color: var(--gold); white-space: nowrap; }
+  .opt .v { font-size: 20px; line-height: 1.38; color: var(--ink-secondary); }
+  .opt .v b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Build decisions &#183; the three questions you face first</p>
+    <h1 data-reveal>What to build, <span class="accent">decided fast</span></h1>
+    <p class="lead" data-reveal>Before any code, three forks set the shape of the system. Default to the simpler side unless you need the other.</p>
+
+    <div class="cards">
+      <div class="bcard" data-reveal>
+        <p class="q">Workflow or agent?</p>
+        <div class="opt"><span class="k">Workflow</span><span class="v"><b>Default.</b> Fixed steps you can draw in advance. Cheaper, predictable, easy to debug.</span></div>
+        <div class="opt"><span class="k">Agent</span><span class="v">Only when the path cannot be known up front and the model must decide its own next move.</span></div>
+      </div>
+      <div class="bcard" data-reveal>
+        <p class="q">One agent or many?</p>
+        <div class="opt"><span class="k">Single</span><span class="v"><b>Default.</b> Simplest to build and reason about. Stretch one agent first.</span></div>
+        <div class="opt"><span class="k">Multi</span><span class="v">Only with clear subtask boundaries or distinct skills, since coordination adds cost and failure modes.</span></div>
+      </div>
+      <div class="bcard" data-reveal>
+        <p class="q">RAG or fine-tune?</p>
+        <div class="opt"><span class="k">RAG</span><span class="v"><b>Default for facts.</b> Knowledge that changes or must be cited; update by changing documents.</span></div>
+        <div class="opt"><span class="k">Fine-tune</span><span class="v">For changing behavior, format, or style, not for adding fresh facts.</span></div>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Workflow vs agent</span><span class="def">A workflow follows a script you wrote. An agent writes its own next step as it goes.</span></div>
+      <div class="row"><span class="term">RAG vs fine-tune</span><span class="def">RAG changes what the model knows. Fine-tuning changes how the model behaves.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

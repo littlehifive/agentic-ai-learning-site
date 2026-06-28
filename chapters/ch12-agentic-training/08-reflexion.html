@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reflexion</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .note { margin-top: 28px; background: var(--surface); border: 1px solid var(--border); border-left: 6px solid var(--gold);
+    border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 32px; max-width: 1520px; }
+  .note .lbl2 { font-size: 16px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 12px; }
+  .note .quote { font-size: 24px; line-height: 1.5; color: var(--navy); margin: 0; font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>12.5.2 Reflexion: verbal reinforcement learning</p>
+    <h1 data-reveal>The model writes itself a note, then <span class="accent">tries again</span></h1>
+    <p class="lead" data-reveal>Reflexion improves without changing a single weight. When an attempt fails, the model writes a short plain-language critique of what went wrong. That note is saved and pasted into the prompt on the next try, so the model carries forward the lesson it just learned.</p>
+
+    <div class="note" data-reveal>
+      <p class="lbl2">A self-written reflection after a failed attempt</p>
+      <p class="quote">"I called the search API before checking the input format, which caused an error. Next time I should validate the data first, then make the call."</p>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a sticky note on your monitor that says "remember to save before you run it." Nothing about you changes, but you read it next time and avoid the same mistake.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">No weight update</span><span class="def">The model itself stays frozen; all the improvement lives in the notes added to its prompt.</span></div>
+      <div class="row"><span class="term">Episodic memory</span><span class="def">A short buffer of recent reflections, usually only the last few, since they must fit in the prompt.</span></div>
+      <div class="row"><span class="term">Limit</span><span class="def">The lessons are specific to the task at hand and do not transfer to brand-new problems.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

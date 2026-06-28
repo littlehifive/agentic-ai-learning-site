@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ReAct</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .trace { margin-top: 26px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    box-shadow: var(--shadow-md); padding: 22px 30px; max-width: 1520px; }
+  .tline { display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: baseline; padding: 11px 0; }
+  .tline + .tline { border-top: 1px solid var(--border); }
+  .tline .tag { font-size: 16px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+  .tline .tag.think { color: var(--navy); }
+  .tline .tag.act { color: var(--gold); }
+  .tline .tag.obs { color: var(--ink-muted); }
+  .tline .body { font-size: 20px; line-height: 1.35; color: var(--ink); }
+  .tline .body code { font-family: "SF Mono", Menlo, monospace; font-size: 18px; color: var(--navy); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>12.5.3 ReAct: reasoning plus acting</p>
+    <h1 data-reveal>Interleave a thought, then an action, then <span class="accent">repeat</span></h1>
+    <p class="lead" data-reveal>ReAct is the dominant pattern for tool-using agents. In one stream the model alternates between thinking out loud and taking an action, reading each observation before the next thought. The visible reasoning acts as an inner monologue that stops it from acting on impulse.</p>
+
+    <div class="trace" data-reveal>
+      <div class="tline">
+        <span class="tag think">Thought</span>
+        <span class="body">I need the iPhone's release date, then who was president then. Let me search.</span>
+      </div>
+      <div class="tline">
+        <span class="tag act">Action</span>
+        <span class="body"><code>search("iPhone original release date")</code></span>
+      </div>
+      <div class="tline">
+        <span class="tag obs">Observation</span>
+        <span class="body">The original iPhone was released on June 29, 2007.</span>
+      </div>
+      <div class="tline">
+        <span class="tag act">Action</span>
+        <span class="body"><code>finish("George W. Bush was president in June 2007.")</code></span>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> talking yourself through a repair out loud. Saying "first check the fuse" before you reach for it keeps you from grabbing the wrong tool, and it leaves a trail anyone can follow.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Thought</span><span class="def">Private reasoning about the next move; it is not executed.</span></div>
+      <div class="row"><span class="term">Action</span><span class="def">A tool call that actually runs in the environment.</span></div>
+      <div class="row"><span class="term">Observation</span><span class="def">The environment's reply, added to the context to guide the next thought.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

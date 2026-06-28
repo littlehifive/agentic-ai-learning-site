@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Bradley-Terry idea</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .demo { margin-top: 28px; display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .chip { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-md);
+    padding: 16px 22px; font-size: 22px; color: var(--navy); font-weight: 700; }
+  .chip .sc { display: block; font-size: 17px; font-weight: 700; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+  .chip.win { border-color: var(--gold); border-width: 2px; }
+  .demo .rel { font-size: 30px; font-weight: 800; color: var(--gold); }
+  .demo .note { font-size: 20px; color: var(--ink-secondary); margin-left: 8px; max-width: 360px; line-height: 1.35; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>9.1 Bradley-Terry Model</p>
+    <h1 data-reveal>If people pick A more often, A should <span class="accent">score higher</span></h1>
+    <p class="lead" data-reveal>The Bradley-Terry model is the rule for converting "how often A beats B" into scores. The bigger the gap between two scores, the more confidently the higher one should win the head-to-head comparison. Training simply searches for the scores that best match the win-rates people actually gave.</p>
+
+    <div class="demo" data-reveal>
+      <div class="chip win"><span class="sc">Chosen 80% of the time</span>Answer A</div>
+      <span class="rel">&#8594;</span>
+      <div class="chip win"><span class="sc">Higher score</span>A scores well above B</div>
+      <span class="note">A wins four times out of five, so its score pulls clearly ahead.</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> chess ratings. Nobody is handed a number; ratings are inferred from who beats whom and by how often. Beat strong players regularly and your rating climbs. Bradley-Terry does the same for answers.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Win-rate</span><span class="def">The share of comparisons one answer wins against another.</span></div>
+      <div class="row"><span class="term">Score difference</span><span class="def">Only the gap between two scores matters, not their absolute size; a larger gap means a more lopsided preference.</span></div>
+      <div class="row"><span class="term">Transitive</span><span class="def">The model assumes a clean order: if A beats B and B beats C, then A should beat C.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

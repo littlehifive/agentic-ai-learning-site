@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>One guess versus many</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/code.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .hint { font-size: 18px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); margin: 8px 0 0; }
+  .panel-cap { font-size: 21px; color: var(--ink-secondary); line-height: 1.42; margin: 16px 0 0; max-width: 1320px; }
+  .panel-cap b { color: var(--navy); }
+  .cmp { margin-top: 22px; }
+  .dist { gap: 10px; }
+  .bar-track { height: 28px; }
+  .cmp-take { margin-top: 18px; }
+  .plain { margin-top: 20px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>13.2.2 Self-consistency</p>
+    <h1 data-reveal>One quick guess, or many tries and a <span class="accent">vote</span>?</h1>
+    <p class="hint" data-reveal>Click a tab to switch the strategy</p>
+
+    <div class="cmp" data-reveal>
+      <div class="cmp-tabs">
+        <button class="cmp-tab is-active" data-panel="a">One attempt</button>
+        <button class="cmp-tab" data-panel="b">Five attempts, take the majority</button>
+      </div>
+
+      <div class="cmp-panel is-shown" data-panel="a">
+        <div class="dist">
+          <div class="bar-row"><span class="tok">"42"</span><span class="bar-track"><span class="bar-fill" data-grow-w style="width:100%"></span></span><span class="pct">1 vote</span></div>
+        </div>
+        <p class="panel-cap">A single reasoning chain gives a single answer. If that one chain slips early, you are simply stuck with a <b>wrong answer</b> and no way to tell.</p>
+      </div>
+
+      <div class="cmp-panel" data-panel="b">
+        <div class="dist">
+          <div class="bar-row"><span class="tok">"24"</span><span class="bar-track"><span class="bar-fill peak" data-grow-w style="width:100%"></span></span><span class="pct">3 votes</span></div>
+          <div class="bar-row"><span class="tok">"42"</span><span class="bar-track"><span class="bar-fill" data-grow-w style="width:34%"></span></span><span class="pct">1 vote</span></div>
+          <div class="bar-row"><span class="tok">"18"</span><span class="bar-track"><span class="bar-fill" data-grow-w style="width:34%"></span></span><span class="pct">1 vote</span></div>
+        </div>
+        <p class="panel-cap">Five independent chains, then the most common answer wins. Correct chains tend to <b>agree on one value</b>; wrong chains scatter. The majority, "24", is the answer.</p>
+      </div>
+
+      <div class="cmp-take">
+        <span class="mark"></span>
+        <span>Mistakes are random and disagree with each other; correct reasoning keeps landing on the same place. Counting votes turns several shaky tries into one reliable answer.</span>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Sampling</span><span class="def">Asking the model the same question several times so it produces several different reasoning paths.</span></div>
+      <div class="row"><span class="term">Majority vote</span><span class="def">Returning the answer that the most paths agreed on.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Which architecture when</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two-col { margin-top: 34px; }
+  .dcard li b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>24.10 Architecture comparison</p>
+    <h1 data-reveal>Match the shape to the <span class="accent">shape of the task</span></h1>
+    <p class="lead" data-reveal>No architecture wins everywhere. Pick by what the task actually needs: speed, traceability, resilience, or scale. A quick guide.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">Start here for control</p>
+        <ul>
+          <li><b>Supervisor</b> for small teams and clear task splits; simplest to build and easiest to debug.</li>
+          <li><b>Pipeline</b> for sequential work with clear stages, like research then outline then draft then edit.</li>
+          <li><b>Ensemble</b> for high-stakes decisions; several agents solve it, pick the best, trade compute for reliability.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Reach for these to scale</p>
+        <ul>
+          <li><b>Hierarchical</b> for complex, multi-domain enterprise work; the usual choice in production.</li>
+          <li><b>Swarm</b> for simple handoff chains like customer-service routing, and many agents.</li>
+          <li><b>Decentralized</b> for dynamic, resilience-critical settings where no single point may fail.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Rules of thumb</span> Fewer than five agents: a supervisor is simplest. Fault tolerance matters: avoid a central hub. Debuggability matters: keep it centralized or a pipeline. Most production systems settle on hierarchical.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

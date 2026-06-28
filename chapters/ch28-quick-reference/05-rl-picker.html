@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RL method picker</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1680px; }
+  .lead { font-size: 25px; margin-top: 4px; }
+  .picker { margin-top: 26px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .prow { display: grid; grid-template-columns: 720px 160px 1fr; gap: 26px; align-items: center;
+    padding: 15px 26px; background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; }
+  .prow .cond { font-size: 22px; font-weight: 700; color: var(--navy); line-height: 1.32; }
+  .prow .pick { font-size: 26px; font-weight: 900; color: var(--gold); }
+  .prow .why { font-size: 20px; line-height: 1.36; color: var(--ink-secondary); }
+  .head-row { display: grid; grid-template-columns: 720px 160px 1fr; gap: 26px; margin-top: 22px; padding: 0 26px 4px;
+    font-size: 16px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+  .picker { margin-top: 12px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>28.13 &#183; Method selection decision tree</p>
+    <h1 data-reveal>Picking an alignment method: <span class="accent">start with your data</span></h1>
+    <p class="lead" data-reveal>What you have on hand decides the method. Read top to bottom and stop at the first row that matches.</p>
+
+    <div class="head-row" data-reveal><span>What you have</span><span>Use</span><span>Why</span></div>
+    <div class="picker">
+      <div class="prow" data-reveal><span class="cond">Clean pairs of better and worse answers, limited compute</span><span class="pick">DPO</span><span class="why">Learns straight from preferences, no separate scoring model needed.</span></div>
+      <div class="prow" data-reveal><span class="cond">Preference pairs, but the labels are noisy</span><span class="pick">IPO</span><span class="why">A steadier variant that resists over-fitting to unreliable labels.</span></div>
+      <div class="prow" data-reveal><span class="cond">Preference pairs, no fine-tuning done yet, tight on memory</span><span class="pick">ORPO</span><span class="why">Folds fine-tuning and alignment into one pass, saving a stage.</span></div>
+      <div class="prow" data-reveal><span class="cond">Only thumbs up or down on single answers</span><span class="pick">KTO</span><span class="why">Works from plain good or bad labels, no pairs required.</span></div>
+      <div class="prow" data-reveal><span class="cond">Rewards you can check automatically, like math or code</span><span class="pick">GRPO</span><span class="why">Scores a group of tries against each other, no critic model.</span></div>
+      <div class="prow" data-reveal><span class="cond">Maximum quality wanted and cost is no object</span><span class="pick">PPO</span><span class="why">The most powerful, most involved method to run and tune.</span></div>
+      <div class="prow" data-reveal><span class="cond">No training budget at all, want a quick win</span><span class="pick">Best-of-N</span><span class="why">Generate several answers, keep the best. Training-free.</span></div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Preference pair</span><span class="def">Two answers to the same prompt, one marked better than the other.</span></div>
+      <div class="row"><span class="term">Critic model</span><span class="def">A helper that estimates how good a partial answer is. PPO needs one; GRPO and DPO skip it.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

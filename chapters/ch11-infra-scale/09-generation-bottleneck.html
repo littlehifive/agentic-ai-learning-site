@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The generation bottleneck</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>11.3 The Generation Bottleneck</p>
+    <h1 data-reveal>Writing answers and learning from them stress <span class="accent">different hardware</span></h1>
+    <p class="lead" data-reveal>Each training round has two very different phases. First the model writes practice answers, then it learns from the feedback. They do not strain the GPU the same way, which is the root of many design choices later in the chapter.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Writing answers is memory-bound</p>
+        <p>To produce each word, the GPU must read the entire model from memory but does very little math. It spends almost all its time waiting on memory, leaving its calculating power nearly idle.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Learning is compute-bound</p>
+        <p>Updating the model is the opposite: a heavy burst of math that keeps the calculating cores fully busy and barely touches memory speed. The bottleneck is raw compute.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a chef who spends most of his time walking to the pantry for one ingredient at a time (writing answers), versus the same chef in a furious burst of chopping at the counter (learning). One job is limited by the trips, the other by the knife work.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Memory-bound</span><span class="def">Limited by how fast data can be read from memory, not by calculating speed.</span></div>
+      <div class="row"><span class="term">Compute-bound</span><span class="def">Limited by raw calculating power, with memory speed to spare.</span></div>
+      <div class="row"><span class="term">Why it matters</span><span class="def">No single setup is best for both, which pushes teams to handle the two phases separately.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

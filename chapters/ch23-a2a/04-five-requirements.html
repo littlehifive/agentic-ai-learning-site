@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Core requirements for A2A</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .reqs { margin-top: 34px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; }
+  .req { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 24px 28px; display: flex; flex-direction: column; }
+  .req .n { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 12px; }
+  .req .t { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; line-height: 1.15; }
+  .req .d { font-size: 18px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>23.1 Core requirements for A2A communication</p>
+    <h1 data-reveal>For agents to work together, five things must <span class="accent">hold true</span></h1>
+    <p class="lead" data-reveal>Any protocol that lets agents collaborate has to solve the same short list of problems. A2A is built directly around these five.</p>
+
+    <div class="reqs">
+      <div class="req" data-reveal>
+        <p class="n">One</p>
+        <p class="t">Discoverability</p>
+        <p class="d">Agents can find other agents and learn what each one can do.</p>
+      </div>
+      <div class="req" data-reveal>
+        <p class="n">Two</p>
+        <p class="t">Interoperability</p>
+        <p class="d">Agents from different teams or vendors speak one common protocol.</p>
+      </div>
+      <div class="req" data-reveal>
+        <p class="n">Three</p>
+        <p class="t">Asynchrony</p>
+        <p class="d">Long tasks do not block the caller; results arrive later by callback or polling.</p>
+      </div>
+      <div class="req" data-reveal>
+        <p class="n">Four</p>
+        <p class="t">Security</p>
+        <p class="d">Agents prove who they are and enforce what each is allowed to ask.</p>
+      </div>
+      <div class="req" data-reveal>
+        <p class="n">Five</p>
+        <p class="t">Observability</p>
+        <p class="d">Every exchange is traceable for debugging and auditing.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> hiring a freelancer online: you find them, you both speak the same platform, you do not wait on hold while they work, you verify their identity, and there is a record of the whole job.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Interoperability</span><span class="def">Different systems agreeing on one way to talk so they just work together.</span></div>
+      <div class="row"><span class="term">Asynchrony</span><span class="def">Sending a request and getting on with other work until the answer comes back.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

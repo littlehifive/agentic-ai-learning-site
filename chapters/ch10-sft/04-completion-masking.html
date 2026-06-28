@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Completion-only masking</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .demo { margin-top: 28px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .chunk { font-family: "SF Mono", Menlo, monospace; font-size: 23px; border-radius: 8px; padding: 12px 18px; box-shadow: var(--shadow-md); }
+  .chunk.prompt { background: var(--surface-subtle); border: 1px solid var(--border); color: var(--ink-muted); }
+  .chunk.answer { background: var(--surface); border: 2px solid var(--gold); color: var(--navy); }
+  .chunk .tag { display: block; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .chunk.prompt .tag { color: var(--ink-muted); }
+  .chunk.answer .tag { color: var(--gold); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>10.3 Completion-only masking</p>
+    <h1 data-reveal>Grade the model only on <span class="accent">its answer</span>, not the question</h1>
+    <p class="lead" data-reveal>Each training example is a prompt followed by a response. We only want the model to learn how to <b>answer</b>, not how to write the user's question back. So we ignore the prompt tokens when scoring and only correct the model on the response it is supposed to produce.</p>
+
+    <div class="demo" data-reveal>
+      <span class="chunk prompt"><span class="tag">Prompt &#183; ignored</span>What is the capital of France?</span>
+      <span class="chunk answer"><span class="tag">Response &#183; learned</span>The capital of France is Paris.</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> grading a worksheet. The questions are already printed on the page, so you only mark the student on the answers they fill in, not on copying the questions back.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Masking</span><span class="def">Telling the model which tokens count toward the lesson and which to skip.</span></div>
+      <div class="row"><span class="term">Why it helps</span><span class="def">It focuses the correction on response quality and stops the model from just memorising prompts.</span></div>
+      <div class="row"><span class="term">Watch out</span><span class="def">If a response is very short, masking the prompt can leave too little to learn from; and every assistant turn in a chat must be unmasked, not just the first.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

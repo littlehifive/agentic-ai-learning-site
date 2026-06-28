@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The act-observe loop</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .loop { margin-top: 36px; display: flex; align-items: stretch; justify-content: center; gap: 22px; }
+  .lstep { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-md);
+    padding: 26px 30px; width: 360px; }
+  .lstep .k { font-size: 17px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+  .lstep .v { font-size: 24px; font-weight: 700; color: var(--navy); line-height: 1.2; margin: 0 0 10px; }
+  .lstep .d { font-size: 19px; color: var(--ink-secondary); line-height: 1.4; margin: 0; }
+  .arrow { color: var(--gold); font-size: 40px; font-weight: 700; line-height: 1; }
+  .repeat { margin: 24px 0 0; text-align: center; font-size: 20px; color: var(--ink-muted); font-weight: 700; letter-spacing: 0.04em; }
+  .repeat .accent { color: var(--gold); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>12.1 From chatbots to autonomous agents</p>
+    <h1 data-reveal>An agent runs one small loop, <span class="accent">over and over</span></h1>
+    <p class="lead" data-reveal>A chatbot takes a prompt and returns a reply in one shot. An agent works in steps: it <b>thinks</b> about what to do, <b>acts</b> by calling a tool, then <b>observes</b> what came back. That result changes the next decision, and the loop turns again until the task is finished.</p>
+
+    <div class="loop" data-reveal>
+      <div class="lstep">
+        <p class="k">Think</p>
+        <p class="v">Plan the next move</p>
+        <p class="d">Reason about what to do, using everything seen so far.</p>
+      </div>
+      <span class="arrow">&#8594;</span>
+      <div class="lstep">
+        <p class="k">Act</p>
+        <p class="v">Use a tool</p>
+        <p class="d">Search, run code, edit a file, call an API.</p>
+      </div>
+      <span class="arrow">&#8594;</span>
+      <div class="lstep">
+        <p class="k">Observe</p>
+        <p class="v">Read the result</p>
+        <p class="d">Tests pass or fail, a page loads, an error appears.</p>
+      </div>
+    </div>
+    <p class="repeat" data-reveal><span class="accent">&#8635;</span> Repeat for 10 to 100+ steps, until the task succeeds or gives up</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a cook following a recipe rather than answering a trivia question. Each action changes the kitchen, and the next step depends on what just happened on the stove.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Agent</span><span class="def">A model that takes actions over many steps to reach a goal, not just one reply.</span></div>
+      <div class="row"><span class="term">Tool</span><span class="def">An external action the agent can take: web search, code execution, a database query.</span></div>
+      <div class="row"><span class="term">Observation</span><span class="def">What the environment hands back after an action, which guides the next step.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reward model training tricks</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>9.3 Reward Model Training Tricks</p>
+    <h1 data-reveal>Two fixes keep the score <span class="accent">honest</span></h1>
+    <p class="lead" data-reveal>A raw reward model has two well-known quirks. Its numbers drift to an arbitrary scale, and it quietly rewards long answers just for being long. Both are fixed with small adjustments before the score is trusted.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Reward centering</p>
+        <p>The raw scores can sit anywhere, say all clustered around 7 or around -3. That offset is meaningless and makes the next training stage jittery. Centering shifts the scores so the average is zero, so only the differences between answers carry weight.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Length-bias correction</p>
+        <p>Reward models tend to score longer answers higher even when they are no better. Left alone, the main model learns to ramble. The fix is to discount for length, so a score reflects quality rather than word count.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> grading essays. Centering is marking on a curve so the class average is fixed and only relative standing matters. Length correction is refusing to give more credit just because a paper is thicker.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Centering</span><span class="def">Subtracting the average so scores hover around zero and the next stage trains smoothly.</span></div>
+      <div class="row"><span class="term">Length bias</span><span class="def">The tendency to reward longer text regardless of quality, corrected before the score is used.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

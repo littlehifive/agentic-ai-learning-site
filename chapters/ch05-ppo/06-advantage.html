@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The advantage estimate</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .scale { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 32px; display: flex; flex-direction: column; }
+  .cardo .sign { font-size: 40px; font-weight: 900; color: var(--gold); line-height: 1; margin: 0 0 12px; }
+  .cardo .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .cardo p { font-size: 20px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>5.4 The advantage function</p>
+    <h1 data-reveal>Ask of each choice: <span class="accent">better or worse than expected?</span></h1>
+    <p class="lead" data-reveal>A raw reward says how good the whole answer was, but not which choices deserve the credit. PPO keeps a running guess of how well things usually go from each point, then asks whether a choice beat that guess. That gap, the <b>advantage</b>, is what the update actually pushes on.</p>
+
+    <div class="scale">
+      <div class="cardo" data-reveal>
+        <p class="sign">+</p>
+        <p class="h">Positive advantage</p>
+        <p>The choice did better than the usual outcome from here. Make it a little more likely next time.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="sign">&#8722;</p>
+        <p class="h">Negative advantage</p>
+        <p>The choice did worse than expected. Make it a little less likely, even if the answer overall was fine.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> grading a student against their own expected score, not the class average. Beating your own par means you did something right; falling short means that particular move hurt, regardless of the final grade.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Advantage</span><span class="def">How much a choice did better, or worse, than the model expected at that moment.</span></div>
+      <div class="row"><span class="term">Value estimate</span><span class="def">The model's running guess of how well things will go from a given point; the bar to beat.</span></div>
+      <div class="row"><span class="term">Whitening</span><span class="def">Rescaling the advantages each batch so the signal is steady and not dominated by outliers.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

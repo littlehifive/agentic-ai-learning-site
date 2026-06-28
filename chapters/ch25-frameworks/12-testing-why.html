@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why agents are hard to test</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>25.5 Agent testing and evaluation</p>
+    <h1 data-reveal>The same input can give a <span class="accent">different answer</span></h1>
+    <p class="lead" data-reveal>Ordinary software is predictable: the same input gives the same output, so a test either passes or fails. Agents are not like that. The model can phrase things differently, pick a different tool, or take a different number of steps. Testing has to check that the <b>behaviour</b> is right, not that the text matches exactly.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> grading an essay instead of a multiplication table. You cannot check it against one correct string. You check whether it used good sources, stayed on topic, and reached a sound conclusion.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms, what makes it tricky</p>
+      <div class="row"><span class="term">Non-deterministic</span><span class="def">The output varies run to run, so exact-match tests are too brittle.</span></div>
+      <div class="row"><span class="term">Stateful and multi-step</span><span class="def">A failure can come from any step in a long chain, not just the final answer.</span></div>
+      <div class="row"><span class="term">Trajectory matters</span><span class="def">You test the path it took (which tools, in what order), not only where it ended.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

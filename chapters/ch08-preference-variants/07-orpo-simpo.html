@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ORPO and SimPO</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>8.4 ORPO and SimPO &#183; reference-free methods</p>
+    <h1 data-reveal>Drop the second model to <span class="accent">halve the memory</span></h1>
+    <p class="lead" data-reveal>The problem they fix: every method so far keeps a frozen reference copy of the model in memory to stop it drifting. That doubles the footprint. Both of these methods get the same anchoring without the spare copy, so you train with one model instead of two.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">ORPO</p>
+        <p>Folds preference alignment straight into ordinary fine-tuning, in one loss and one training run. The fine-tuning part keeps the model honest, which is the job the reference model used to do. No separate alignment step, and roughly half the memory.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">SimPO</p>
+        <p>Scores an answer by its own length-adjusted likelihood rather than by comparing against a reference. Same reference-free goal as ORPO, reached a different way. It strips the spare model out of the standard DPO loss.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> learning to ride without training wheels. The reference model was the stabilizer; these methods build the balance into the rider, so you carry less hardware around.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The fix</span><span class="def">No reference model, so about fifty percent less memory and a simpler pipeline.</span></div>
+      <div class="row"><span class="term">Reach for it when</span><span class="def">You are memory-limited, or you want one model and one loss start to finish.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Human in the loop</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .gates { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .g { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 30px 30px; border-top: 5px solid var(--gold); }
+  .g .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .g p { font-size: 19px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>18.5.4 Human-in-the-loop</p>
+    <h1 data-reveal>Know when to <span class="accent">stop and ask</span></h1>
+    <p class="lead" data-reveal>A good agent does not barrel ahead on every action. Before anything risky or anything it is unsure about, the harness pauses and brings a person in. The model still does the work; the human approves the moments that matter.</p>
+
+    <div class="gates">
+      <div class="g" data-reveal>
+        <p class="h">Approval gates</p>
+        <p>Before an action that cannot be undone, such as sending an email or deleting a file, require an explicit yes from a person.</p>
+      </div>
+      <div class="g" data-reveal>
+        <p class="h">Escalation rules</p>
+        <p>Hand off when confidence is low, when the task falls outside the agent's scope, or when a safety rule is tripped.</p>
+      </div>
+      <div class="g" data-reveal>
+        <p class="h">Feedback that sticks</p>
+        <p>A human correction goes back into the context and can update the plan, so the fix carries forward.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a junior employee with a company card. They handle small purchases on their own, but anything large, unusual, or irreversible needs a manager's sign-off first.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Approval gate</span><span class="def">A checkpoint where a person must confirm before an irreversible action runs.</span></div>
+      <div class="row"><span class="term">Escalation</span><span class="def">Handing the task to a human when confidence is low or the action is out of scope.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

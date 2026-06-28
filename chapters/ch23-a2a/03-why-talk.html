@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why agents must communicate</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .reasons { margin-top: 30px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 36px; }
+  .reason { display: grid; grid-template-columns: 44px 1fr; gap: 18px; align-items: start; padding: 6px 0; }
+  .reason .ck { color: var(--gold); font-size: 30px; font-weight: 900; line-height: 1.1; }
+  .reason .t { font-size: 23px; line-height: 1.4; color: var(--ink); }
+  .reason .t b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>23.1 Motivation: why agents must communicate</p>
+    <h1 data-reveal>One agent cannot be both <span class="accent">broad and deep</span></h1>
+    <p class="lead" data-reveal>A generalist agent runs into a wall: real tasks like legal review or scientific research need both wide knowledge and deep skill. The fix is a network of specialists, each handling the part it is best at and handing off the rest.</p>
+
+    <div class="reasons">
+      <div class="reason" data-reveal>
+        <span class="ck">&#43;</span>
+        <span class="t"><b>Context limits.</b> Each model has a finite memory; splitting work keeps every agent within a manageable load.</span>
+      </div>
+      <div class="reason" data-reveal>
+        <span class="ck">&#43;</span>
+        <span class="t"><b>Specialization.</b> A code agent, a legal agent, a data agent: route each subtask to the right expert.</span>
+      </div>
+      <div class="reason" data-reveal>
+        <span class="ck">&#43;</span>
+        <span class="t"><b>Parallelism.</b> Independent subtasks run at once across many agents, cutting wall-clock time.</span>
+      </div>
+      <div class="reason" data-reveal>
+        <span class="ck">&#43;</span>
+        <span class="t"><b>Resilience.</b> If one agent fails, the system can retry elsewhere, fall back, or escalate to a human.</span>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a general contractor on a building site. They do not lay every brick themselves; they call in an electrician, a plumber, and a roofer, each doing one job well.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Orchestrator</span><span class="def">The lead agent that breaks a goal into parts and hands them out.</span></div>
+      <div class="row"><span class="term">Specialist agent</span><span class="def">An agent tuned or equipped for one kind of work, such as code or data.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

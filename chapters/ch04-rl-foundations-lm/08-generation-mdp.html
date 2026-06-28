@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Generation as a sequence of decisions</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1660px; }
+  .seq { margin-top: 28px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .tok { font-family: "SF Mono", Menlo, monospace; font-size: 24px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; color: var(--navy); box-shadow: var(--shadow-md); }
+  .tok.next { border-color: var(--gold); border-width: 2px; color: var(--ink); }
+  .tok.reward { background: var(--navy); color: var(--white); border-color: var(--navy); font-weight: 700; }
+  .seq .eq { color: var(--gold); font-size: 26px; font-weight: 800; margin: 0 2px; }
+  .legend { margin-top: 16px; display: flex; gap: 36px; flex-wrap: wrap; }
+  .legend .item { font-size: 18px; color: var(--ink-secondary); }
+  .legend .item b { color: var(--navy); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>4.2 Text generation as a decision process</p>
+    <h1 data-reveal>Writing one token at a time is a string of <span class="accent">decisions</span></h1>
+    <p class="lead" data-reveal>RL fits language models because writing a response is a sequence of choices. At each step the model reads everything so far (the <b>state</b>), picks the next token (the <b>action</b>), and the text grows by one (the <b>transition</b>). When the answer is done, a judge scores it (the <b>reward</b>). The model already is the decision-maker: its next-token probabilities are the policy.</p>
+
+    <div class="seq" data-reveal>
+      <span class="tok">The</span>
+      <span class="tok">capital</span>
+      <span class="tok">of</span>
+      <span class="tok">France</span>
+      <span class="tok">is</span>
+      <span class="eq">&#8594;</span>
+      <span class="tok next">Paris</span>
+      <span class="eq" style="margin-left:14px;">&#8230;</span>
+      <span class="tok reward">end: score the whole answer</span>
+    </div>
+    <div class="legend" data-reveal>
+      <span class="item"><b>State:</b> the prompt plus every token written so far</span>
+      <span class="item"><b>Action:</b> choose the next token, gold above</span>
+      <span class="item"><b>Reward:</b> usually given once, at the end</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a writer filling a page word by word. Each word depends on all the words before it, the page only ever grows (you never un-write a word), and the grade arrives when the piece is finished. Training adjusts the writer's instincts so finished pieces score higher.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Deterministic steps</span><span class="def">Adding a token is not random: the next state is just the text with that token appended.</span></div>
+      <div class="row"><span class="term">Sparse reward</span><span class="def">No score along the way, only at the end, which makes credit for each token harder to assign.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

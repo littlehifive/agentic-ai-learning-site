@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How long to train</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .dial { margin-top: 30px; display: flex; align-items: stretch; gap: 18px; }
+  .ep { flex: 1 1 0; border-radius: 12px; border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow-md); padding: 24px 26px; display: flex; flex-direction: column; }
+  .ep.good { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+  .ep .n { font-size: 40px; font-weight: 900; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; margin: 0 0 12px; }
+  .ep .h { font-size: 22px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .ep .d { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>10.6 SFT training duration</p>
+    <h1 data-reveal>Two or three passes is usually <span class="accent">enough</span></h1>
+    <p class="lead" data-reveal>One full pass over the data is called an epoch. For instruction fine-tuning, two to three epochs is the sweet spot. Train far longer and the model stops learning the pattern and starts memorising the exact examples, which makes it brittle on anything new.</p>
+
+    <div class="dial">
+      <div class="ep" data-reveal><p class="n">1</p><p class="h">Too few</p><p class="d">The lesson may not stick; the model has only skimmed the examples once.</p></div>
+      <div class="ep good" data-reveal><p class="n">2 to 3</p><p class="h">Just right</p><p class="d">Enough repetition to learn the behaviour while keeping answers varied and flexible.</p></div>
+      <div class="ep" data-reveal><p class="n">10+</p><p class="h">Too many</p><p class="d">The model memorises the training set and gives stiff, repetitive answers on new prompts.</p></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> studying for an exam. A couple of focused passes teach the ideas; cramming the same answer sheet fifty times means you recite it word for word but freeze on a question phrased differently.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Epoch</span><span class="def">One complete pass through the whole training dataset.</span></div>
+      <div class="row"><span class="term">Overfitting</span><span class="def">When a model memorises its examples instead of learning the general pattern, so it does poorly on new inputs.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Protocols MCP and A2A</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1680px; }
+  .lead { font-size: 25px; margin-top: 4px; }
+  .two { margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; flex: 1; }
+  .pcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 34px; display: flex; flex-direction: column; }
+  .pcard .name { font-size: 30px; font-weight: 900; color: var(--navy); margin: 0; }
+  .pcard .tag { font-size: 19px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.06em; margin: 6px 0 18px; }
+  .pcard .gloss { font-size: 22px; line-height: 1.45; color: var(--ink-secondary); margin: 0 0 18px; }
+  .pcard ul { margin: 0; padding: 0; list-style: none; }
+  .pcard li { position: relative; padding: 9px 0 9px 32px; font-size: 21px; line-height: 1.36; color: var(--ink); border-top: 1px solid var(--border); }
+  .pcard li:first-of-type { border-top: none; }
+  .pcard li::before { content: ''; position: absolute; left: 0; top: 18px; width: 16px; height: 6px; background: var(--gold); border-radius: 3px; }
+  .pcard li b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>28.10, 28.17, 28.18 &#183; How agents connect</p>
+    <h1 data-reveal>Two protocols, two <span class="accent">different jobs</span></h1>
+    <p class="lead" data-reveal>One connects an agent to its tools. The other connects agents to each other. They are complements, not rivals.</p>
+
+    <div class="two">
+      <div class="pcard" data-reveal>
+        <p class="name">MCP</p>
+        <p class="tag">Agent to its tools</p>
+        <p class="gloss">A standard way for an agent to discover and call tools and data, so any tool plugs into any agent.</p>
+        <ul>
+          <li><b>Tools:</b> actions with effects, like create or delete.</li>
+          <li><b>Resources:</b> read-only data, like files or records.</li>
+          <li><b>Prompts:</b> reusable templates for common tasks.</li>
+          <li><b>Discovery:</b> the client asks the server to list what it offers.</li>
+        </ul>
+      </div>
+      <div class="pcard" data-reveal>
+        <p class="name">A2A</p>
+        <p class="tag">Agent to agent</p>
+        <p class="gloss">A standard way for separate agents to hand each other work and track it through to completion.</p>
+        <ul>
+          <li><b>Agent Card:</b> a public profile listing an agent's skills.</li>
+          <li><b>Task:</b> a unit of work that moves from submitted to working to done.</li>
+          <li><b>Message and Artifact:</b> what is said, and what is produced.</li>
+          <li><b>Push notifications:</b> webhook updates for long jobs.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">MCP vs A2A</span><span class="def">MCP gives one agent hands to use tools. A2A lets many agents talk and divide a job.</span></div>
+      <div class="row"><span class="term">Webhook</span><span class="def">A way for a server to call you back when something finishes, instead of you checking over and over.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

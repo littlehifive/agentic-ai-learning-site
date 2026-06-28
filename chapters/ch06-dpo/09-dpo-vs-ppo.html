@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DPO vs PPO</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two-col { margin-top: 32px; }
+  .dcard li { padding-left: 34px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Reading the tradeoffs</p>
+    <h1 data-reveal>Simpler than PPO, but <span class="accent">hungrier for good pairs</span></h1>
+    <p class="lead" data-reveal>DPO and PPO chase the same goal, alignment to human preference. DPO gets there with far less machinery, which is its great appeal. The catch is that it leans entirely on the quality of a fixed set of preference pairs.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">DPO</p>
+        <ul>
+          <li>Two models in memory: the policy and a frozen reference.</li>
+          <li>One ordinary supervised step, no reinforcement loop.</li>
+          <li>Far simpler and more stable to run and tune.</li>
+          <li>Learns off-policy, from a fixed dataset of pairs.</li>
+          <li>Only as good as those pairs; noisy labels poison it.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">PPO</p>
+        <ul>
+          <li>Four models in memory, including a separate reward model.</li>
+          <li>A reinforcement loop that generates and scores live.</li>
+          <li>More moving parts, heavier and trickier to keep stable.</li>
+          <li>Learns on-policy, from the model's own fresh answers.</li>
+          <li>Averages over many samples, so it tolerates noise better.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footnote" data-reveal>
+      <span class="mark"></span>
+      <span>On-policy means PPO learns from text the current model just generated; off-policy means DPO learns from a pre-collected set of pairs. That fixed set is both DPO's simplicity and its main weakness.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

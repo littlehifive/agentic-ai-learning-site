@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LangGraph</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>25.3.1 LangGraph</p>
+    <h1 data-reveal>Draw the agent as a <span class="accent">map of steps</span></h1>
+    <p class="lead" data-reveal>LangGraph treats an agent as a graph: boxes are steps and arrows are the moves between them. A shared, typed <b>state</b> flows from box to box, and each arrow can branch on what the state says. Because the whole flow is drawn out, you can reason about it, test it, and pause it at any point.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a board game with a printed board. Every square is a step, the arrows are the legal moves, and your piece carries a record of what has happened so far. Nothing is hidden in the rulebook's head.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Node</span><span class="def">One step: it reads the shared state and returns an update to it.</span></div>
+      <div class="row"><span class="term">Edge</span><span class="def">A move from one step to the next, which can branch based on the state.</span></div>
+      <div class="row"><span class="term">Checkpointing</span><span class="def">Saving the state after each step, so the agent can pause, wait for a human, and resume.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

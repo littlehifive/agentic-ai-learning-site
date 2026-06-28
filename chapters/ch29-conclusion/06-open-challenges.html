@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Open challenges</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .grid6 { margin-top: 38px; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); gap: 26px; flex: 1; }
+  .ch { background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 30px 30px; display: flex; flex-direction: column; }
+  .ch .t { font-size: 26px; font-weight: 800; color: var(--navy); margin: 0 0 10px; line-height: 1.18; }
+  .ch .d { font-size: 20px; font-weight: 400; color: var(--ink-secondary); line-height: 1.4; margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>29.2 The road ahead</p>
+    <h1 data-reveal>What is still <span class="accent">unsolved</span></h1>
+
+    <div class="grid6">
+      <div class="ch" data-reveal>
+        <p class="t">Learning from interaction</p>
+        <p class="d">Today alignment is a one-time training phase. The goal: agents that keep improving from every interaction without forgetting or drifting.</p>
+      </div>
+      <div class="ch" data-reveal>
+        <p class="t">Scalable oversight</p>
+        <p class="d">As models exceed human understanding, how do people still judge them? Ideas: AI helping humans evaluate, debate, and rewarding reasoning steps.</p>
+      </div>
+      <div class="ch" data-reveal>
+        <p class="t">World models and planning</p>
+        <p class="d">Agents react one step at a time. Future ones need to predict the consequences of actions and search ahead before they act.</p>
+      </div>
+      <div class="ch" data-reveal>
+        <p class="t">Reliability and evaluation</p>
+        <p class="d">Benchmarks test isolated tasks. Real work brings vague goals and recovery. Evaluation must also become cost-aware and safe under new inputs.</p>
+      </div>
+      <div class="ch" data-reveal>
+        <p class="t">Security and trust</p>
+        <p class="d">Tool access and shared memory open new attacks. Prompt injection has no robust defense yet, and tracing who authorized what stays unsolved.</p>
+      </div>
+      <div class="ch" data-reveal>
+        <p class="t">Cost and efficiency</p>
+        <p class="d">Training and running agents is expensive. Broad impact needs distillation, leaner algorithms, on-device agents, and strong open-weight models.</p>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

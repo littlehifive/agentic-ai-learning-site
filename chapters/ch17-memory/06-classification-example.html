@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The four types in one task</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .rows { margin-top: 36px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .er { display: grid; grid-template-columns: 230px 1fr; gap: 30px; align-items: center; padding: 22px 30px; background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; }
+  .er .k { font-size: 24px; font-weight: 800; color: var(--navy); }
+  .er .v { font-size: 23px; line-height: 1.42; color: var(--ink-secondary); }
+  .er .v b { color: var(--ink); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>17.2 Memory type classification</p>
+    <h1 data-reveal>One coding agent, <span class="accent">all four at once</span></h1>
+    <p class="lead" data-reveal>The categories are not abstract. Watch a single agent helping with software development draw on each kind of memory in the same moment.</p>
+
+    <div class="rows">
+      <div class="er" data-reveal>
+        <span class="k">Working</span>
+        <span class="v">The file open in the editor and the error message it just received. Live in the context window.</span>
+      </div>
+      <div class="er" data-reveal>
+        <span class="k">Episodic</span>
+        <span class="v"><b>"Last week I fixed a similar null error in module X by adding a check at line 42."</b> A specific recalled event.</span>
+      </div>
+      <div class="er" data-reveal>
+        <span class="k">Semantic</span>
+        <span class="v"><b>"Running tasks concurrently lets exceptions surface unless you ask to collect them."</b> A general fact, no episode attached.</span>
+      </div>
+      <div class="er" data-reveal>
+        <span class="k">Procedural</span>
+        <span class="v">The standard debugging routine it follows by habit: reproduce, isolate, hypothesize, test, fix.</span>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The split that matters</span><span class="def">Each type has a different update frequency and retrieval path, so each is stored and fetched its own way.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

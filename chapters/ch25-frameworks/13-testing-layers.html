@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Testing at multiple layers</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two-col { margin-top: 30px; }
+  .dcard li b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>25.5 The agent testing pyramid</p>
+    <h1 data-reveal>Test in <span class="accent">layers</span>, from small and cheap to big and sure</h1>
+    <p class="lead" data-reveal>No single test catches everything, so you stack them. The lower layers are fast and run often; the upper layers are slower but give you more confidence the whole agent behaves. Most teams need all four.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">The cheap, frequent layers</p>
+        <ul>
+          <li><b>Unit tests</b> check each tool alone: the normal case, the error case, and the odd edge cases.</li>
+          <li><b>Integration tests</b> run the full loop with stand-in tools, checking it orchestrates them correctly, for example searching before writing.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">The slower, surer layers</p>
+        <ul>
+          <li><b>Golden trajectories</b> save a known-good run and flag if a new run drifts in its tool sequence, its answer, or its cost.</li>
+          <li><b>Behavioural tests</b> confirm it follows the rules: refuses harmful requests, respects call limits, stays on allowed sites.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a car factory. You test each part on the bench, then the assembled engine, then a full test drive, then the safety inspection. Skipping a layer just moves the surprise to a worse moment.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

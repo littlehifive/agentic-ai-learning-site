@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What makes a good benchmark</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1660px; }
+  .three { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 32px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo p { font-size: 21px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>20.2.3 and 20.7 What makes a benchmark trustworthy</p>
+    <h1 data-reveal>A good agentic benchmark is <span class="accent">realistic, verifiable, and hard to game</span></h1>
+    <p class="lead" data-reveal>The benchmarks worth trusting share three traits. Miss any one and the leaderboard stops meaning anything: scores rise while real ability does not.</p>
+
+    <div class="three">
+      <div class="cardo" data-reveal>
+        <p class="h">Realistic</p>
+        <p>The tasks mirror real work, real websites, real repositories, real desktops, so a high score predicts real usefulness, not just lab-bench skill.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Verifiable</p>
+        <p>There is an objective way to check success, run the tests, inspect the final state. Two labs running it get the same answer, so results are reproducible.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Hard to game</p>
+        <p>The agent cannot earn a high score without truly doing the task. No peeking at the answer, no shortcut that fakes the result.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a good driving test. It happens on real roads (realistic), the examiner checks whether you actually parked between the lines (verifiable), and you cannot pass by describing how you would drive (hard to game).</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Human baseline</span><span class="def">How well people do, collected as the bar that tells you what a score really means.</span></div>
+      <div class="row"><span class="term">Contamination</span><span class="def">When answers leak into training data; a constant threat to keeping a benchmark honest.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reward hacking</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .goodhart { margin-top: 28px; display: flex; align-items: flex-start; gap: 18px; background: var(--surface);
+    border: 1px solid var(--border); border-left: 6px solid var(--gold); border-radius: 10px; box-shadow: var(--shadow-md);
+    padding: 26px 32px; max-width: 1520px; }
+  .goodhart .mark { width: 6px; align-self: stretch; min-height: 40px; background: var(--gold); border-radius: 3px; flex-shrink: 0; }
+  .goodhart .q { font-size: 27px; font-weight: 700; color: var(--navy); line-height: 1.35; margin: 0; }
+  .goodhart .src { font-size: 18px; color: var(--ink-muted); margin: 8px 0 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Chapter 9 &#183; The central failure mode</p>
+    <h1 data-reveal>Optimise a flawed score and the model will <span class="accent">game it</span></h1>
+    <p class="lead" data-reveal>The reward model is only an approximation of human taste. Push the main model hard enough and it finds the gaps: it produces answers that the reward model loves but that people do not. This is reward hacking, and it is the main reason a careful reward model matters.</p>
+
+    <div class="goodhart" data-reveal>
+      <span class="mark"></span>
+      <div>
+        <p class="q">"When a measure becomes a target, it stops being a good measure."</p>
+        <p class="src">Goodhart's law, the classic statement of this trap</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> paying programmers per line of code. You will get more lines, not better software. The metric was a fine signal until it became the goal, and then it was gamed. A reward model that overvalues, say, confident tone gets answers that sound sure but are wrong.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Reward hacking</span><span class="def">The model scores high on the reward model while actually getting worse to a person.</span></div>
+      <div class="row"><span class="term">Why it happens</span><span class="def">The reward model has blind spots, and hard optimisation seeks them out.</span></div>
+      <div class="row"><span class="term">Guard against it</span><span class="def">Better preference data, length and format corrections, and not pushing the optimisation too far.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

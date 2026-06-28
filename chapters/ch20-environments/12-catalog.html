@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The benchmark catalog</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1660px; }
+  .two-col { grid-template-columns: 1fr 1fr; margin-top: 32px; }
+  .dcard li b { color: var(--navy); font-weight: 800; }
+  .gap { margin-top: 26px; display: flex; align-items: flex-start; gap: 18px; font-size: 23px; line-height: 1.45; color: var(--ink-secondary); max-width: 1560px; }
+  .gap .mark { width: 6px; align-self: stretch; min-height: 32px; background: var(--gold); border-radius: 3px; flex-shrink: 0; }
+  .gap b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>20.9 Comparison of major agentic environments</p>
+    <h1 data-reveal>The four worlds, <span class="accent">side by side</span></h1>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">WebArena &#183; the web</p>
+        <ul>
+          <li><b>World:</b> a live browser on real web apps.</li>
+          <li><b>Task:</b> shop, post, look things up across pages.</li>
+          <li><b>Score:</b> people 78%, best agents about 45%.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">SWE-bench &#183; code</p>
+        <ul>
+          <li><b>World:</b> a real open-source repository with a bug.</li>
+          <li><b>Task:</b> write a patch that makes the tests pass.</li>
+          <li><b>Score:</b> engineers 100%, best agents about 50%.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">OSWorld &#183; the desktop</p>
+        <ul>
+          <li><b>World:</b> a full computer, seen on screen.</li>
+          <li><b>Task:</b> run everyday apps by mouse and keyboard.</li>
+          <li><b>Score:</b> people 72%, best agents about 18%.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">GAIA &#183; general help</p>
+        <ul>
+          <li><b>World:</b> open tasks needing several tools.</li>
+          <li><b>Task:</b> chain search, code, and files into an answer.</li>
+          <li><b>Score:</b> people 92%, later agents about 30%.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="gap" data-reveal>
+      <span class="mark"></span>
+      <span>The pattern: the gap to human level is <b>smallest for code</b>, where models have seen mountains of training data, and <b>largest for desktop control</b>, where screen-and-click data is still scarce.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

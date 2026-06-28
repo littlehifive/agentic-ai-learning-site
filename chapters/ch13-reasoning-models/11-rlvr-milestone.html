@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DeepSeek-R1 and o1 milestone</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1660px; }
+  .ms { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .mcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 34px; }
+  .mcard .yr { font-size: 18px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; font-variant-numeric: tabular-nums; }
+  .mcard .nm { font-size: 27px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .mcard p { font-size: 20px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>13.3 &#183; 13.4 The landmark result</p>
+    <h1 data-reveal>Reward only the right answer, and reasoning <span class="accent">emerges on its own</span></h1>
+    <p class="lead" data-reveal>The breakthrough: train the model with reinforcement learning where the reward is simply whether the final answer is correct, checkable automatically for maths and code. Given only that signal, models learned to write long chains of thought, to backtrack, and to check themselves, with no one teaching those habits directly.</p>
+
+    <div class="ms">
+      <div class="mcard" data-reveal>
+        <p class="yr">2024</p>
+        <p class="nm">OpenAI o1, then o3</p>
+        <p>The commercial frontier. The model thinks in hidden reasoning tokens before replying, and more thinking budget reliably raises its score on hard problems. On a tough maths contest it jumps from low scores to high ones simply by being allowed to think.</p>
+      </div>
+      <div class="mcard" data-reveal>
+        <p class="yr">2025</p>
+        <p class="nm">DeepSeek-R1</p>
+        <p>The first fully open reasoning model to rival o1. Trained with a rewards-for-correct-answers recipe and no step-by-step grader. Researchers watched an "aha moment": the model spontaneously began saying "Wait, let me reconsider" and fixing its own mistakes.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> coaching only by saying "right" or "wrong" at the end. Told nothing about technique, the learner invents good habits, checking work, trying another route, on their own, because those habits are what win.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Verifiable reward</span><span class="def">A reward you can compute automatically, like running code against tests or checking a maths answer.</span></div>
+      <div class="row"><span class="term">Emergent behaviour</span><span class="def">Skills like self-correction that appear from training without being explicitly taught.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

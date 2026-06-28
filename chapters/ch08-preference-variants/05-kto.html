@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>KTO</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>8.2 KTO &#183; Kahneman-Tversky Optimization</p>
+    <h1 data-reveal>Learn from a thumbs-up or a <span class="accent">thumbs-down</span></h1>
+    <p class="lead" data-reveal>The problem it fixes: DPO needs a matched pair for every prompt, a good answer and a bad one side by side. Real feedback almost never arrives that way. People just tap thumbs-up or thumbs-down on one answer. KTO learns from those single verdicts, no pairing required, so each rating stands on its own.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a restaurant reading one-star and five-star reviews. It never needs two reviews of the same dish to know which dishes to keep. Borrowing from behavioral economics, KTO also leans harder on a complaint than on praise, because a bad answer should sting more.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The fix</span><span class="def">Each answer carries its own label, good or bad. No matched pairs needed.</span></div>
+      <div class="row"><span class="term">Bonus</span><span class="def">Handles lopsided data well, like ninety percent good and ten percent bad, and tolerates noisy labels.</span></div>
+      <div class="row"><span class="term">Reach for it when</span><span class="def">You have live thumbs-up and thumbs-down from real traffic but no curated pairs.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

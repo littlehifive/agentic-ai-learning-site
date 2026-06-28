@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The KV cache problem</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .body { margin-top: 24px; display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 50px; align-items: start; }
+  .frag { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+  .frag .ttl { font-size: 17px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 14px; }
+  .slot { display: flex; gap: 6px; margin-bottom: 16px; }
+  .cell { flex: 1; height: 38px; border-radius: 5px; border: 1px solid var(--border); }
+  .cell.used { background: var(--navy); border-color: var(--navy); }
+  .cell.waste { background: repeating-linear-gradient(45deg, #F8D98A, #F8D98A 6px, #fff 6px, #fff 12px); border-color: var(--gold); }
+  .cap { font-size: 17px; color: var(--ink-secondary); margin: 0; }
+  .cap b { color: var(--navy); }
+  .copy .lead { margin-top: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>2.2.1 The KV Cache Fragmentation Problem</p>
+    <h1 data-reveal>Serving fast means managing the model's <span class="accent">short-term memory</span></h1>
+
+    <div class="body">
+      <div class="frag" data-reveal>
+        <p class="ttl">Reserve max length per request</p>
+        <div class="slot">
+          <span class="cell used"></span><span class="cell used"></span><span class="cell waste"></span><span class="cell waste"></span><span class="cell waste"></span><span class="cell waste"></span>
+        </div>
+        <div class="slot">
+          <span class="cell used"></span><span class="cell waste"></span><span class="cell waste"></span><span class="cell waste"></span><span class="cell waste"></span><span class="cell waste"></span>
+        </div>
+        <p class="cap">Solid = words actually written. Striped = space reserved but never used. Real systems waste <b>60 to 80%</b> of memory this way.</p>
+      </div>
+
+      <div class="copy">
+        <p class="lead" data-reveal>As a model writes a reply, it keeps a running set of notes on every word so far, called the <b>KV cache</b>. It is the single biggest memory user during serving. The old approach reserved a big block for each request, sized for the longest possible reply. Most replies are short, so most of that reserved space sits empty and unusable.</p>
+
+        <div class="analogy" data-reveal>
+          <span class="mark"></span>
+          <span><span class="lbl">Think of it like</span> a restaurant that blocks a 12-seat table for every booking, even parties of two. The room fills with half-empty tables, and you turn away guests with nowhere to sit.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">KV cache</span><span class="def">The model's running notes on every word so far in a reply; the main memory user when serving.</span></div>
+      <div class="row"><span class="term">Fragmentation</span><span class="def">Memory wasted because it was reserved in big fixed blocks that go mostly unused.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

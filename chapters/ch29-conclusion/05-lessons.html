@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The recurring lessons</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two-col { margin-top: 34px; }
+  .dcard li { padding: 11px 0 11px 34px; font-size: 22px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>29.1 Summary, the themes that recur</p>
+    <h1 data-reveal>Lessons that show up in <span class="accent">every chapter</span></h1>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">How to build</p>
+        <ul>
+          <li><b>Simplicity scales.</b> Use the simplest design that meets the need. Reach for chains and routing before autonomous loops, single agents before swarms.</li>
+          <li><b>There is no single best method.</b> PPO, DPO, and GRPO each trade quality for cost. The right pick depends on your data, budget, and quality bar.</li>
+          <li><b>Standards unlock ecosystems.</b> MCP and A2A are to agents what HTTP was to the web: shared plumbing that lets separate pieces work together.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">What makes it work</p>
+        <ul>
+          <li><b>Learning signals get richer.</b> From human ratings to verifiable rewards, reasoning can emerge from a simple signal applied at scale.</li>
+          <li><b>Evaluation drives everything.</b> Without rigorous measurement, progress is invisible and regressions slip through unnoticed.</li>
+          <li><b>Agents are the natural next step.</b> Once a model is aligned, the question shifts from one good answer to solving multi-step problems on its own.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footnote" data-reveal>
+      <span class="mark"></span>
+      <span>The author lists seven themes in all. Complexity should be earned through demonstrated need, never added by default.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

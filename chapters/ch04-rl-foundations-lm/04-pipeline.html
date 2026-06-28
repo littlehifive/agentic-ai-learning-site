@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The RLHF pipeline</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1700px; }
+  .flow { margin-top: 34px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 24px 26px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 16px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 10px; line-height: 1.15; }
+  .stage .s-d { font-size: 18px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 44px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 32px; font-weight: 700; }
+  .leash { margin-top: 22px; display: flex; align-items: center; gap: 18px; }
+  .leash .line { flex: 1; height: 0; border-top: 3px dashed var(--gold); opacity: 0.8; }
+  .leash .lbl { font-size: 19px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .plain { margin-top: 26px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>4.3 The RLHF pipeline</p>
+    <h1 data-reveal>Four stages: <span class="accent">demonstrate, judge, optimize, repeat</span></h1>
+
+    <div class="flow">
+      <div class="stage" data-reveal>
+        <p class="s-n">Stage 1</p><p class="s-t">Fine-tune on demonstrations</p>
+        <p class="s-d">Start from a pretrained model and teach it to follow instructions by copying good example answers. This gives a base policy to improve.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Stage 2</p><p class="s-t">Train a reward model</p>
+        <p class="s-d">Show people pairs of answers and ask which is better. A reward model learns to predict those preferences as a single score.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Stage 3</p><p class="s-t">Optimize the policy</p>
+        <p class="s-d">Let the model generate answers, score them with the reward model, and nudge its weights toward higher-scoring writing, kept close to the start.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Stage 4</p><p class="s-t">Evaluate and iterate</p>
+        <p class="s-d">Test the aligned model, gather the cases where it still fails, and feed them back into the next round of training.</p>
+      </div>
+    </div>
+
+    <div class="leash" data-reveal>
+      <span class="lbl">A KL penalty keeps Stage 3 tethered to the Stage 1 model</span>
+      <span class="line"></span>
+      <span class="lbl">so it improves without drifting</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Policy</span><span class="def">The model being trained: at each step it decides what to write next.</span></div>
+      <div class="row"><span class="term">Reward model</span><span class="def">A stand-in judge that turns "which answer is better" into a number the trainer can chase.</span></div>
+      <div class="row"><span class="term">For RLVR</span><span class="def">Stages 1 and 2 change: train on reasoning traces, and swap the reward model for a checker. Stage 3 is the same.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

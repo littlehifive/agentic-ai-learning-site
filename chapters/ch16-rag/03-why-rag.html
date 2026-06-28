@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why models need outside knowledge</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .three { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .lcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 32px 32px; }
+  .lcard .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .lcard p { font-size: 20px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>16.1 Motivation and problem statement</p>
+    <h1 data-reveal>A model's knowledge is <span class="accent">baked in, and that is the problem</span></h1>
+    <p class="lead" data-reveal>Everything a plain model knows is compressed into its weights during training. That stored knowledge is fixed, frozen at a date, and never includes your private documents. Three failures follow.</p>
+
+    <div class="three">
+      <div class="lcard" data-reveal>
+        <p class="h">Hallucination</p>
+        <p>Past the edge of what it reliably knows, the model still answers confidently, producing statements that sound right but are simply wrong.</p>
+      </div>
+      <div class="lcard" data-reveal>
+        <p class="h">Staleness</p>
+        <p>Training data has a cutoff date. The model cannot know about events, releases, or papers that appeared after it was trained.</p>
+      </div>
+      <div class="lcard" data-reveal>
+        <p class="h">No private knowledge</p>
+        <p>A general model has never seen your codebase, internal policies, or specialised regulations, so it cannot reason over them.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a brilliant scholar who memorised a huge library, then graduated years ago. RAG hands that scholar a library card so they can look things up and cite sources in real time, instead of reciting from an outdated memory.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Parametric knowledge</span><span class="def">Facts stored inside the model's weights; fixed once training ends.</span></div>
+      <div class="row"><span class="term">Non-parametric knowledge</span><span class="def">Facts kept outside the model, in documents it can fetch and read on demand.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

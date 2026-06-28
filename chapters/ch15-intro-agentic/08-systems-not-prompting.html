@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A systems discipline</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two-col { margin-top: 34px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Maintaining the systems perspective</p>
+    <h1 data-reveal>Reliable agents are <span class="accent">engineered, not just prompted</span></h1>
+    <p class="lead" data-reveal>It is tempting to think a clever prompt is all you need. In practice, the layers only work as one tightly integrated system, and the difference between a demo and a dependable agent is the engineering around the loop.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">A prompt alone leaves you with</p>
+        <ul>
+          <li>A loop that can run away with no clear point to stop</li>
+          <li>An agent that forgets what it already tried and repeats failures</li>
+          <li>Actions taken with no record of what happened or why</li>
+          <li>No safe path when the model is unsure or simply wrong</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Engineering the system adds</p>
+        <ul>
+          <li>Context management that keeps the loop within its memory budget</li>
+          <li>Error handling so a failed step is caught and retried, not ignored</li>
+          <li>Guardrails and human approval before costly or irreversible actions</li>
+          <li>Observability, so you can see what the agent did and debug it</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> the gap between a recipe and a working kitchen. The recipe is the prompt. The kitchen is the timing, the safety checks, the cleanup, and the record-keeping that let you cook the same dish reliably, every night, for real customers.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A worked example</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .ask { margin-top: 28px; background: var(--navy); color: var(--white); border-radius: 12px; padding: 26px 34px; font-size: 26px; line-height: 1.4; box-shadow: var(--shadow-md); }
+  .ask .who { display: block; font-size: 16px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .servers { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .srv { background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 28px; }
+  .srv .sn { font-size: 23px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .srv .sd { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>21.2 Concrete example: a coding assistant</p>
+    <h1 data-reveal>One question, <span class="accent">three servers</span>, answered together</h1>
+    <p class="lead" data-reveal>A developer uses a code editor powered by an LLM. The editor is the host, and it runs three clients, each connected to a different server. One request can reach all three at once, through the same standard calls.</p>
+
+    <div class="ask" data-reveal>
+      <span class="who">The developer asks</span>
+      "Fix the bug in auth.py that is causing the login failures shown in issue #42."
+    </div>
+
+    <div class="servers">
+      <div class="srv" data-reveal>
+        <p class="sn">Filesystem server</p>
+        <p class="sd">Reads auth.py so the model can see the actual code.</p>
+      </div>
+      <div class="srv" data-reveal>
+        <p class="sn">GitHub server</p>
+        <p class="sd">Fetches issue #42 to learn what the failure looks like.</p>
+      </div>
+      <div class="srv" data-reveal>
+        <p class="sn">Database server</p>
+        <p class="sd">Runs a read-only query to pull the relevant login logs.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a single waiter taking your order to three kitchens at once: the bakery, the grill, and the bar. You ask once, and the plates arrive together.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

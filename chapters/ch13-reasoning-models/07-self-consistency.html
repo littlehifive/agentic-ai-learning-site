@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why voting works</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .lead { font-size: 25px; }
+  .two-col { margin-top: 26px; gap: 32px; }
+  .dcard { padding: 26px 32px; }
+  .dcard li { padding: 9px 0 9px 34px; font-size: 21px; }
+  .dcard li::before { top: 18px; }
+  .analogy { margin-top: 20px; font-size: 22px; }
+  .plain { margin-top: 20px; }
+  .plain .row { padding: 7px 0; font-size: 20px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>13.2.2 Self-consistency, in depth</p>
+    <h1 data-reveal>Why many tries beat <span class="accent">one good try</span></h1>
+    <p class="lead" data-reveal>Self-consistency is the cheapest way to spend more compute for more accuracy. If each chain is even somewhat likely to be right, and wrong answers spread out while right answers pile up, then counting votes across more chains keeps pushing accuracy up.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">What it does</p>
+        <ul>
+          <li>Generate several reasoning chains for one question, with a little randomness so they differ.</li>
+          <li>Read off the final answer from each chain.</li>
+          <li>Return whichever answer the most chains agreed on.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Why it helps</p>
+        <ul>
+          <li>Errors are scattered and rarely agree; correct reasoning concentrates on one answer.</li>
+          <li>More chains means more accuracy, with gains tapering off after a few dozen.</li>
+          <li>No extra training and no special tooling, just ask more times and tally.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> asking a roomful of people to each work the problem alone, then going with the answer most of them reached. The crowd converges on the truth.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Self-consistency</span><span class="def">Sample several reasoning paths, then take the majority answer.</span></div>
+      <div class="row"><span class="term">Diminishing returns</span><span class="def">Each extra chain helps a bit less; past roughly forty, more chains barely move the needle.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

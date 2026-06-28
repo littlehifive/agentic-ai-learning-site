@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Training defaults</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<link rel="stylesheet" href="../../shared/code.css">
+<style>
+  h1 { font-size: 46px; max-width: 1680px; }
+  .lead { font-size: 25px; margin-top: 4px; }
+  .rows { margin-top: 26px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .drow { display: grid; grid-template-columns: 300px 200px 1fr; gap: 26px; align-items: center;
+    padding: 15px 26px; background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; }
+  .drow .p { font-size: 23px; font-weight: 800; color: var(--navy); }
+  .drow .v { font-size: 22px; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
+  .drow .v .formula { font-size: 18px; padding: 3px 11px; color: var(--navy); }
+  .drow .d { font-size: 21px; line-height: 1.38; color: var(--ink-secondary); }
+  .head-row { display: grid; grid-template-columns: 300px 200px 1fr; gap: 26px; margin-top: 22px; padding: 0 26px 4px;
+    font-size: 16px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+  .rows { margin-top: 12px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>28.6 &#183; Hyperparameter ranges, sensible starting points</p>
+    <h1 data-reveal>Training defaults to <span class="accent">start from</span></h1>
+    <p class="lead" data-reveal>If you change nothing else, these are the values that usually just work. Tune from here, not from scratch.</p>
+
+    <div class="head-row" data-reveal><span>Knob</span><span>Default</span><span>What it does, and why this value</span></div>
+    <div class="rows">
+      <div class="drow" data-reveal><span class="p">Optimizer</span><span class="v">AdamW</span><span class="d">The standard choice that adapts each weight's step size and gently shrinks weights to avoid overfitting.</span></div>
+      <div class="drow" data-reveal><span class="p">Number format</span><span class="v">BF16</span><span class="d">A 16-bit format with wide range: half the memory of full precision, and safer than the FP16 alternative.</span></div>
+      <div class="drow" data-reveal><span class="p">Learning rate, fine-tune</span><span class="v">2e-5</span><span class="d">How big each update is. This is the workhorse value for supervised fine-tuning of a base model.</span></div>
+      <div class="drow" data-reveal><span class="p">Learning rate, alignment</span><span class="v">5e-7</span><span class="d">Much smaller for reinforcement-learning alignment, since the model is already good and easy to break.</span></div>
+      <div class="drow" data-reveal><span class="p">LoRA rank and alpha</span><span class="v"><span class="formula">r = 16, &#945; = 2r</span></span><span class="d">Add-on size and its scaling. The effective strength is alpha over r, so alpha at twice r is a safe default.</span></div>
+      <div class="drow" data-reveal><span class="p">Gradient clip norm</span><span class="v">1.0</span><span class="d">Caps any single update that grows too large, stopping a rare spike from blowing up training.</span></div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Learning rate</span><span class="def">The size of each step the model takes while learning. Too big destabilizes; too small wastes time.</span></div>
+      <div class="row"><span class="term">2e-5</span><span class="def">Shorthand for 0.00002. The "e-5" just means "move the decimal five places left".</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The DeepSeek-R1 milestone</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .emerged { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .em { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 30px; border-top: 5px solid var(--gold); }
+  .em .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .em p { font-size: 20px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>The DeepSeek-R1 breakthrough</p>
+    <h1 data-reveal>Reasoning that <span class="accent">nobody taught it directly</span></h1>
+    <p class="lead" data-reveal>DeepSeek introduced GRPO and then scaled it to their R1 model in 2024 to 2025. The headline result: trained with nothing but a right-or-wrong reward on math and code, the model grew real reasoning habits on its own.</p>
+
+    <div class="emerged">
+      <div class="em" data-reveal>
+        <p class="h">It started to think aloud</p>
+        <p>Long chains of step-by-step working appeared, even though the reward only ever looked at the final answer.</p>
+      </div>
+      <div class="em" data-reveal>
+        <p class="h">It checked itself</p>
+        <p>The model began re-reading its own work and flagging doubtful steps, a habit no instruction asked for.</p>
+      </div>
+      <div class="em" data-reveal>
+        <p class="h">It fixed its mistakes</p>
+        <p>When a path went wrong, it learned to back up and try another, simply because that path scored better.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Why it mattered</span> It showed that a simple, honest reward plus group comparison was enough to bring out reasoning, no hand-written examples of "how to think" required. This is what made GRPO the default for reasoning models.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

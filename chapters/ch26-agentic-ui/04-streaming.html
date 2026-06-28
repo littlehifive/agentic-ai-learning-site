@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Streaming interfaces</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .mock { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px; }
+  .panel .ph { font-size: 18px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 18px; }
+  .blank { height: 232px; display: flex; align-items: center; justify-content: center; color: var(--ink-muted); font-size: 24px; border: 2px dashed var(--border); border-radius: 10px; }
+  .feed { display: flex; flex-direction: column; gap: 12px; }
+  .line { display: flex; align-items: center; gap: 14px; font-size: 21px; color: var(--ink); }
+  .dot { width: 18px; height: 18px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .line.now { font-weight: 700; color: var(--navy); }
+  .caret { display: inline-block; width: 14px; height: 26px; background: var(--gold); border-radius: 2px; margin-left: 2px; vertical-align: middle; }
+  .answer { font-size: 21px; line-height: 1.4; color: var(--ink-secondary); margin: 4px 0 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>26.6 Streaming and real-time patterns</p>
+    <h1 data-reveal>Show the work as it happens, not <span class="accent">all at once at the end</span></h1>
+    <p class="lead" data-reveal>Streaming delivers the answer and the steps piece by piece, the moment they are produced. It turns the experience from <b>wait for a result</b> into <b>watch the agent work</b>, which also makes the same wait feel far shorter.</p>
+
+    <div class="mock">
+      <div class="panel" data-reveal>
+        <p class="ph">Without streaming</p>
+        <div class="blank">Blank screen, then everything appears</div>
+      </div>
+      <div class="panel" data-reveal>
+        <p class="ph">With streaming</p>
+        <div class="feed">
+          <div class="line"><span class="dot"></span>Searched the web for "climate 2024"</div>
+          <div class="line"><span class="dot"></span>Read three sources</div>
+          <div class="line now"><span class="dot"></span>Writing the summary<span class="caret"></span></div>
+          <p class="answer">The latest figures show that emissions...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> watching a chef cook through an open kitchen versus waiting outside a closed door. Either way the meal takes the same time, but you stay calm because you can see it coming together.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Token streaming</span><span class="def">Words appear as they are generated instead of waiting for the whole reply.</span></div>
+      <div class="row"><span class="term">SSE / WebSockets</span><span class="def">The two common plumbing methods for pushing a live stream from server to screen.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

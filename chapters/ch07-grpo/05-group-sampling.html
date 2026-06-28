@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Group sampling</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .grp { margin-top: 28px; display: grid; grid-template-columns: 320px 1fr; gap: 40px; align-items: center; }
+  .prompt-box { background: var(--navy); color: var(--white); border-radius: 12px; padding: 28px 30px; box-shadow: var(--shadow-md); }
+  .prompt-box .lbl { font-size: 16px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin: 0 0 12px; }
+  .prompt-box .q { font-size: 26px; font-weight: 700; line-height: 1.3; margin: 0; }
+  .answers { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .ans { border-radius: 12px; padding: 22px 18px; text-align: center; border: 2px solid var(--border); background: var(--surface); }
+  .ans .a { font-size: 21px; font-weight: 800; color: var(--navy); margin: 0; }
+  .ans .r { font-size: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin: 8px 0 0; }
+  .ans.ok { border-color: var(--gold); }
+  .ans.ok .r { color: var(--gold); }
+  .ans.no .r { color: var(--ink-muted); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>7.2 Sample a group</p>
+    <h1 data-reveal>One question, <span class="accent">many attempts at once</span></h1>
+    <p class="lead" data-reveal>GRPO starts every step by asking the model the same question several times over. Because the model samples a little randomly, the answers differ, giving a small spread of attempts to compare.</p>
+
+    <div class="grp" data-reveal>
+      <div class="prompt-box">
+        <p class="lbl">The prompt</p>
+        <p class="q">What is 17 &#215; 24?</p>
+      </div>
+      <div class="answers">
+        <div class="ans ok"><p class="a">408</p><p class="r">Correct</p></div>
+        <div class="ans no"><p class="a">388</p><p class="r">Wrong</p></div>
+        <div class="ans ok"><p class="a">408</p><p class="r">Correct</p></div>
+        <div class="ans ok"><p class="a">408</p><p class="r">Correct</p></div>
+        <div class="ans no"><p class="a">418</p><p class="r">Wrong</p></div>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> handing the same exam question to five copies of the same student and collecting all five answers, instead of trusting a separate examiner to predict how they would each do.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Group size (G)</span><span class="def">How many answers are sampled per prompt; eight is the common default.</span></div>
+      <div class="row"><span class="term">Why several</span><span class="def">A single answer tells you nothing relative; a spread lets the model see what better and worse look like, side by side.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

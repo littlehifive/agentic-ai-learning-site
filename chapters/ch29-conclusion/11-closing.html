@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Thank you</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  body.dark .slide { justify-content: center; position: relative;
+    background: radial-gradient(120% 120% at 30% 18%, #0B2341, #061A2E 76%); }
+  .topbar { position: absolute; top: 96px; left: 120px; display: flex; align-items: center; gap: 22px; }
+  .topbar .tick { width: 56px; height: 6px; background: var(--gold); border-radius: 3px; }
+  .topbar .wm { font-size: 20px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--white); }
+  .c-eyebrow { color: var(--gold); font-size: 22px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 28px; }
+  .quote { margin: 0; font-size: 64px; font-weight: 800; line-height: 1.12; letter-spacing: -0.02em; color: var(--white); max-width: 1520px; }
+  .quote .accent { color: var(--gold); }
+  .attr { margin: 28px 0 0; font-size: 24px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(220,230,245,0.7); }
+  .thanks { margin: 40px 0 0; font-size: 27px; line-height: 1.5; color: rgba(220,230,245,0.82); max-width: 1320px; }
+  .thanks b { color: var(--white); font-weight: 700; }
+  .foot { position: absolute; bottom: 88px; left: 120px; right: 120px; border-top: 1px solid rgba(255,255,255,0.16); padding-top: 26px; color: rgba(220,230,245,0.7); font-size: 19px; letter-spacing: 0.04em; }
+</style>
+</head>
+<body class="dark">
+  <div class="slide">
+    <div class="topbar" data-reveal><span class="tick"></span><span class="wm">The end</span></div>
+    <p class="c-eyebrow" data-reveal>A closing thought</p>
+    <h1 class="quote" data-reveal="scale">"The best way to predict the future is to <span class="accent">build it</span>."</h1>
+    <p class="attr" data-reveal>Alan Kay</p>
+    <p class="thanks" data-reveal>That is the end of the guide. All credit for the ideas goes to the author, <b>Haggai Roitman</b>. This deck is a simplified companion meant to make the journey easier to follow, not a replacement for the book.</p>
+
+    <div class="continue-row" data-reveal>
+      <a class="nextlink" data-go="home" href="../../index.html" target="_top">Back to all chapters <span class="arw">&#8594;</span></a>
+      <a class="homelink" data-go="ch00/1" href="../../index.html#ch00/1" target="_top">Revisit the Introduction</a>
+    </div>
+
+    <div class="foot" data-reveal>The Hitchhiker's Guide to Agentic AI &#183; Chapter 29 of 29 &#183; from the book by Haggai Roitman</div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Control versus convenience</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .spectrum { margin-top: 34px; }
+  .spec-bar { height: 8px; border-radius: 4px; background: var(--gold); opacity: 0.9; margin: 0 0 8px; }
+  .spec-ends { display: flex; justify-content: space-between; font-size: 19px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 22px; }
+  .spec-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .spec-cell { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 28px; }
+  .spec-cell .pos { font-size: 17px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+  .spec-cell .nm { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .spec-cell .ds { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>25.8 Framework comparison</p>
+    <h1 data-reveal>One spectrum: <span class="accent">control</span> on one end, <span class="accent">convenience</span> on the other</h1>
+    <p class="lead" data-reveal>The frameworks are not rivals so much as points on a line. At one end you spell out every step and keep full control. At the other you describe the team in plain words and let the framework arrange the work. Where you sit is a trade, not a ranking.</p>
+
+    <div class="spectrum" data-reveal>
+      <div class="spec-bar"></div>
+      <div class="spec-ends"><span>More control</span><span>More convenience</span></div>
+      <div class="spec-row">
+        <div class="spec-cell">
+          <p class="pos">Spell it out</p>
+          <p class="nm">LangGraph</p>
+          <p class="ds">You draw the graph. Maximum control and visibility, more wiring to write.</p>
+        </div>
+        <div class="spec-cell">
+          <p class="pos">Converse</p>
+          <p class="nm">AutoGen</p>
+          <p class="ds">You set up agents and let them chat. Flexible for collaboration and live code.</p>
+        </div>
+        <div class="spec-cell">
+          <p class="pos">Describe the team</p>
+          <p class="nm">CrewAI</p>
+          <p class="ds">You name roles and tasks. Least boilerplate, least say over each step.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> web frameworks for agents. A bare toolkit gives you total control but you assemble everything; a batteries-included framework moves fast by deciding things for you. You are trading control for convenience either way.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

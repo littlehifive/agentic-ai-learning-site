@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Security and trust</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .pillars { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .pc { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 28px 28px; }
+  .pc .k { font-size: 17px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .pc .t { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; line-height: 1.18; }
+  .pc .d { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>23.8 Security and trust in multi-agent systems</p>
+    <h1 data-reveal>Delegation only works if you can <span class="accent">trust the chain</span></h1>
+    <p class="lead" data-reveal>When agent A asks B, and B asks C, the trust has to hold all the way down. A2A treats identity, permissions, and a record of who did what as core parts of the protocol, not extras.</p>
+
+    <div class="pillars">
+      <div class="pc" data-reveal>
+        <p class="k">Who is calling</p>
+        <p class="t">Authentication</p>
+        <p class="d">Each agent proves its identity with a signed token or certificate before any work begins, so no impostor can slip in.</p>
+      </div>
+      <div class="pc" data-reveal>
+        <p class="k">What they may ask</p>
+        <p class="t">Authorization</p>
+        <p class="d">Scopes limit each caller to what it is allowed to request. A reporting agent might read data but never be granted write access.</p>
+      </div>
+      <div class="pc" data-reveal>
+        <p class="k">What happened</p>
+        <p class="t">Audit trails</p>
+        <p class="d">Every exchange is logged with the caller, the request, and the outcome, so responsibility stays clear across a chain of handoffs.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a secure office building. A badge proves who you are, the badge only opens certain doors, and a log records every door you went through.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Authentication</span><span class="def">Proving you are who you claim to be.</span></div>
+      <div class="row"><span class="term">Authorization</span><span class="def">Checking whether you are allowed to do the specific thing you asked.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

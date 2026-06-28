@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plan and execute</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 36px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 28px 28px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 27px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .stage .s-d { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 56px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 34px; font-weight: 700; }
+  .loop { margin-top: 24px; display: flex; align-items: center; gap: 18px; }
+  .loop .line { flex: 1; height: 0; border-top: 3px dashed var(--gold); opacity: 0.8; }
+  .loop .lbl { font-size: 19px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>18.5.2 Plan-and-execute</p>
+    <h1 data-reveal>Map the whole route, <span class="accent">then drive it</span></h1>
+    <p class="lead" data-reveal>The ReAct loop decides one step at a time. Plan-and-execute does the opposite: it writes the full list of steps up front, then runs them in order. If a step fails or surprises it, it re-plans from where it is.</p>
+
+    <div class="flow">
+      <div class="stage" data-reveal>
+        <p class="s-n">Phase 1</p><p class="s-t">Plan</p>
+        <p class="s-d">Break the task into an ordered list of subtasks with their dependencies.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Phase 2</p><p class="s-t">Execute</p>
+        <p class="s-d">Run each step in turn, often using a cheaper model for the simple ones.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Phase 3</p><p class="s-t">Re-plan</p>
+        <p class="s-d">If a step fails or the result is unexpected, rebuild the plan from here.</p>
+      </div>
+    </div>
+
+    <div class="loop" data-reveal>
+      <span class="lbl">A surprise on the road?</span>
+      <span class="line"></span>
+      <span class="lbl">Re-plan and keep going</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a road trip with a printed route. You map every turn before leaving, which is efficient. But when a road is closed, you pull over and re-route from your current spot rather than guessing at every corner.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">ReAct vs plan-first</span><span class="def">ReAct adapts step by step; plan-first is cheaper but slower to react to surprises.</span></div>
+      <div class="row"><span class="term">Long-horizon task</span><span class="def">A task with many steps, where planning ahead saves model calls.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

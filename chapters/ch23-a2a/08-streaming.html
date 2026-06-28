@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Streaming partial results</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 34px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo.stream { border-left: 6px solid var(--gold); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>23.2.4 Streaming and long-running tasks</p>
+    <h1 data-reveal>Results can arrive <span class="accent">as the work happens</span></h1>
+    <p class="lead" data-reveal>Some jobs take seconds; others take minutes or hours. A2A handles both, so the caller is never stuck waiting on a frozen connection for a result that comes in pieces.</p>
+
+    <div class="two">
+      <div class="cardo stream" data-reveal>
+        <p class="h">Streaming, for quick partial output</p>
+        <p>The caller opens one live connection and the agent sends partial results as they are produced. A report streams section by section, so a reviewer can start reading the opening while the ending is still being written. On a 10-page draft, that overlap can cut total time by roughly 40 to 60 percent.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Push notifications, for the long haul</p>
+        <p>When a job may run for minutes or hours, holding a connection open is impractical. Instead the caller registers a webhook address, and the agent posts each status update there as the task progresses. The caller is free to do other work in the meantime.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a chef sending out dishes as each course is ready, rather than making you wait for the entire meal to plate at once. The food you can eat now does not wait on the food that is still cooking.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Streaming</span><span class="def">Sending output bit by bit while it is being made, instead of all at the end.</span></div>
+      <div class="row"><span class="term">Webhook</span><span class="def">An address the agent calls back to whenever there is news, so you do not have to keep asking.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

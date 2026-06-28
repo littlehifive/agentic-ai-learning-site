@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Failure modes and fixes</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1680px; }
+  .lead { font-size: 25px; margin-top: 4px; }
+  .rows { margin-top: 24px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .frow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 26px; align-items: center;
+    padding: 13px 26px; background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; }
+  .frow .s { font-size: 21px; font-weight: 800; color: var(--navy); line-height: 1.3; }
+  .frow .c { font-size: 20px; color: var(--ink-secondary); line-height: 1.3; }
+  .frow .f { font-size: 20px; color: var(--ink); line-height: 1.3; }
+  .frow .f b { color: var(--navy); font-weight: 700; }
+  .head-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 26px; margin-top: 20px; padding: 0 26px 4px;
+    font-size: 16px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); }
+  .rows { margin-top: 12px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>28.12, 28.21 &#183; When things go wrong</p>
+    <h1 data-reveal>Common failure modes and <span class="accent">first fixes</span></h1>
+    <p class="lead" data-reveal>Match the symptom you see to its usual cause, then try the fix on the right.</p>
+
+    <div class="head-row" data-reveal><span>Symptom</span><span>Likely cause</span><span>First fix to try</span></div>
+    <div class="rows">
+      <div class="frow" data-reveal><span class="s">Reward up, quality down</span><span class="c">The model gaming the score</span><span class="f">Add a length penalty, raise the conservatism setting.</span></div>
+      <div class="frow" data-reveal><span class="s">Training loss becomes NaN</span><span class="c">Gradients exploded</span><span class="f">Lower the learning rate, tighten gradient clipping, check the data.</span></div>
+      <div class="frow" data-reveal><span class="s">Out of memory while generating</span><span class="c">The KV cache overflowed</span><span class="f">Smaller batch, more parallelism, paged attention.</span></div>
+      <div class="frow" data-reveal><span class="s">Agent loops forever</span><span class="c">No stop condition</span><span class="f">Set a max-iterations cap, add loop detection.</span></div>
+      <div class="frow" data-reveal><span class="s">Tool calls fail to parse</span><span class="c">Inconsistent output format</span><span class="f">Few-shot examples, constrained decoding.</span></div>
+      <div class="frow" data-reveal><span class="s">RAG returns irrelevant docs</span><span class="c">Poor embeddings or chunking</span><span class="f">Add a reranker, hybrid search, smaller chunks.</span></div>
+      <div class="frow" data-reveal><span class="s">Prompt injection in tool output</span><span class="c">Trusting retrieved text</span><span class="f">Treat tool output as untrusted; ignore instructions inside docs.</span></div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">NaN</span><span class="def">"Not a number": a math result blew up to infinity, usually meaning training has broken.</span></div>
+      <div class="row"><span class="term">Prompt injection</span><span class="def">Hidden instructions slipped into text the agent reads, trying to hijack its behavior.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

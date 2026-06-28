@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>When DPO struggles</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .three { margin-top: 32px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 32px; border-top: 5px solid var(--gold); }
+  .cardo .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo p { font-size: 20px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>6.6 When DPO fails</p>
+    <h1 data-reveal>The simplicity has a <span class="accent">price</span></h1>
+    <p class="lead" data-reveal>Because DPO learns from a fixed set of pairs rather than from the model's own fresh answers, its weaknesses all trace back to that dataset. Three show up most often in practice.</p>
+
+    <div class="three">
+      <div class="cardo" data-reveal>
+        <p class="h">Noisy labels stick</p>
+        <p>If some pairs are mislabelled, DPO memorizes the mistakes. PPO averages over many live samples and shrugs off noise more easily.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">No exploration</p>
+        <p>DPO can only learn from behaviours already in the data. It cannot discover a better answer that no pair ever showed it.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">The data goes stale</p>
+        <p>As the model changes, pairs collected from an older version describe answers it no longer gives, so training drifts onto less relevant examples.</p>
+      </div>
+    </div>
+
+    <div class="footnote" data-reveal>
+      <span class="mark"></span>
+      <span>The fix in every case is the same: invest in clean, diverse preference pairs, and refresh them as the model evolves. With good data, DPO is hard to beat for the effort.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

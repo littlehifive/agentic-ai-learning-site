@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Standard benchmarks</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1660px; }
+  .suite { margin-top: 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .sc { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px; }
+  .sc .name { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 6px; }
+  .sc .tag { font-size: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin: 0 0 14px; }
+  .sc p { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>14.1.2 Standard Benchmark Suites</p>
+    <h1 data-reveal>A few public tests act as <span class="accent">shared yardsticks</span></h1>
+    <p class="lead" data-reveal>No single test covers everything, so teams report a panel of standard suites. Each one probes a different ability, and together they give a rounded, comparable picture across models. <b>The trick is to read them as a set, not one headline number.</b></p>
+
+    <div class="suite">
+      <div class="sc" data-reveal>
+        <p class="name">MMLU</p>
+        <p class="tag">Broad knowledge</p>
+        <p>Multiple-choice questions across dozens of subjects, from history to medicine. Tests general world knowledge.</p>
+      </div>
+      <div class="sc" data-reveal>
+        <p class="name">HellaSwag</p>
+        <p class="tag">Common sense</p>
+        <p>Pick the sensible ending to an everyday situation. Tests whether the model has plain common sense.</p>
+      </div>
+      <div class="sc" data-reveal>
+        <p class="name">HumanEval</p>
+        <p class="tag">Coding</p>
+        <p>Write a function that passes hidden tests. Scored with pass@k, so correctness is run, not guessed.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a decathlon. You do not crown the champion on the sprint alone. You look across all the events, because strength in one says little about the rest.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Why a panel</span><span class="def">Different suites test different skills, so a spread of scores is more honest than any one.</span></div>
+      <div class="row"><span class="term">Read with care</span><span class="def">A maxed-out suite may just be saturated, and contamination can quietly inflate any of them.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

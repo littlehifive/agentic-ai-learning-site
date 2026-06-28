@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sequence packing</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .packrows { margin-top: 26px; display: flex; flex-direction: column; gap: 16px; }
+  .prow { display: grid; grid-template-columns: 130px 1fr; gap: 22px; align-items: center; }
+  .prow .lbl { font-size: 19px; font-weight: 800; color: var(--navy); text-align: right; }
+  .track { display: flex; height: 38px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+  .seg { height: 100%; }
+  .seg.ex1 { background: var(--navy); }
+  .seg.ex2 { background: #4A6FA5; }
+  .seg.ex3 { background: var(--gold); }
+  .seg.pad { background: var(--surface-subtle); border-left: 1px dashed var(--border); }
+  .legend { margin-top: 18px; display: flex; gap: 28px; flex-wrap: wrap; font-size: 18px; color: var(--ink-secondary); }
+  .legend span { display: inline-flex; align-items: center; gap: 9px; }
+  .sw { width: 18px; height: 14px; border-radius: 3px; border: 1px solid var(--border); }
+  .sw.ex { background: var(--navy); } .sw.pd { background: var(--surface-subtle); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>10.1 Sequence packing for efficiency</p>
+    <h1 data-reveal>Pack short examples together so no <span class="accent">compute is wasted</span></h1>
+    <p class="lead" data-reveal>The model trains in fixed-width batches. Short examples normally get padded with filler to fill the width, and that filler can burn 50 to 80 percent of the work. Packing instead lines up several short examples back to back in one slot, with a divider so they do not bleed into each other.</p>
+
+    <div class="packrows" data-reveal>
+      <div class="prow"><span class="lbl">Padded</span>
+        <div class="track"><span class="seg ex1" style="width:26%"></span><span class="seg pad" style="width:74%"></span></div></div>
+      <div class="prow"><span class="lbl">Packed</span>
+        <div class="track"><span class="seg ex1" style="width:26%"></span><span class="seg ex2" style="width:30%"></span><span class="seg ex3" style="width:38%"></span><span class="seg pad" style="width:6%"></span></div></div>
+    </div>
+    <div class="legend" data-reveal>
+      <span><span class="sw ex"></span>real examples, useful work</span>
+      <span><span class="sw pd"></span>padding, wasted work</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a moving truck. Shipping one small box per trip wastes the truck; packing several boxes into each load fills the same space and finishes in far fewer trips.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Padding</span><span class="def">Filler tokens added to make every example the same width; the model does no useful learning on them.</span></div>
+      <div class="row"><span class="term">Packing payoff</span><span class="def">Two to four times faster on datasets with mixed lengths, with the same result.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

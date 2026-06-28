@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tools and their descriptions</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .card { margin-top: 26px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 38px; }
+  .card .ch { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .field { display: grid; grid-template-columns: 200px 1fr; gap: 22px; padding: 12px 0; align-items: baseline; }
+  .field + .field { border-top: 1px solid var(--border); }
+  .field .fn { font-size: 21px; font-weight: 800; color: var(--gold); font-family: "SF Mono", Menlo, monospace; }
+  .field .fd { font-size: 21px; line-height: 1.4; color: var(--ink-secondary); }
+  .field .fd b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>21.5 Tool definition and discovery</p>
+    <h1 data-reveal>A tool is mostly a <span class="accent">clear description</span></h1>
+    <p class="lead" data-reveal>Tools are the heart of MCP. Each one is a short, structured definition. The model never sees the tool's code; it chooses a tool almost entirely from the name and the description, so vague wording leads to the wrong call or none at all.</p>
+
+    <div class="card" data-reveal>
+      <p class="ch">What every tool definition contains</p>
+      <div class="field"><span class="fn">name</span><span class="fd">A unique label, such as <b>search_codebase</b>, the model uses to refer to it.</span></div>
+      <div class="field"><span class="fn">description</span><span class="fd">Plain language saying <b>what it does, when to use it,</b> and what it returns. This is what guides the model's choice.</span></div>
+      <div class="field"><span class="fn">inputSchema</span><span class="fd">The list of expected parameters and their types, so the model knows how to fill in the call.</span></div>
+      <div class="field"><span class="fn">annotations</span><span class="fd">Optional safety hints, such as whether the tool only reads data or makes <b>irreversible</b> changes.</span></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> labeling switches on a panel. "Search files by content" is a switch the model can confidently flip; "Search" leaves it guessing. The clearer the label, the fewer the mistakes.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Discovery</span><span class="def">When a host connects, it asks the server for its current list of tools.</span></div>
+      <div class="row"><span class="term">Annotation hint</span><span class="def">A flag like "destructive" tells the host to ask the user before running the tool.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

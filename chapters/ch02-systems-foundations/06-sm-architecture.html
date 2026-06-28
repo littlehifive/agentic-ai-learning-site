@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Streaming Multiprocessor</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .body { margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .sm-diagram { background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 14px; padding: 26px; }
+  .sm-chip { border: 2px solid var(--navy); border-radius: 12px; padding: 20px; background: var(--surface); }
+  .sm-chip .chip-lbl { font-size: 17px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--navy); margin: 0 0 16px; }
+  .sm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .unit { border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .unit .u-n { font-size: 20px; font-weight: 800; color: var(--navy); margin: 0; }
+  .unit .u-d { font-size: 15px; color: var(--ink-muted); margin: 4px 0 0; }
+  .unit.gold { border-color: var(--gold); border-width: 2px; }
+  .unit.gold .u-n { color: var(--ink); }
+  .scale { text-align: center; margin-top: 16px; font-size: 18px; color: var(--ink-secondary); }
+  .scale b { color: var(--gold); font-weight: 800; }
+  .copy .lead { margin-top: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>2.1.4 GPU Internal Architecture: The Streaming Multiprocessor</p>
+    <h1 data-reveal>A GPU is a grid of small <span class="accent">work cells</span></h1>
+
+    <div class="body">
+      <div class="sm-diagram" data-reveal>
+        <div class="sm-chip">
+          <p class="chip-lbl">One work cell (an "SM")</p>
+          <div class="sm-grid">
+            <div class="unit"><p class="u-n">CUDA cores</p><p class="u-d">64 units for everyday math</p></div>
+            <div class="unit gold"><p class="u-n">Tensor cores</p><p class="u-d">4 units, 16x faster at grid math</p></div>
+            <div class="unit"><p class="u-n">Registers</p><p class="u-d">Tiny, instant scratch space</p></div>
+            <div class="unit"><p class="u-n">Shared memory</p><p class="u-d">A small fast notepad</p></div>
+          </div>
+        </div>
+        <p class="scale">One A100 chip packs <b>108</b> of these cells</p>
+      </div>
+
+      <div class="copy">
+        <p class="lead" data-reveal>A GPU is not one big processor. It is built from many small, identical work cells, each a complete mini-processor with its own math units and scratch space. Inside each cell sit <b>tensor cores</b>: special units that multiply small grids of numbers in one step, about 16 times faster than ordinary math. Stack a hundred of these cells together and you get the raw power a model needs.</p>
+
+        <div class="analogy" data-reveal>
+          <span class="mark"></span>
+          <span><span class="lbl">Think of it like</span> a kitchen with 108 identical cook stations. Each has its own counter and tools, and a special pasta machine (the tensor core) that turns out grids of pasta far faster than chopping by hand.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">SM (work cell)</span><span class="def">A self-contained mini-processor on the GPU; an A100 has 108 of them.</span></div>
+      <div class="row"><span class="term">Tensor core</span><span class="def">A unit built only for multiplying small grids of numbers, the model's most common operation.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

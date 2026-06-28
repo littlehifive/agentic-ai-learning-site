@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Marketplace coordination</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .lead { font-size: 25px; }
+  .build { margin-top: 18px; }
+  .bc-step { padding: 9px 22px; }
+  .bc-step + .bc-step { margin-top: 4px; }
+  .bc-step .bc-h { margin: 0; font-size: 24px; }
+  .bc-step .bc-d { font-size: 19px; margin-top: 2px; }
+  .analogy { margin-top: 18px; font-size: 22px; }
+  .plain .row { padding: 7px 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>24.3.5 Market-based coordination</p>
+    <h1 data-reveal>Agents <span class="accent">bid</span> for the work they are best at</h1>
+    <p class="lead" data-reveal>Instead of a manager assigning every job, the work is auctioned. A task is announced, agents that can do it submit bids saying how well and how cheaply they could, and the best bid wins. This is the Contract Net Protocol, one of the oldest coordination ideas in the field, now run with language-model agents.</p>
+
+    <div class="build" data-reveal>
+      <div class="bc-step is-current"><span class="bc-i">1</span><div><p class="bc-h">Announce</p><p class="bc-d">A manager broadcasts a task with its requirements to all agents.</p></div></div>
+      <div class="bc-step"><span class="bc-i">2</span><div><p class="bc-h">Bid</p><p class="bc-d">Agents reply with what they can do and an estimated cost, for example "I can finish this in three steps with high confidence."</p></div></div>
+      <div class="bc-step"><span class="bc-i">3</span><div><p class="bc-h">Award</p><p class="bc-d">The manager hands the contract to the best bidder.</p></div></div>
+      <div class="bc-step"><span class="bc-i">4</span><div><p class="bc-h">Deliver</p><p class="bc-d">The winner does the work and reports back the result.</p></div></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a contractor putting a job out to tender. Builders bid on price and ability; the cheapest capable bid wins. Useful when budget is tight, because the market steers work toward the agent that can do it for the least.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Bid</span><span class="def">An agent's offer: what it can do, how well, and at what cost.</span></div>
+      <div class="row"><span class="term">Contract Net</span><span class="def">Announce, bid, award, deliver; a task auction among agents.</span></div>
+      <div class="row"><span class="term">Best for</span><span class="def">Cost-conscious settings where you want work routed to the cheapest capable agent.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

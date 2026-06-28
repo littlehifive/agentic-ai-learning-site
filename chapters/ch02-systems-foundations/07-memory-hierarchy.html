@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The memory hierarchy</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .body { margin-top: 24px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 52px; align-items: start; }
+  .ladder { display: flex; flex-direction: column; gap: 12px; }
+  .mrow { display: grid; grid-template-columns: 230px 1fr; align-items: center; gap: 18px; }
+  .mbar { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 18px; box-shadow: var(--shadow-md); }
+  .mbar .mn { font-size: 21px; font-weight: 800; color: var(--navy); margin: 0; }
+  .mbar .mc { font-size: 16px; color: var(--ink-muted); margin: 2px 0 0; }
+  .speed { display: flex; align-items: center; }
+  .speed .track { height: 26px; border-radius: 6px; background: var(--gold); }
+  .speed .lab { margin-left: 12px; font-size: 17px; font-weight: 700; color: var(--ink-secondary); white-space: nowrap; }
+  .copy .lead { margin-top: 0; }
+  .speed-key { margin-top: 16px; font-size: 16px; color: var(--ink-muted); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>2.1.6 GPU Memory Hierarchy and Bandwidth</p>
+    <h1 data-reveal>Memory comes in layers: <span class="accent">tiny and fast, or huge and slow</span></h1>
+
+    <div class="body">
+      <div class="ladder" data-reveal>
+        <div class="mrow">
+          <div class="mbar"><p class="mn">Registers</p><p class="mc">~256 KB &#183; instant</p></div>
+          <div class="speed"><span class="track" style="width: 100%;"></span><span class="lab">fastest</span></div>
+        </div>
+        <div class="mrow">
+          <div class="mbar"><p class="mn">Shared memory</p><p class="mc">~164 KB &#183; on-chip notepad</p></div>
+          <div class="speed"><span class="track" style="width: 70%;"></span><span class="lab">~10x slower</span></div>
+        </div>
+        <div class="mrow">
+          <div class="mbar"><p class="mn">L2 cache</p><p class="mc">40 MB &#183; shared staging</p></div>
+          <div class="speed"><span class="track" style="width: 42%;"></span><span class="lab">~5 TB/s</span></div>
+        </div>
+        <div class="mrow">
+          <div class="mbar"><p class="mn">HBM (main memory)</p><p class="mc">80 GB &#183; where the model lives</p></div>
+          <div class="speed"><span class="track" style="width: 22%;"></span><span class="lab">2 TB/s</span></div>
+        </div>
+        <p class="speed-key">Bar length shows relative speed. Each step down is roughly 10x slower but 100 to 1000x larger.</p>
+      </div>
+
+      <div class="copy">
+        <p class="lead" data-reveal>A GPU does not have one kind of memory. It has a ladder. At the top sit tiny stores that the math units can read instantly. At the bottom sits the big main memory (<b>HBM</b>) that holds the whole model but is far slower to reach. The model only ever lives in the big slow store, so every calculation means hauling numbers up the ladder.</p>
+
+        <div class="analogy" data-reveal>
+          <span class="mark"></span>
+          <span><span class="lbl">Think of it like</span> cooking. Ingredients in your hand are instant, the counter is close, the fridge is a few steps, and the grocery store across town holds everything but takes ages. You win by keeping what you need close.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">HBM</span><span class="def">The GPU's large main memory; roomy enough for the model, but the slowest to read.</span></div>
+      <div class="row"><span class="term">Shared memory (SRAM)</span><span class="def">A small on-chip notepad that the math units reach almost instantly.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

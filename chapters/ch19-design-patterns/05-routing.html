@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Routing</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .route { margin-top: 30px; display: grid; grid-template-columns: 300px 70px 1fr; align-items: center; gap: 0; }
+  .classifier { background: var(--navy); color: var(--white); border-radius: 12px; padding: 28px 30px; box-shadow: var(--shadow-md); }
+  .classifier .ct { font-size: 25px; font-weight: 800; margin: 0 0 8px; }
+  .classifier .cd { font-size: 19px; line-height: 1.38; color: rgba(255,255,255,0.82); margin: 0; }
+  .fan { display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 34px; font-weight: 700; }
+  .handlers { display: flex; flex-direction: column; gap: 16px; }
+  .hcard { background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; padding: 18px 24px; display: flex; align-items: baseline; gap: 18px; }
+  .hcard .ht { font-size: 23px; font-weight: 800; color: var(--navy); flex: 0 0 280px; }
+  .hcard .hd { font-size: 20px; color: var(--ink-secondary); line-height: 1.35; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>19.1.2 Workflow patterns: routing</p>
+    <h1 data-reveal>Classify the request, then send it to the <span class="accent">right handler</span></h1>
+    <p class="lead" data-reveal>One classifier looks at the input once and decides what kind of request it is. It then dispatches the work to a specialist tuned for exactly that type, each with its own prompt, tools, or model.</p>
+
+    <div class="route" data-reveal>
+      <div class="classifier">
+        <p class="ct">Classifier</p>
+        <p class="cd">Reads the input once and labels its type.</p>
+      </div>
+      <div class="fan">&#8594;</div>
+      <div class="handlers">
+        <div class="hcard"><span class="ht">Billing question</span><span class="hd">Account and payments specialist.</span></div>
+        <div class="hcard"><span class="ht">Technical issue</span><span class="hd">Troubleshooting specialist with tools.</span></div>
+        <div class="hcard"><span class="ht">General query</span><span class="hd">Fast, low-cost default handler.</span></div>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a front desk that triages arrivals. One person asks a quick question, then points you to the right department instead of trying to solve everything at the desk.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Classifier</span><span class="def">A model or simpler rule that puts each request into a category.</span></div>
+      <div class="row"><span class="term">Best for</span><span class="def">Distinct task types that each deserve a different prompt or model: support triage.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

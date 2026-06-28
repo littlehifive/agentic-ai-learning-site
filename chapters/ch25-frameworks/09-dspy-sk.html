@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>DSPy and Semantic Kernel</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .two { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 34px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo p { font-size: 21px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>25.3.5 DSPy &#183; 25.3.6 Semantic Kernel</p>
+    <h1 data-reveal>Two more, for <span class="accent">special needs</span></h1>
+    <p class="lead" data-reveal>Beyond the mainstream choices, two frameworks solve narrower problems well. One stops you hand-tuning prompts; the other fits agents into an existing enterprise software stack.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">DSPy: stop tuning prompts by hand</p>
+        <p>You declare what each step should take in and give back, then provide a scoring metric and some examples. DSPy searches for the wording and examples that score best. It shines when you have a clear measure of success and enough data, and when you want to swap models without rewriting prompts.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Semantic Kernel: fit into the enterprise</p>
+        <p>Microsoft's enterprise-focused kit exposes your existing business logic as functions the agent can call, with strong support for the Microsoft and Azure stack, audit logging, and on-premises models. The natural pick when the agent must live inside established corporate software.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> specialist tools in a workshop. DSPy is a self-adjusting jig that finds the best setting for you; Semantic Kernel is the fitting that bolts cleanly onto machinery you already own.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

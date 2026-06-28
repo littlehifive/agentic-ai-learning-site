@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trajectory-level RL</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>12.8 State-of-the-art RL for LLM agents</p>
+    <h1 data-reveal>Reward the whole episode, not a single <span class="accent">token</span></h1>
+    <p class="lead" data-reveal>Standard alignment grades one response: good prompt in, good answer out. Agentic RL grades the entire trajectory at once. The model plays out a full attempt, the environment says whether the task succeeded, and that single verdict is the reward used to nudge the whole sequence of decisions.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> judging a chess game by the final result. You do not score each move as it happens. You play to the end, see who won, and only then work backward to figure out which moves deserve the credit.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Trajectory-level reward</span><span class="def">One score for the entire multi-step attempt, given at the end.</span></div>
+      <div class="row"><span class="term">Verifiable reward</span><span class="def">A reward that comes from real execution, like a test suite passing, so it cannot be faked or argued with.</span></div>
+      <div class="row"><span class="term">GRPO</span><span class="def">The common recipe: run several full attempts at the same task, then reward each one relative to the group's average.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

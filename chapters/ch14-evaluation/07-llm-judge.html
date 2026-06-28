@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LLM as judge</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1660px; }
+  .flow { margin-top: 28px; display: flex; align-items: stretch; gap: 16px; }
+  .step { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 26px; }
+  .step .lbl { font-size: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 10px; }
+  .step .t { font-size: 22px; font-weight: 800; color: var(--navy); margin: 0 0 8px; line-height: 1.2; }
+  .step p { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { display: flex; align-items: center; color: var(--gold); font-size: 34px; font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>14.7 LLM-as-Judge</p>
+    <h1 data-reveal>Use a strong model to <span class="accent">grade other models</span></h1>
+    <p class="lead" data-reveal>Human grading is slow and expensive. So hand the question, the answers, and a clear rubric to a capable model and let it score or pick a winner. <b>It scales to huge test sets and can explain its reasoning.</b></p>
+
+    <div class="flow">
+      <div class="step" data-reveal>
+        <p class="lbl">Input</p>
+        <p class="t">Question plus answers</p>
+        <p>Give the judge the prompt and one or two responses to assess.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="step" data-reveal>
+        <p class="lbl">Rubric</p>
+        <p class="t">Clear criteria</p>
+        <p>Spell out what good looks like: accuracy, helpfulness, clarity.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="step" data-reveal>
+        <p class="lbl">Output</p>
+        <p class="t">Score and reasons</p>
+        <p>A rating or a verdict, with a written rationale you can audit.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a teaching assistant grading a stack of essays against a rubric. Fast and consistent, and right most of the time, but you still spot-check the grades because the assistant has habits of its own.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Pointwise</span><span class="def">Score one answer on its own, say 1 to 10.</span></div>
+      <div class="row"><span class="term">Pairwise</span><span class="def">Show two answers and pick the better one, or call it a tie.</span></div>
+      <div class="row"><span class="term">Validate it</span><span class="def">A judge is trusted when it agrees with humans on a held-out sample more than eight times in ten.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

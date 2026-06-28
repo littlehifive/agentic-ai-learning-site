@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CrewAI</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>25.3.3 CrewAI</p>
+    <h1 data-reveal>Staff a <span class="accent">small team</span> and give each one a job</h1>
+    <p class="lead" data-reveal>CrewAI borrows the language of an org chart. You define each agent by a role, a goal, and a short backstory, then hand the crew a list of tasks. The model already understands how a researcher hands off to a writer, so describing the team in human terms is often enough to get useful collaboration with very little code.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> hiring a small agency. You write a job description and a brief for each person, line up the tasks, and let the team pass work down the line. You manage roles, not plumbing.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Agent</span><span class="def">A worker defined by a role, a goal, a backstory, and its tools.</span></div>
+      <div class="row"><span class="term">Task</span><span class="def">A specific assignment with a description and an expected output, given to one agent.</span></div>
+      <div class="row"><span class="term">Process</span><span class="def">How the crew runs: sequential (in order) or hierarchical (a manager delegates).</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

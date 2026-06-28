@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Actor-critic methods</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .acrow { margin-top: 28px; display: flex; align-items: stretch; gap: 24px; }
+  .accard { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 32px; }
+  .accard .ach { font-size: 18px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+  .accard .act { font-size: 30px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .accard .acd { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .aclink { flex: 0 0 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .aclink .ar { color: var(--gold); font-size: 34px; line-height: 1; font-weight: 700; }
+  .aclink .lb { font-size: 15px; color: var(--ink-muted); text-align: center; margin-top: 8px; line-height: 1.25; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>3.7 Actor-critic methods</p>
+    <h1 data-reveal>Two roles: one acts, <span class="accent">one keeps score</span></h1>
+    <p class="lead" data-reveal>REINFORCE waits for a full run before it knows how good a move was, which makes its feedback jumpy. Actor-critic adds a second network, the critic, that learns to judge each move on the spot. The actor still chooses; the critic supplies a steady, low-noise verdict to learn from.</p>
+
+    <div class="acrow">
+      <div class="accard" data-reveal>
+        <p class="ach">The actor</p>
+        <p class="act">Picks the action</p>
+        <p class="acd">The policy. Proposes what to do, and gets tuned toward moves the critic rates above average.</p>
+      </div>
+      <div class="aclink" data-reveal>
+        <span class="ar">&#8644;</span>
+        <span class="lb">act, then judge</span>
+      </div>
+      <div class="accard" data-reveal>
+        <p class="ach">The critic</p>
+        <p class="act">Rates the action</p>
+        <p class="acd">A learned value function. Estimates how good a move was without waiting for the episode to finish, using the TD error.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a singer and a vocal coach. The singer performs, the coach gives instant feedback after each phrase rather than waiting for the concert to end, and the singer adjusts the very next line. Faster, calmer learning than waiting for the final applause.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Advantage signal</span><span class="def">The critic tells the actor not just "good or bad" but "how much better than average", which is exactly what makes the update efficient.</span></div>
+      <div class="row"><span class="term">Lower variance</span><span class="def">Per-step critic feedback is far less noisy than one reward at the end, so training is steadier. PPO, used to align LLMs, is an actor-critic method.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

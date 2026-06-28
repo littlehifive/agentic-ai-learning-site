@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz, agentic core</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Agentic core: RAG, memory, harness &#183; click a card to reveal</p>
+    <h1 data-reveal>What makes an agent <span class="accent">work</span></h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">How does agentic RAG differ from standard RAG?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Standard RAG is a fixed pipeline: query, retrieve, generate. Agentic RAG treats retrieval as an action: the agent decides whether to retrieve, plans sub-queries, grades the results, and retrieves again if they fall short. More accurate on hard queries, but slower due to extra model calls.</p>
+          <p class="qa-review">Review: Chapters 15, 17</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What are the four types of agentic memory?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Working memory is the current scratchpad in context. Episodic memory stores past experiences, retrieved by similarity. Semantic memory holds facts, retrieved by concept. Procedural memory holds learned skills, triggered by task type. They interact: episodes feed facts, and working memory orchestrates the rest.</p>
+          <p class="qa-review">Review: Chapter 16</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is the context budget problem?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">System prompt, memory, tool descriptions, history, and reserved response space must all fit one window. As conversations grow, history crowds out the rest. Solve it by summarizing old turns, loading only relevant tools, fetching memory on demand, and counting tokens before every call.</p>
+          <p class="qa-review">Review: Chapter 17</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

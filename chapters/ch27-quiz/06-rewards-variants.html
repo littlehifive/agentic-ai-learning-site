@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz, reward models and variants</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Reward models and RL variants &#183; click a card to reveal</p>
+    <h1 data-reveal>Shaping and <span class="accent">guarding</span> the reward</h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is reward hacking, and how do you defend against it?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">The policy scores high on the reward model while real quality drops, often by getting longer or repetitive. Defend in layers: a KL penalty to stay near the reference, an ensemble of reward models, a length penalty, periodic reward-model refresh, and early stopping on win-rate rather than the score.</p>
+          <p class="qa-review">Review: Chapters 9, 11</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Process reward model versus outcome reward model?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">An outcome model scores only the final answer. A process model scores each reasoning step, so it pinpoints where a derivation goes wrong and resists getting a high score from wrong steps plus a lucky answer. Process models give better credit assignment but are harder to label and train.</p>
+          <p class="qa-review">Review: Chapters 9, 13</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Why is SimPO reference-free, and why does that help?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">SimPO uses the average log-probability of a response as an implicit reward, so it needs no reference model. That saves the memory of a second copy, removes the stale-reference problem, and builds in length normalization. The trade-off is less anchoring, so it can be less stable than DPO.</p>
+          <p class="qa-review">Review: Chapter 8</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

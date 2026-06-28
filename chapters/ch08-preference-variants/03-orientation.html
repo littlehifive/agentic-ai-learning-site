@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A map of the variants</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .parts-list { margin-top: 28px; gap: 12px; }
+  .pl-row { grid-template-columns: 230px 1fr; padding: 14px 24px; }
+  .pl-row .pl-n { font-size: 23px; }
+  .pl-row .pl-d { font-size: 20px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Chapter 8 &#183; Orientation</p>
+    <h1 data-reveal>Five fixes, one shared <span class="accent">starting point</span></h1>
+    <p class="lead" data-reveal>Read this as a menu, not a ladder. Each row names the one limitation of standard DPO that the variant is built to remove. You pick by which limitation is hurting you.</p>
+
+    <div class="parts-list">
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">Online DPO</span>
+        <div><div class="pl-n">Fixes drift</div><p class="pl-d">DPO trains on stale pairs made by another model. Online DPO makes fresh pairs from the model as it learns.</p></div>
+      </div>
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">KTO</span>
+        <div><div class="pl-n">Fixes the data shape</div><p class="pl-d">DPO needs matched good-and-bad pairs. KTO learns from plain thumbs-up or thumbs-down on single answers.</p></div>
+      </div>
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">IPO</span>
+        <div><div class="pl-n">Fixes overfitting</div><p class="pl-d">DPO can keep pushing forever and memorize noisy labels. IPO aims for a fixed, sensible gap and stops.</p></div>
+      </div>
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">ORPO &#183; SimPO</span>
+        <div><div class="pl-n">Fix the extra model</div><p class="pl-d">DPO keeps a second reference model in memory. Both of these drop it, so you train with one model.</p></div>
+      </div>
+      <div class="pl-row" data-reveal>
+        <span class="pl-p">Best-of-N</span>
+        <div><div class="pl-n">Fixes the complexity</div><p class="pl-d">No alignment training at all. Generate several answers and keep the best one a scorer picks.</p></div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

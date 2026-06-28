@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Agent Harness, cover</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<style>
+  body.dark .slide { justify-content: center; position: relative;
+    background: radial-gradient(120% 120% at 28% 18%, #0B2341, #061A2E 76%); }
+  .topbar { position: absolute; top: 96px; left: 120px; }
+  .cov-eyebrow { color: var(--gold); font-size: 24px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin: 0 0 30px; }
+  .cov-title { font-size: 84px; font-weight: 800; line-height: 1.06; letter-spacing: -0.02em; color: var(--white); margin: 0; max-width: 1580px; }
+  .cov-title .accent { color: var(--gold); }
+  .cov-sub { margin: 42px 0 0; font-size: 31px; line-height: 1.5; color: rgba(220,230,245,0.82); max-width: 1340px; }
+  .cov-foot { position: absolute; bottom: 88px; left: 120px; right: 120px; display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.16); padding-top: 26px; color: rgba(220,230,245,0.7); font-size: 20px; letter-spacing: 0.04em; }
+</style>
+</head>
+<body class="dark">
+  <div class="slide">
+    <div class="topbar" data-reveal><div class="wordmark">Part IV &#183; Building Agents</div></div>
+    <p class="cov-eyebrow" data-reveal>Chapter 18</p>
+    <h1 class="cov-title" data-reveal>Agent Harness: Context Management and <span class="accent">Orchestration</span></h1>
+    <p class="cov-sub" data-reveal>The runtime that wraps a language model and turns it into a working agent: managing memory, dispatching tools, tracking state, and recovering from errors.</p>
+    <div class="cov-foot" data-reveal>
+      <span>The operating system for an agent</span>
+      <span>From the book by Haggai Roitman</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

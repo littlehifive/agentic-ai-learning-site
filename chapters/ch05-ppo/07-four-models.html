@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The four models PPO juggles</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .grid4 { margin-top: 28px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .mcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 26px 28px; display: flex; flex-direction: column; }
+  .mcard .role { font-size: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+  .mcard .h { font-size: 23px; font-weight: 800; color: var(--navy); margin: 0 0 12px; line-height: 1.15; }
+  .mcard p { font-size: 19px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+  .mcard .tag { margin-top: auto; padding-top: 14px; font-size: 16px; font-weight: 700; color: var(--ink-muted); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>5.7 The moving parts: networks in play</p>
+    <h1 data-reveal>PPO keeps <span class="accent">four models</span> working together</h1>
+    <p class="lead" data-reveal>This is what makes PPO heavy to run. At training time, four separate models are in memory at once, each with a single job. Only one of them actually changes.</p>
+
+    <div class="grid4">
+      <div class="mcard" data-reveal>
+        <p class="role">Learns</p>
+        <p class="h">Policy</p>
+        <p>The model being trained. It writes the answers and is the only one whose weights are updated.</p>
+        <p class="tag">Updated every step</p>
+      </div>
+      <div class="mcard" data-reveal>
+        <p class="role">Anchor</p>
+        <p class="h">Reference</p>
+        <p>A frozen copy of where the model started. It marks home base so the policy does not drift unrecognisably far.</p>
+        <p class="tag">Frozen</p>
+      </div>
+      <div class="mcard" data-reveal>
+        <p class="role">Judges</p>
+        <p class="h">Reward model</p>
+        <p>A separate scorer that rates each finished answer. It stands in for human taste about what is good.</p>
+        <p class="tag">Frozen</p>
+      </div>
+      <div class="mcard" data-reveal>
+        <p class="role">Predicts</p>
+        <p class="h">Value model, the critic</p>
+        <p>Guesses how well things will go from each point, providing the bar that the advantage is measured against.</p>
+        <p class="tag">Updated alongside</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a player coached during a match: the player improves, a recording of their old form keeps them recognisable, a judge scores each play, and a commentator predicts what a normal play is worth.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Critic</span><span class="def">Another name for the value model: it criticises by saying whether an outcome beat expectations.</span></div>
+      <div class="row"><span class="term">Frozen</span><span class="def">A model held fixed during training, used only to score or to anchor, never updated.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

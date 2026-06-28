@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Catastrophic forgetting</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>10.5 When SFT hurts</p>
+    <h1 data-reveal>Teaching one narrow skill can <span class="accent">erase others</span></h1>
+    <p class="lead" data-reveal>Fine-tuning hard on a single task, say chat, can overwrite the knowledge the model already had, like math or other languages. The old skill is not hidden, it is gone, because the same internal settings that stored it got rewritten. This is called catastrophic forgetting.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> repainting a wall. Roll fresh paint over an old mural to make room for a new picture, and the mural underneath is gone for good, not just covered up. You would have to repaint it from scratch.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Catastrophic forgetting</span><span class="def">Training on a new task overwrites the settings that stored an old one, destroying it.</span></div>
+      <div class="row"><span class="term">Telltale sign</span><span class="def">The model completely fails at a task it used to handle, like forgetting math after chat tuning.</span></div>
+      <div class="row"><span class="term">How to soften it</span><span class="def">Mix in a little old data, use a gentle learning rate, and train light adapters that leave the base model frozen.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

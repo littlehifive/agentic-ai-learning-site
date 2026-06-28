@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GPU allocation tradeoffs</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>11.12 Cost Analysis and Cloud Deployment</p>
+    <h1 data-reveal>Every GPU is a choice about <span class="accent">money and speed</span></h1>
+    <p class="lead" data-reveal>GPUs are expensive and finite, so allocating them is a budget exercise. A full feedback run on a 70-billion-parameter model can take dozens of GPUs for days. Two questions dominate: how to split them between writing and training, and which chips to rent.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">How many on each side</p>
+        <p>Give too many to the writing cluster and the trainer starves; too few and answers trickle in. Because the phases overlap, the goal is to keep both clusters busy and neither waiting on the other.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Which chips, at what price</p>
+        <p>Top-end chips train faster but cost more. Cheaper chips can be fine for the memory-bound writing phase. Rented spare capacity is far cheaper but can vanish mid-run, so it is only safe with solid backups.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> staffing a restaurant: you balance prep cooks against line cooks so neither stands idle, and you decide where to spend on star chefs versus where a capable line cook does the job just as well.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Allocation</span><span class="def">Deciding how many GPUs go to writing versus training, and which type to use for each.</span></div>
+      <div class="row"><span class="term">Spot capacity</span><span class="def">Cheap, interruptible rentals. They can save half the cost but may be reclaimed at any moment.</span></div>
+      <div class="row"><span class="term">Right-sizing</span><span class="def">Matching the chip to the job rather than buying the most powerful one everywhere.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

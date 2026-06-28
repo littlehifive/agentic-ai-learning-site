@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Where to go next</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .reads { margin-top: 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; flex: 1; }
+  .rc { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 32px 32px; display: flex; flex-direction: column; }
+  .rc .h { font-size: 22px; font-weight: 800; color: var(--gold); letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 18px; }
+  .rc ul { margin: 0; padding: 0; list-style: none; }
+  .rc li { position: relative; padding: 9px 0 9px 28px; font-size: 21px; line-height: 1.35; color: var(--ink); }
+  .rc li::before { content: ''; position: absolute; left: 0; top: 17px; width: 14px; height: 5px; background: var(--gold); border-radius: 3px; }
+  .rc li b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>29.3 Further reading</p>
+    <h1 data-reveal>Where to go from <span class="accent">here</span></h1>
+
+    <div class="reads">
+      <div class="rc" data-reveal>
+        <p class="h">Foundations</p>
+        <ul>
+          <li><b>Attention Is All You Need</b>, the transformer.</li>
+          <li><b>InstructGPT</b>, the first large RLHF deployment.</li>
+          <li><b>PPO, DPO, GRPO</b>, the alignment methods.</li>
+          <li><b>RAG</b>, retrieval-augmented generation.</li>
+        </ul>
+      </div>
+      <div class="rc" data-reveal>
+        <p class="h">Agentic AI</p>
+        <ul>
+          <li><b>ReAct</b> and <b>Toolformer</b>, reasoning plus tools.</li>
+          <li><b>Building Effective Agents</b>, design patterns.</li>
+          <li><b>SWE-bench, OSWorld, GAIA</b>, real-task tests.</li>
+          <li><b>MCP and A2A</b>, the connecting protocols.</li>
+        </ul>
+      </div>
+      <div class="rc" data-reveal>
+        <p class="h">Tools to try</p>
+        <ul>
+          <li><b>HuggingFace TRL</b>, a production RL library.</li>
+          <li><b>LangGraph</b> and <b>AutoGen</b>, agent workflows.</li>
+          <li><b>DSPy</b>, declarative prompt optimization.</li>
+          <li><b>OpenAI Agents SDK</b>, an agent framework.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footnote" data-reveal>
+      <span class="mark"></span>
+      <span>The book lists dozens more. Start with one paper and one tool, then follow the references that matter to your own work.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

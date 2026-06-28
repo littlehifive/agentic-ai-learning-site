@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PRM vs ORM, when to use each</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two-col { margin-top: 34px; }
+  .verdict { margin-top: 30px; display: flex; align-items: flex-start; gap: 18px; font-size: 23px; color: var(--ink-secondary); line-height: 1.45; max-width: 1560px; }
+  .verdict .mark { width: 6px; align-self: stretch; min-height: 30px; background: var(--gold); border-radius: 3px; flex-shrink: 0; }
+  .verdict b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>9.4 When to Use PRMs</p>
+    <h1 data-reveal>Pick the grader that matches the <span class="accent">task</span></h1>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">Reach for an ORM when</p>
+        <ul>
+          <li>The task is simple and the answer is what matters, such as sentiment, toxicity, or a factual check.</li>
+          <li>Step-by-step labels would be expensive and add little.</li>
+          <li>You want the cheapest option to label and to run at scale.</li>
+          <li>There is no long chain of reasoning to grade in between.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Reach for a PRM when</p>
+        <ul>
+          <li>The task needs multi-step reasoning, such as maths, code, or logic.</li>
+          <li>The final answer is just right or wrong, but the steps vary in quality.</li>
+          <li>You want to guide a search, scoring partial solutions as they grow.</li>
+          <li>You can get step-level labels, by hand or generated automatically.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="verdict" data-reveal>
+      <span class="mark"></span>
+      <span>Rule of thumb: <b>simple task, use an ORM</b> because it is cheaper and good enough. <b>Long reasoning, use a PRM</b> because dense step feedback is worth the extra cost and is harder for the model to game.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A systems problem</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>29.1 Summary, the recurring lesson</p>
+    <h1 data-reveal>The biggest lesson: it is a <span class="accent">systems problem</span>, not a prompting trick</h1>
+    <p class="lead" data-reveal>A clever prompt or a good loss function is never the whole story. Real alignment means juggling several models at once, spreading the work across hundreds of machines, recovering from failures, and watching for the model gaming its own reward, all at the same time. The wins come from the <b>system around the model</b>, not the model alone.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a restaurant, not a recipe. A great dish needs a kitchen, a supply chain, timing, and staff who recover when an order goes wrong. The recipe matters, but it is the smallest part of serving dinner every night.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Systems problem</span><span class="def">Success depends on many moving parts working together, not on one clever component.</span></div>
+      <div class="row"><span class="term">Reward hacking</span><span class="def">When a model scores well on the metric but does the wrong thing in practice. A system has to catch this.</span></div>
+      <div class="row"><span class="term">Fault tolerance</span><span class="def">Keeping a long, expensive training or agent run going even when individual machines fail.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

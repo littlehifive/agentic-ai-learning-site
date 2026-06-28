@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Centralized training, decentralized execution</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>24.7.3 Centralized training, decentralized execution</p>
+    <h1 data-reveal>Coach with the <span class="accent">full picture</span>, then play with your own eyes</h1>
+    <p class="lead" data-reveal>When agents learn together, each one keeps changing, so the world looks unstable to every other agent. The fix that works best for cooperative teams is to train with a god's-eye view of everyone, but run each agent on only what it can see on its own.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">During training</p>
+        <p>A central coach watches the whole game: the full state and every agent's action. With that complete view it can tell each agent how its moves actually affected the shared outcome, which steadies the learning.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">During execution</p>
+        <p>The coach goes home. Each agent acts on only its own local observation, with no need to talk to a central brain at run time. So you get stable training <b>and</b> independent, fast agents in the field.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a sports team. In practice the coach sees the whole field and corrects every player. On game day the coach is on the bench; each player reads the play from their own position and acts. The lessons learned with the full view carry over.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">CTDE</span><span class="def">Train with a central view of all agents; run each agent on only its local view.</span></div>
+      <div class="row"><span class="term">Non-stationarity</span><span class="def">The instability each agent feels because the others keep changing while everyone learns.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

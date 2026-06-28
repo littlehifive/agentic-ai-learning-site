@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Choosing an orchestration pattern</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>18.5 Orchestration patterns</p>
+    <h1 data-reveal>Two ways to decide <span class="accent">what to do next</span></h1>
+    <p class="lead" data-reveal>Orchestration is how the agent chooses its next move. There is no single best pattern. The right one depends on whether the task is exploratory and unpredictable, or structured and known in advance.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">ReAct loop</p>
+        <ul>
+          <li>Decides one step at a time, reacting to each result</li>
+          <li>Adapts well to surprises and dead ends</li>
+          <li>Uses more model calls, since it thinks at every step</li>
+          <li>Best for exploratory tasks with an unknown path</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Plan-and-execute</p>
+        <ul>
+          <li>Writes the full plan first, then runs it in order</li>
+          <li>Cheaper and faster on long, predictable tasks</li>
+          <li>Slower to react when a step surprises it</li>
+          <li>Best for structured tasks with clear steps</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> exploring versus following a recipe. In an unfamiliar kitchen you taste and adjust as you go; with a recipe you have made before you just run the steps. For the hardest jobs, several specialist agents can be combined under one supervisor.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

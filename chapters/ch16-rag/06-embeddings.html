@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Embeddings and vector search</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .demo { margin-top: 26px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .pill { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; box-shadow: var(--shadow-md); padding: 14px 24px; font-size: 22px; color: var(--navy); font-weight: 700; }
+  .pill .sub { display: block; font-size: 16px; font-weight: 400; color: var(--ink-secondary); margin-top: 2px; }
+  .near { border-color: var(--gold); border-width: 2px; }
+  .eq { color: var(--gold); font-size: 30px; font-weight: 800; margin: 0 4px; }
+  .note { font-size: 19px; color: var(--ink-muted); margin-left: 8px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>16.2 / 16.3 Embedding and dense retrieval</p>
+    <h1 data-reveal>Search by <span class="accent">meaning, not matching words</span></h1>
+    <p class="lead" data-reveal>Each chunk is turned into a list of numbers, an <b>embedding</b>, that captures its meaning. Passages about similar ideas land near each other. To search, the question becomes a list of numbers too, and the system returns the nearest passages.</p>
+
+    <div class="demo" data-reveal>
+      <span class="pill near">"How do I reset my password?"<span class="sub">the question, as a point</span></span>
+      <span class="eq">&#8594;</span>
+      <span class="pill near">"Steps to recover account access"<span class="sub">nearby, returned</span></span>
+      <span class="pill">"Office holiday schedule"<span class="sub">far away, skipped</span></span>
+      <span class="note">no shared keywords needed</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a map where related ideas sit close together. "Car" and "automobile" share no letters but live in the same neighbourhood, so a search for one finds the other. Keyword search would have missed it entirely.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Embedding</span><span class="def">A chunk turned into a list of numbers that encodes what it means.</span></div>
+      <div class="row"><span class="term">Vector database</span><span class="def">A store built to find the nearest embeddings to a query fast, even among millions.</span></div>
+      <div class="row"><span class="term">Cosine similarity</span><span class="def">The usual measure of how close two embeddings point in the same direction.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

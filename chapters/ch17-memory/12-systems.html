@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Systems in the wild</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .lead { margin-bottom: 6px; }
+  .sys { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 26px; flex: 1; }
+  .scard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 34px; display: flex; flex-direction: column; }
+  .scard .nm { font-size: 26px; font-weight: 800; color: var(--navy); margin: 0 0 4px; }
+  .scard .role { font-size: 17px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--gold); margin: 0 0 14px; }
+  .scard .d { font-size: 21px; line-height: 1.44; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>17.11 Recent advances in agentic memory</p>
+    <h1 data-reveal>Named systems that put this <span class="accent">into practice</span></h1>
+    <p class="lead" data-reveal>The ideas in this chapter are not just theory. A handful of well-known systems show how they come together, from reference frameworks to production layers.</p>
+
+    <div class="sys">
+      <div class="scard" data-reveal>
+        <p class="nm">CoALA</p>
+        <p class="role">Reference framework</p>
+        <p class="d">Organizes the zoo of agents around the same four memory types and a read-act-reflect-write cycle. A shared design language for analyzing and comparing agents.</p>
+      </div>
+      <div class="scard" data-reveal>
+        <p class="nm">Generative Agents</p>
+        <p class="role">Observation and reflection</p>
+        <p class="d">Stores observations as time-stamped objects with importance scores, retrieves them with a recency bias, and reflects to form higher-level beliefs.</p>
+      </div>
+      <div class="scard" data-reveal>
+        <p class="nm">Mem0</p>
+        <p class="role">Production memory layer</p>
+        <p class="d">Extracts salient facts from conversation automatically, keeps a relational graph over them, and merges duplicates, cutting cost and latency versus stuffing everything into context.</p>
+      </div>
+      <div class="scard" data-reveal>
+        <p class="nm">A-MEM</p>
+        <p class="role">Self-organizing notes</p>
+        <p class="d">Stores richly tagged, interlinked notes that update one another as the agent learns, so memory becomes a living network rather than a flat list.</p>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

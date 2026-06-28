@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Prompt chaining</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .flow { margin-top: 30px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 24px 26px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .stage .s-d { font-size: 19px; line-height: 1.38; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+  .arrow .ar { color: var(--gold); font-size: 32px; font-weight: 700; line-height: 1; }
+  .arrow .gate { font-size: 14px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-muted); text-align: center; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>19.1.1 Workflow patterns: prompt chaining</p>
+    <h1 data-reveal>Break a task into a <span class="accent">fixed sequence</span> of steps</h1>
+    <p class="lead" data-reveal>The simplest pattern. Split a complex job into a set order of model calls, and feed each step's output into the next. A <b>gate</b> between steps can check the work and stop errors before they spread downstream.</p>
+
+    <div class="flow" data-reveal>
+      <div class="stage">
+        <p class="s-n">Step 1</p><p class="s-t">Draft outline</p>
+        <p class="s-d">Turn the request into a structured outline.</p>
+      </div>
+      <div class="arrow"><span class="ar">&#8594;</span><span class="gate">gate</span></div>
+      <div class="stage">
+        <p class="s-n">Step 2</p><p class="s-t">Write draft</p>
+        <p class="s-d">Expand the outline into full prose.</p>
+      </div>
+      <div class="arrow"><span class="ar">&#8594;</span><span class="gate">gate</span></div>
+      <div class="stage">
+        <p class="s-n">Step 3</p><p class="s-t">Polish</p>
+        <p class="s-d">Tighten the wording to a final result.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> an assembly line. Each station does one job and hands the part to the next, and a quick inspection between stations catches a defect before more work is wasted on it.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Gate</span><span class="def">A check between steps; pass it to continue, fail it to retry or stop.</span></div>
+      <div class="row"><span class="term">Best for</span><span class="def">Naturally sequential work: content pipelines, multi-stage data transforms.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

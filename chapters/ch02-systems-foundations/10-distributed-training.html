@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Distributed training</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .grid4 { margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 30px; }
+  .pcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 22px 28px; }
+  .pcard .nm { font-size: 23px; font-weight: 800; color: var(--navy); margin: 0 0 6px; }
+  .pcard .nm .acc { color: var(--gold); }
+  .pcard .ds { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>2.1.10 Choosing Parallelism &#183; Distributed Training</p>
+    <h1 data-reveal>Four ways to <span class="accent">split the work</span> across GPUs</h1>
+    <p class="lead" data-reveal>If a model is too big or training is too slow for one GPU, you spread it out. There are four basic strategies, and real systems mix them. The trick is to keep the chattiest splits inside one machine, where the links are fastest.</p>
+
+    <div class="grid4">
+      <div class="pcard" data-reveal>
+        <p class="nm">Data parallel <span class="acc">(copy the model)</span></p>
+        <p class="ds">Every GPU holds the full model and trains on different examples, then they average their lessons. Simple, and the most common starting point.</p>
+      </div>
+      <div class="pcard" data-reveal>
+        <p class="nm">FSDP / ZeRO <span class="acc">(shard the bookkeeping)</span></p>
+        <p class="ds">Like data parallel, but the bulky training bookkeeping is split across GPUs instead of copied. Each fetches a piece only when needed, so far bigger models fit.</p>
+      </div>
+      <div class="pcard" data-reveal>
+        <p class="nm">Tensor parallel <span class="acc">(split each layer)</span></p>
+        <p class="ds">A single layer is sliced across several GPUs that compute it together. Very chatty, so keep it inside one machine over NVLink.</p>
+      </div>
+      <div class="pcard" data-reveal>
+        <p class="nm">Pipeline parallel <span class="acc">(split into stages)</span></p>
+        <p class="ds">Different GPUs own different layers, like stations on an assembly line. The model's data flows through stage by stage. Can span machines.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a big order in a kitchen. Many cooks each make full meals (data parallel), or one dish is built along an assembly line (pipeline), or one huge dish is chopped up among cooks working shoulder to shoulder (tensor).</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">FSDP / ZeRO</span><span class="def">A memory-saving form of data parallel that splits the training bookkeeping across GPUs instead of copying it.</span></div>
+      <div class="row"><span class="term">Tensor parallel</span><span class="def">Slicing one layer across GPUs that compute it jointly; needs the fastest links.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Two paradigms for RL in LLMs</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .lead { margin-bottom: 6px; }
+  .two-col { margin-top: 34px; }
+  .pcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); border-top: 6px solid var(--gold); padding: 34px 40px 38px; display: flex; flex-direction: column; }
+  .pcard .tag { font-size: 18px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 12px; }
+  .pcard .nm { font-size: 30px; font-weight: 800; color: var(--navy); margin: 0 0 14px; line-height: 1.15; }
+  .pcard .ds { font-size: 22px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .pcard .ds b { color: var(--navy); font-weight: 700; }
+  .share { margin-top: 30px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>4.1 Two paradigms for RL in LLMs</p>
+    <h1 data-reveal>Two reasons to use RL, one shared <span class="accent">machine</span></h1>
+    <p class="lead" data-reveal>RL is applied to language models for two different goals. The difference is simply where the score comes from: a human judgment, or an objective check.</p>
+
+    <div class="two-col" data-reveal>
+      <div class="pcard">
+        <p class="tag">Paradigm 1</p>
+        <p class="nm">Alignment from human preferences</p>
+        <p class="ds">Make the model <b>helpful, harmless, and honest</b>. People compare answers, and the model learns to write the kind people prefer. This is RLHF, and its shortcut DPO.</p>
+      </div>
+      <div class="pcard">
+        <p class="tag">Paradigm 2</p>
+        <p class="nm">Capability from verifiable rewards</p>
+        <p class="ds">Teach new skills like <b>math, code, and reasoning</b>. The score comes from a checker: is the answer correct, do the tests pass. This is RLVR, the engine behind modern reasoning models.</p>
+      </div>
+    </div>
+
+    <div class="analogy share" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> two coaches with the same playbook. One coaches taste and manners by watching which answer people like better; the other coaches accuracy by checking the answer against a key. Same training method, different judge.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

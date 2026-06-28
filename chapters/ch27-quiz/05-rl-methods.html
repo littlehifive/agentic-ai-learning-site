@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz, RL methods</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>RL methods: PPO, DPO, GRPO &#183; click a card to reveal</p>
+    <h1 data-reveal>Three ways to <span class="accent">align</span> a model</h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Why does PPO's clipped objective beat vanilla policy gradient?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Vanilla gradients let one extreme sample push the policy into a bad region it cannot recover from. PPO clips the new-over-old probability ratio to a narrow band, so each update changes the policy by at most about 20 percent. It is a cheap first-order stand-in for a trust region.</p>
+          <p class="qa-review">Review: Chapter 5</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is the core idea behind DPO?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">DPO rewrites the RLHF objective so the reward is expressed through the policy itself, which lets the partition function cancel. You then train directly on preference pairs with a simple contrastive loss. Same goal as RLHF, no separate reward model, but it assumes clean, transitive preferences.</p>
+          <p class="qa-review">Review: Chapter 6</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">GRPO versus PPO: when do you pick each?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">GRPO drops the value model and scores a group of samples by above or below the group mean, ideal for verifiable right-or-wrong rewards. PPO keeps a value function for fine per-token credit, better for nuanced reward-model scores. Verifiable means GRPO, nuanced and max quality means PPO.</p>
+          <p class="qa-review">Review: Chapters 5, 7</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

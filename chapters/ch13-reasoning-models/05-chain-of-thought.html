@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chain-of-thought</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .cot { margin-top: 28px; display: grid; grid-template-columns: 1fr 1.25fr; gap: 30px; }
+  .cot .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 32px; }
+  .cot .card.flawed { border-left: 5px solid var(--ink-muted); }
+  .cot .card.good { border-left: 5px solid var(--gold); }
+  .cot .h { font-size: 22px; font-weight: 800; color: var(--navy); margin: 0 0 16px; }
+  .cot .q { font-size: 21px; color: var(--ink-secondary); margin: 0 0 14px; }
+  .cot .step { font-family: "SF Mono", Menlo, monospace; font-size: 19px; color: var(--ink); line-height: 1.5; }
+  .cot .res { margin-top: 14px; font-size: 21px; font-weight: 800; color: var(--navy); }
+  .cot .res.wrong { color: var(--ink-muted); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>13.2.1 Chain-of-thought</p>
+    <h1 data-reveal>Chain-of-thought: solve it <span class="accent">one step at a time</span></h1>
+    <p class="lead" data-reveal>Instead of jumping to an answer, the model writes out the intermediate steps, like showing your working in maths. Breaking a hard problem into small pieces lets each piece be easy, and the right answer falls out at the end.</p>
+
+    <div class="cot">
+      <div class="card flawed" data-reveal>
+        <p class="h">Straight to the answer</p>
+        <p class="q">"A shop has 23 apples, uses 20, buys 6 more. How many now?"</p>
+        <p class="res wrong">"9." (a quick guess, easy to get wrong)</p>
+      </div>
+      <div class="card good" data-reveal>
+        <p class="h">With a chain of thought</p>
+        <p class="q">"A shop has 23 apples, uses 20, buys 6 more. How many now?"</p>
+        <p class="step">Start with 23.<br>Use 20, so 23 &#8722; 20 = 3 left.<br>Buy 6 more, so 3 + 6 = 9.</p>
+        <p class="res">"9." (and now you can see why)</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> talking yourself through a recipe out loud rather than trying to remember the whole dish at once. Each step is small, and the next step only needs the one before it.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Chain-of-thought (CoT)</span><span class="def">Writing out the reasoning steps between question and answer, not just the answer.</span></div>
+      <div class="row"><span class="term">The catch</span><span class="def">A single chain is fragile. One wrong early step and everything after it is built on sand, with no way to recover.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

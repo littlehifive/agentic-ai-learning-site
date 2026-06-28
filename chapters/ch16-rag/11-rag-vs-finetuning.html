@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RAG vs fine-tuning</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .closing-note { margin-top: 30px; display: flex; align-items: flex-start; gap: 18px; font-size: 23px; line-height: 1.45; color: var(--ink-secondary); max-width: 1560px; }
+  .closing-note .mark { width: 6px; align-self: stretch; min-height: 30px; background: var(--gold); border-radius: 3px; flex-shrink: 0; }
+  .closing-note b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>16.1.2 / 16.10 RAG, fine-tuning, and how they combine</p>
+    <h1 data-reveal>RAG and fine-tuning solve <span class="accent">different problems</span></h1>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">Reach for RAG when</p>
+        <ul>
+          <li>The knowledge changes often, or you need fresh facts</li>
+          <li>You want citations and traceable, grounded answers</li>
+          <li>The source is a large or private corpus of documents</li>
+          <li>You need to add or remove facts without retraining</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Reach for fine-tuning when</p>
+        <ul>
+          <li>You want to shape the style, tone, or output format</li>
+          <li>You need to teach a new skill or way of reasoning</li>
+          <li>Low latency matters and you cannot afford a lookup step</li>
+          <li>The behaviour, not the facts, is what must change</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="closing-note" data-reveal>
+      <span class="mark"></span>
+      <span>They are not rivals. <b>Fine-tuning teaches the model how to reason and respond; RAG supplies what to reason about.</b> The strongest systems do both: fine-tune the model to use retrieved context well, then feed it fresh, grounded passages.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

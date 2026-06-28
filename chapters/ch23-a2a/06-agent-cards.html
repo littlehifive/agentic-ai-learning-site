@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Agent Cards</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .card-demo { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .biz { background: var(--surface); border: 1px solid var(--border); border-left: 6px solid var(--gold); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 34px; }
+  .biz .nm { font-size: 28px; font-weight: 800; color: var(--navy); margin: 0; }
+  .biz .role { font-size: 20px; color: var(--ink-secondary); margin: 6px 0 20px; }
+  .biz .field { display: flex; gap: 14px; padding: 11px 0; font-size: 20px; line-height: 1.35; border-top: 1px solid var(--border); }
+  .biz .k { color: var(--gold); font-weight: 800; flex: 0 0 150px; text-transform: uppercase; letter-spacing: 0.04em; font-size: 16px; padding-top: 3px; }
+  .biz .v { color: var(--ink); flex: 1; }
+  .says { font-size: 21px; line-height: 1.5; color: var(--ink-secondary); }
+  .says b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>23.2.2 Agent Cards</p>
+    <h1 data-reveal>Every agent publishes a <span class="accent">public profile</span></h1>
+    <p class="lead" data-reveal>An Agent Card is a small, machine-readable file an agent hosts at a well-known address. It advertises what the agent can do, how to authenticate, and where to send work, so others can discover and call it without any hardcoded wiring.</p>
+
+    <div class="card-demo">
+      <div class="biz" data-reveal>
+        <p class="nm">DataAnalysisAgent</p>
+        <p class="role">Analyzes datasets and answers data questions</p>
+        <div class="field"><span class="k">Skills</span><span class="v">Statistical analysis, data visualization</span></div>
+        <div class="field"><span class="k">Inputs</span><span class="v">Text and structured data</span></div>
+        <div class="field"><span class="k">Auth</span><span class="v">Bearer token or API key</span></div>
+        <div class="field"><span class="k">Send to</span><span class="v">agent.example.com/a2a</span></div>
+      </div>
+      <div class="says" data-reveal>
+        <p>The card lists named <b>skills</b>, each with example prompts, so an orchestrator can read it and decide, on its own, which agent fits a given subtask.</p>
+        <p>Because the card declares the <b>auth scheme</b> and <b>endpoint</b>, the calling agent knows exactly how to connect, with no out-of-band setup.</p>
+        <p>Drop a card into a registry and the agent becomes <b>discoverable</b> to the whole network at once.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a LinkedIn profile or a business card for an agent. It says who I am, what I am good at, and how to reach me, so the right work finds its way to me.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Agent Card</span><span class="def">A published profile advertising an agent's skills, address, and how to authenticate.</span></div>
+      <div class="row"><span class="term">Capability routing</span><span class="def">Picking an agent by matching a task to the skills its card lists.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

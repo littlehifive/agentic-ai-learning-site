@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What a framework gives you</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 34px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo p { font-size: 21px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>25.2 The agent development lifecycle</p>
+    <h1 data-reveal>The same four jobs, handed to you <span class="accent">pre-built</span></h1>
+    <p class="lead" data-reveal>Whatever framework you pick, it is solving the same handful of recurring jobs. Knowing these four makes every framework easier to read, because each one just makes different choices about how to do them.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">The loop and orchestration</p>
+        <p>Call the model, read its tool requests, run the tools, feed the results back, and decide when to stop. The framework runs this cycle and decides how many steps and in what order.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">State and memory</p>
+        <p>What the agent knows so far: the conversation, intermediate results, counters. The framework carries this between steps and, often, saves it so a long task can pause and resume.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Tools</p>
+        <p>The agent's hands: search, code, database calls. The framework standardises how a tool is described to the model and how its output comes back, including what happens when a tool fails.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Control and safety rails</p>
+        <p>Limits on how many tool calls are allowed, which sites it may visit, and where a human must approve. The framework gives you places to enforce these instead of trusting the prompt alone.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a kitchen that comes with the stove, fridge, and plumbing already installed. You still decide the menu, but you are not laying pipe before you can cook.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

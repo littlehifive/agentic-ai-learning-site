@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Process vs outcome reward models</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .tag { font-size: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>9.4 Process vs Outcome Reward Models</p>
+    <h1 data-reveal>Grade only the <span class="accent">final answer</span>, or grade every <span class="accent">step</span></h1>
+    <p class="lead" data-reveal>For a problem solved in several steps, you can reward in two ways. An Outcome Reward Model checks just the end result. A Process Reward Model checks the reasoning step by step. The first is cheap and sparse; the second is costly but gives feedback all the way through.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="tag">ORM</p>
+        <p class="h">Outcome Reward Model</p>
+        <p>Looks only at the final answer and asks: right or wrong? Cheap to label and run, but it gives no hint about where a long chain of reasoning went off the rails.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="tag">PRM</p>
+        <p class="h">Process Reward Model</p>
+        <p>Scores each reasoning step along the way. Far richer feedback, so the model learns which moves were sound, but it needs step-by-step labels that are expensive to gather.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a maths teacher. An outcome grader marks only the boxed answer. A process grader gives partial credit line by line, so a student who set the problem up well but slipped on arithmetic still learns where they went wrong.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Sparse feedback</span><span class="def">One signal at the very end; the model must guess which steps mattered.</span></div>
+      <div class="row"><span class="term">Dense feedback</span><span class="def">A signal at every step, so credit lands on the exact move that helped or hurt.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

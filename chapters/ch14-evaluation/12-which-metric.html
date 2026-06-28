@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Which metric when</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .dcard li b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>14.1.2 When to Use What</p>
+    <h1 data-reveal>Match the metric to the <span class="accent">shape of the task</span></h1>
+    <p class="lead" data-reveal>No metric is best everywhere. The right choice falls out of one question: does the task have a checkable answer, or is it a matter of judgment?</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">Checkable answer</p>
+        <ul>
+          <li><b>Math or factual QA:</b> exact match, the answer is right or it is not.</li>
+          <li><b>Code:</b> pass@k, run it against the tests.</li>
+          <li><b>Agent task:</b> task success rate, verify the goal state with a checker.</li>
+          <li><b>Quick model check:</b> perplexity, a fast sanity signal during iteration.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Matter of judgment</p>
+        <ul>
+          <li><b>Helpful, tone, creativity:</b> human ratings, or a well-checked model judge.</li>
+          <li><b>Ranking many models:</b> head-to-head votes turned into ELO or Bradley-Terry.</li>
+          <li><b>Large scale grading:</b> LLM-as-judge, with bias controls in place.</li>
+          <li><b>Final call:</b> extrinsic metrics, did real users get more done.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> choosing a measuring tool. You reach for a ruler for length and a thermometer for heat. Picking the metric is choosing the right instrument for what you actually want to know.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The five challenges</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .gains { margin-top: 30px; grid-template-columns: 1fr 1fr; gap: 20px 56px; }
+  .gain .t b { display: block; font-size: 25px; margin-bottom: 4px; }
+  .gain .map { color: var(--ink-muted); font-weight: 700; font-size: 18px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>What a single model call cannot do</p>
+    <h1 data-reveal>Five challenges every agent must <span class="accent">answer</span></h1>
+    <p class="lead" data-reveal>The moment a model has to act over time instead of replying once, five problems appear. Each one is real, and each one maps directly to a layer of the stack. Use them as a design checklist.</p>
+
+    <div class="gains">
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>Persistence</b>Remember what it has done, what failed, and the context, across turns, sessions, and days. <span class="map">Maps to Memory.</span></span>
+      </div>
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>Grounding</b>Reach up-to-date, domain-specific knowledge that was never in its training data. <span class="map">Maps to RAG.</span></span>
+      </div>
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>Action</b>Interact with real systems, such as databases, APIs, files, and browsers, through clear interfaces. <span class="map">Maps to Tools and MCP.</span></span>
+      </div>
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>Coordination</b>Split work that one agent cannot handle across specialists that delegate and collaborate. <span class="map">Maps to Multi-Agent and A2A.</span></span>
+      </div>
+      <div class="gain" data-reveal>
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>Safety</b>Add guardrails, human oversight, and graceful fallback for when the agent is uncertain. <span class="map">Maps to the Harness.</span></span>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Design checklist</span><span class="def">For any agent, ask each in turn: does it need memory, knowledge, actions, other agents, and where do humans approve?</span></div>
+      <div class="row"><span class="term">Graceful degradation</span><span class="def">When unsure, the agent slows down, asks, or stops, rather than guessing and acting anyway.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

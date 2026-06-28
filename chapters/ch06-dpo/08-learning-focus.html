@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What training focuses on</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo.hot { border-left: 6px solid var(--gold); }
+  .cardo.cool { border-left: 6px solid var(--border); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>6.3 Gradient analysis</p>
+    <h1 data-reveal>Learning concentrates on the <span class="accent">pairs it gets wrong</span></h1>
+    <p class="lead" data-reveal>The update built into DPO weighs itself automatically. It leans hardest on examples where the model currently prefers the worse answer, and barely moves on examples it already gets right. The hard, confusing pairs get the attention.</p>
+
+    <div class="two">
+      <div class="cardo hot" data-reveal>
+        <p class="h">Model picks the wrong one</p>
+        <p>The gradient is strong. The model is confidently mistaken here, so training pushes hard, raising the chosen answer and lowering the rejected one until the order flips.</p>
+      </div>
+      <div class="cardo cool" data-reveal>
+        <p class="h">Model already picks the right one</p>
+        <p>The gradient is tiny. The chosen answer is already ahead by a healthy margin, so there is little to fix and training mostly leaves it alone, avoiding overfitting.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a teacher with limited time. Spend it on the questions students keep missing, not the ones they already ace. DPO spends its learning budget the same way.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Gradient</span><span class="def">The size and direction of each training nudge to the model.</span></div>
+      <div class="row"><span class="term">Adaptive weight</span><span class="def">Bigger nudges on confusing pairs, near-zero on ones already learned.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

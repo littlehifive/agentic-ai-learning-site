@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz, systems and GPUs</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Systems and GPUs &#183; click a card to reveal</p>
+    <h1 data-reveal>Where the <span class="accent">hardware</span> sets the limits</h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What problem does Flash Attention solve, and how?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Plain attention writes a huge score grid to slow memory, so the chip mostly waits on data. Flash Attention never stores the full grid: it works in small tiles inside fast on-chip memory using an online softmax. The result is exact, uses far less memory, and runs 2 to 4 times faster.</p>
+          <p class="qa-review">Review: Chapters 1, 2</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What does PagedAttention fix in KV cache serving?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Pre-allocating the full max length per sequence wastes most of the cache. PagedAttention borrows from operating systems: it splits the cache into fixed blocks mapped by a block table, allocated on demand. This nearly removes waste and fits 3 to 5 times more sequences in the same memory.</p>
+          <p class="qa-review">Review: Chapter 2</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">When do you use NVLink versus InfiniBand in training?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">NVLink is the ultra-fast link between GPUs inside one node, used for tensor parallelism where layers sync after every step. InfiniBand connects nodes across the cluster, used for data parallel and FSDP gradient syncs that happen once per training step, so they tolerate more latency.</p>
+          <p class="qa-review">Review: Chapters 2, 11</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

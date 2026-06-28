@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How to choose</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/code.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .hint { font-size: 18px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); margin: 8px 0 0; }
+  .cmp { margin-top: 20px; }
+  .cmp-tabs { margin-bottom: 20px; flex-wrap: wrap; }
+  .pick { display: grid; grid-template-columns: 230px 1fr; gap: 22px; align-items: center; }
+  .pick .ans { font-size: 30px; font-weight: 900; color: var(--gold); line-height: 1.1; }
+  .pick .why { font-size: 22px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+  .pick .why b { color: var(--navy); }
+  .cmp-take { margin-top: 18px; }
+  .plain { margin-top: 18px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>25.8 Choosing the right framework</p>
+    <h1 data-reveal>Start from the question, not the <span class="accent">brand name</span></h1>
+    <p class="hint" data-reveal>Click a question to see the framework it points to</p>
+
+    <div class="cmp" data-reveal>
+      <div class="cmp-tabs">
+        <button class="cmp-tab is-active" data-panel="a">Explicit control of the flow?</button>
+        <button class="cmp-tab" data-panel="b">Multi-agent with code?</button>
+        <button class="cmp-tab" data-panel="c">Least boilerplate?</button>
+        <button class="cmp-tab" data-panel="d">On a maker's platform?</button>
+      </div>
+
+      <div class="cmp-panel is-shown" data-panel="a">
+        <div class="pick">
+          <span class="ans">LangGraph</span>
+          <p class="why">When you need to <b>see and steer every step</b>, branch on state, and pause for a human. The graph makes complex, controllable workflows easy to reason about, test, and debug.</p>
+        </div>
+      </div>
+
+      <div class="cmp-panel" data-panel="b">
+        <div class="pick">
+          <span class="ans">AutoGen</span>
+          <p class="why">When specialists should <b>collaborate in conversation</b> and one of them needs to write and run code. Group chat with a manager handles the turn-taking.</p>
+        </div>
+      </div>
+
+      <div class="cmp-panel" data-panel="c">
+        <div class="pick">
+          <span class="ans">CrewAI</span>
+          <p class="why">When you want <b>role-based agents with minimal setup</b>. Describe the roles and tasks in plain words and let the crew run them in order or under a manager.</p>
+        </div>
+      </div>
+
+      <div class="cmp-panel" data-panel="d">
+        <div class="pick">
+          <span class="ans">First-party SDK</span>
+          <p class="why">When you are <b>building on one maker's ecosystem</b>. The OpenAI Agents SDK or Google ADK keeps the glue thin and turns existing APIs into tools.</p>
+        </div>
+      </div>
+
+      <div class="cmp-take">
+        <span class="mark"></span>
+        <span>There is no single best framework. The right one falls out of the question you ask first: how much control, how many agents, how much code, and whose platform.</span>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">Two more, for the edges</p>
+      <div class="row"><span class="term">Automated prompt tuning</span><span class="def">DSPy, when you have a metric and a dataset and want to stop tuning by hand.</span></div>
+      <div class="row"><span class="term">Enterprise .NET or Azure</span><span class="def">Semantic Kernel, when the agent must fit existing corporate software.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

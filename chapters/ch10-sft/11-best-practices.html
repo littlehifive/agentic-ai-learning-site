@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SFT best practices</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .grid4 { margin-top: 30px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 36px; }
+  .item { display: grid; grid-template-columns: 1fr; gap: 6px; padding: 18px 24px; background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; }
+  .item .t { font-size: 23px; font-weight: 800; color: var(--navy); }
+  .item .d { font-size: 20px; line-height: 1.4; color: var(--ink-secondary); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>10.6 SFT best practices summary</p>
+    <h1 data-reveal>The habits that make fine-tuning <span class="accent">pay off</span></h1>
+    <p class="lead" data-reveal>Most of the value comes from a short checklist applied consistently. These four cover the everyday decisions that separate a clean fine-tune from a wasteful or brittle one.</p>
+
+    <div class="grid4">
+      <div class="item" data-reveal><span class="t">Clean, varied data</span><span class="d">A small set of excellent, diverse examples beats a large noisy one. Make sure it covers every task you care about.</span></div>
+      <div class="item" data-reveal><span class="t">Mask and template right</span><span class="d">Grade only the response, and wrap each turn in the exact chat template your model family expects.</span></div>
+      <div class="item" data-reveal><span class="t">Pack for efficiency</span><span class="d">Pack short examples together instead of padding, to cut wasted compute by two to four times.</span></div>
+      <div class="item" data-reveal><span class="t">Stop early, protect skills</span><span class="d">Two to three epochs is enough; use light adapters to guard the base model from forgetting.</span></div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Adapter</span><span class="def">A small add-on trained on top of a frozen base model, so the original knowledge stays safe.</span></div>
+      <div class="row"><span class="term">Check before you scale</span><span class="def">Confirm the model can already answer some hard cases before pushing it through later tuning, since that tuning cannot create a missing skill.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Observability</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .triad { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .t { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 30px 30px; }
+  .t .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .t p { font-size: 19px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>18.7.4 Observability</p>
+    <h1 data-reveal>You cannot debug what you <span class="accent">cannot see</span></h1>
+    <p class="lead" data-reveal>Agents are hard to debug because failures are usually bad decisions, not crashes. The fix is to record everything the agent does, so you can replay a run and find the exact step where it went wrong.</p>
+
+    <div class="triad">
+      <div class="t" data-reveal>
+        <p class="h">Traces</p>
+        <p>An end-to-end timeline of one run, with a span for every model call, tool call, and state change.</p>
+      </div>
+      <div class="t" data-reveal>
+        <p class="h">Logs</p>
+        <p>A structured record of each event: the prompt sent, the response, the tool used, with token counts, latency, and cost.</p>
+      </div>
+      <div class="t" data-reveal>
+        <p class="h">Metrics</p>
+        <p>The big-picture numbers across many runs: success rate, steps per task, tool error rate, and cost per task.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a flight recorder. When something goes wrong, you do not guess. You replay the black box second by second to see exactly what the system saw and what it decided.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Trace</span><span class="def">A step-by-step recording of a single agent run that you can replay later.</span></div>
+      <div class="row"><span class="term">Replay tooling</span><span class="def">Re-running a past trace with a tweaked prompt or model to compare the outcomes.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

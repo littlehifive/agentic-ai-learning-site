@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Approval gates</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .gate { margin-top: 28px; background: var(--surface); border: 2px solid var(--gold); border-radius: 14px; box-shadow: var(--shadow-md); padding: 28px 34px; max-width: 1300px; }
+  .gate .gh { display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .gate .gh .risk { font-size: 16px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #C0392B; border: 2px solid #C0392B; border-radius: 999px; padding: 3px 14px; }
+  .gate .summary { font-size: 24px; color: var(--ink); margin: 0 0 8px; }
+  .gate .params { font-family: "SF Mono", Menlo, monospace; font-size: 19px; color: var(--ink-secondary); margin: 0 0 22px; }
+  .gbtns { display: flex; gap: 16px; }
+  .gbtn { font-size: 21px; font-weight: 800; border-radius: 8px; padding: 12px 30px; border: 2px solid var(--border); }
+  .gbtn.approve { background: var(--gold); color: var(--navy-deep); border-color: var(--gold); }
+  .gbtn.modify { background: var(--surface); color: var(--navy); }
+  .gbtn.reject { background: var(--surface); color: #C0392B; border-color: #C0392B; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>26.3.4 Approval gates &#183; human in the loop</p>
+    <h1 data-reveal>Pause and ask before anything <span class="accent">costly or irreversible</span></h1>
+    <p class="lead" data-reveal>An approval gate stops the agent at a risky step and hands the decision to a person. The trick is balance: enough context to choose well, but not so many prompts that people start clicking approve without reading. A good gate states the action, flags the risk, and offers approve, modify, or reject.</p>
+
+    <div class="gate" data-reveal>
+      <p class="gh">Approval required: send_email <span class="risk">irreversible</span></p>
+      <p class="summary">Send a summary email to client@example.com</p>
+      <p class="params">subject: "Research results" &#183; attachment: report.pdf</p>
+      <div class="gbtns">
+        <span class="gbtn approve">Approve</span>
+        <span class="gbtn modify">Modify</span>
+        <span class="gbtn reject">Reject</span>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a co-pilot who flies the routine legs alone but asks before a big maneuver. You are not steering every second, yet nothing irreversible happens without your nod.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Human in the loop</span><span class="def">Keeping a person in control at the moments that matter, without supervising every step.</span></div>
+      <div class="row"><span class="term">Alert fatigue</span><span class="def">When too many prompts make people approve blindly, which defeats the gate's purpose.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

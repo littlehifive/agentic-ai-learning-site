@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What a skill packages</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1660px; }
+  .pack { margin-top: 28px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 32px; }
+  .prow { display: grid; grid-template-columns: 230px 1fr; gap: 22px; align-items: baseline; padding: 14px 22px; background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; }
+  .prow .pn { font-size: 22px; font-weight: 800; color: var(--navy); }
+  .prow .pd { font-size: 19px; color: var(--ink-secondary); line-height: 1.35; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>22.1 What is a skill?</p>
+    <h1 data-reveal>A skill is more than a tool: it bundles <span class="accent">everything to do one job well</span></h1>
+    <p class="lead" data-reveal>A raw tool exposes a single function. A skill wraps that function with the surrounding know-how, so the agent does not just have the equipment, it knows how and when to use it.</p>
+
+    <div class="pack" data-reveal>
+      <div class="prow"><span class="pn">Instructions</span><span class="pd">Domain guidance, constraints, and persona added to the agent's context.</span></div>
+      <div class="prow"><span class="pn">Tool bindings</span><span class="pd">The specific tools, APIs, or MCP servers the skill needs to act.</span></div>
+      <div class="prow"><span class="pn">Knowledge</span><span class="pd">Reference material and worked examples that show what good looks like.</span></div>
+      <div class="prow"><span class="pn">Workflow logic</span><span class="pd">The multi-step procedure or decision flow for the task.</span></div>
+      <div class="prow"><span class="pn">Guardrails</span><span class="pd">Safety limits, output format rules, and checks on the result.</span></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a recipe card, not a single utility. A tool is the whisk. The skill is the whole card: the ingredients, the steps, the tips, and the note on how to tell when it is done.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Tool</span><span class="def">One function the agent can call, like web_search.</span></div>
+      <div class="row"><span class="term">Skill</span><span class="def">A coherent capability: instructions plus tools plus knowledge, packaged together.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The KL penalty</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .demo { margin-top: 30px; display: flex; align-items: stretch; gap: 26px; }
+  .col { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px 28px; display: flex; flex-direction: column; }
+  .col .h { font-size: 22px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .col .h .tg { font-size: 15px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); display: block; margin-bottom: 4px; }
+  .col.bad { border-top: 6px solid var(--border); }
+  .col.good { border-top: 6px solid var(--gold); }
+  .col p.b { font-size: 20px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .col.good .h .tg { color: var(--gold); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>4.3 The KL constraint</p>
+    <h1 data-reveal>The KL penalty is a <span class="accent">leash</span> on how far the model can wander</h1>
+    <p class="lead" data-reveal>Chasing a reward with no limit is dangerous. The model can find weird outputs that score high but read as nonsense: it learns to <b>game the judge</b> rather than answer well. The KL penalty adds a cost for drifting away from the original fine-tuned model, so each update stays close to known-good behavior.</p>
+
+    <div class="demo" data-reveal>
+      <div class="col bad">
+        <p class="h"><span class="tg">Without the leash</span>Reward hacking</p>
+        <p class="b">The model exploits quirks in the scorer: padding, flattery, repeated phrases that happen to score high. The reward goes up; the writing falls apart.</p>
+      </div>
+      <div class="col good">
+        <p class="h"><span class="tg">With the leash</span>Stable improvement</p>
+        <p class="b">Each step may move only a little from the starting model. The model still climbs the reward, but it cannot bolt off into degenerate, off-topic text.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a dog on a leash exploring a park. It can roam and sniff out better paths, but it cannot sprint into traffic. The leash length is a dial: too tight and it never explores, too loose and it runs off.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Reference model</span><span class="def">The fixed starting point (the fine-tuned model) that the leash is anchored to.</span></div>
+      <div class="row"><span class="term">KL divergence</span><span class="def">A measure of how far the new model's word choices have drifted from the reference. The penalty grows with that distance.</span></div>
+      <div class="row"><span class="term">Reward hacking</span><span class="def">Scoring high by exploiting the judge instead of genuinely answering better. The leash is the main defense.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

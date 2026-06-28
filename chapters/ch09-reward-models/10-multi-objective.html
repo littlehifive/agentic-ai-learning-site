@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Multi-objective rewards</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .scales { margin-top: 28px; display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .obj { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-md);
+    padding: 18px 26px; font-size: 23px; font-weight: 700; color: var(--navy); }
+  .obj .w { display: block; font-size: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+  .scales .plus { font-size: 30px; font-weight: 800; color: var(--gold); }
+  .scales .eq { font-size: 30px; font-weight: 800; color: var(--gold); }
+  .scales .total { background: var(--navy); color: var(--white); border-radius: 10px; padding: 18px 26px; font-size: 23px; font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>9.6 Multi-Objective Rewards</p>
+    <h1 data-reveal>Most answers must be helpful <span class="accent">and</span> safe at once</h1>
+    <p class="lead" data-reveal>A single score rarely captures everything you care about. You usually want an answer that is helpful, but also safe, honest, and not too long. The fix is to train several reward signals and combine them, with weights that say how much each one counts.</p>
+
+    <div class="scales" data-reveal>
+      <div class="obj"><span class="w">weight 1.0</span>Helpful</div>
+      <span class="plus">+</span>
+      <div class="obj"><span class="w">weight 0.3</span>Safe</div>
+      <span class="plus">+</span>
+      <div class="obj"><span class="w">weight 0.1</span>Concise</div>
+      <span class="eq">=</span>
+      <div class="total">Combined reward</div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> judging a restaurant. The food matters most, but cleanliness and price count too. You weight each one and add them up. Weight taste at zero and you would happily eat in a filthy kitchen, so the weights encode what you truly value.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Weighted sum</span><span class="def">The simplest recipe: multiply each reward by its weight and add them together.</span></div>
+      <div class="row"><span class="term">Normalise first</span><span class="def">Put every reward on the same scale before adding, so a big-numbered one does not drown the rest.</span></div>
+      <div class="row"><span class="term">The trade-off</span><span class="def">Raising one weight, like safety, usually costs a little on another, like helpfulness.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

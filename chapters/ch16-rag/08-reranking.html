@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reranking</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 30px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 28px 28px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 26px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .stage .s-d { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold); }
+  .arrow .a { font-size: 34px; font-weight: 700; line-height: 1; }
+  .arrow .c { font-size: 15px; color: var(--ink-muted); margin-top: 8px; text-align: center; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>16.5.2 Re-ranking</p>
+    <h1 data-reveal>A careful <span class="accent">second read</span> of the shortlist</h1>
+    <p class="lead" data-reveal>First-stage search is fast but rough: it scores the question and each passage separately. A <b>reranker</b> then reads the question and each top candidate together, side by side, and re-scores them for true relevance, keeping only the best.</p>
+
+    <div class="flow">
+      <div class="stage" data-reveal>
+        <p class="s-n">Stage 1</p><p class="s-t">Cast a wide net</p>
+        <p class="s-d">Fast retrieval pulls in roughly the top 20 to 100 candidate passages. Generous, not yet precise.</p>
+      </div>
+      <div class="arrow" data-reveal><span class="a">&#8594;</span><span class="c">rerank the shortlist</span></div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Stage 2</p><p class="s-t">Read each one closely</p>
+        <p class="s-d">A cross-encoder weighs the question against each candidate jointly, scoring relevance far more accurately.</p>
+      </div>
+      <div class="arrow" data-reveal><span class="a">&#8594;</span><span class="c">keep the top few</span></div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Stage 3</p><p class="s-t">Hand over the best</p>
+        <p class="s-d">Only the top few survivors go into the prompt, so the model reasons over signal, not noise.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> sorting a stack of resumes. A quick keyword skim narrows a thousand down to twenty. Then you actually read those twenty against the job, side by side, to pick the real top five. Slow per item, but you only do it on the shortlist.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Cross-encoder</span><span class="def">A model that reads the question and one passage together, giving a sharp relevance score.</span></div>
+      <div class="row"><span class="term">Reranking</span><span class="def">Re-scoring a small candidate set for precision, after fast retrieval narrows the field.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

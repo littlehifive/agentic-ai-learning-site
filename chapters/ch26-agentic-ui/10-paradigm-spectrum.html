@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Paradigm spectrum</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .parts-list { margin-top: 26px; gap: 12px; }
+  .pl-row { grid-template-columns: 230px 1fr; padding: 13px 22px; }
+  .pl-row .pl-n { font-size: 23px; }
+  .pl-row .pl-d { font-size: 19px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>26.2 UI paradigms for agents</p>
+    <h1 data-reveal>One size does not fit all: <span class="accent">a spectrum of interfaces</span></h1>
+    <p class="lead" data-reveal>The right interface depends on how long the task runs, how much human involvement it needs, and what kind of output it produces. These six paradigms run from fully conversational to nearly autonomous, and most real products blend several of them.</p>
+
+    <div class="parts-list">
+      <div class="pl-row" data-reveal><span class="pl-p">Chat</span><div><div class="pl-n">Conversational</div><div class="pl-d">Familiar message bubbles, now with streaming and inline tool badges. Easy to start, but it flattens parallel work into one line.</div></div></div>
+      <div class="pl-row" data-reveal><span class="pl-p">Canvas</span><div><div class="pl-n">Shared artifact</div><div class="pl-d">Split pane: chat plus a live, editable document. Best for writing, coding, and analysis.</div></div></div>
+      <div class="pl-row" data-reveal><span class="pl-p">Workflow</span><div><div class="pl-n">Plan as a graph</div><div class="pl-d">The agent's steps drawn as a flowchart, nodes lighting up as they run. Good for structured pipelines.</div></div></div>
+      <div class="pl-row" data-reveal><span class="pl-p">Dashboard</span><div><div class="pl-n">Operator view</div><div class="pl-d">Status, cost, and queues for long-running production agents. Aimed at operators, not end users.</div></div></div>
+      <div class="pl-row" data-reveal><span class="pl-p">Collaborative</span><div><div class="pl-n">Agent as peer</div><div class="pl-d">The agent appears as a labeled cursor in a shared doc, proposing tracked edits you accept or reject.</div></div></div>
+      <div class="pl-row" data-reveal><span class="pl-p">Autonomous</span><div><div class="pl-n">Runs with checkpoints</div><div class="pl-d">The agent works mostly on its own and only surfaces at approval points before irreversible steps.</div></div></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

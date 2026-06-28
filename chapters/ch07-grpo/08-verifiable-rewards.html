@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Verifiable rewards</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .fits { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .fit { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 28px; }
+  .fit .h { font-size: 23px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .fit p { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>7.2 Score each one</p>
+    <h1 data-reveal>It shines when right and wrong can be <span class="accent">checked</span></h1>
+    <p class="lead" data-reveal>GRPO is happiest when the reward is a plain fact, not an opinion. If you can run a test and get a clean yes-or-no, you have a perfect signal: correct answers get a 1, wrong ones get a 0, no judge required.</p>
+
+    <div class="fits">
+      <div class="fit" data-reveal>
+        <p class="h">Math</p>
+        <p>Does the final number match the known answer? One comparison settles it.</p>
+      </div>
+      <div class="fit" data-reveal>
+        <p class="h">Code</p>
+        <p>Run the test suite. Either the tests pass or they do not; the reward writes itself.</p>
+      </div>
+      <div class="fit" data-reveal>
+        <p class="h">Structured tasks</p>
+        <p>Any task with a checkable rule: valid format, a puzzle solved, a constraint met.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> grading a multiple-choice test with an answer key versus grading an essay. The answer key is instant and never argues; that is the kind of reward GRPO thrives on.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Verifiable reward</span><span class="def">A score you can compute by checking a fact, not by asking a model or a person to judge.</span></div>
+      <div class="row"><span class="term">Why it matters here</span><span class="def">A clean, honest signal makes the group comparison trustworthy and removes a whole source of noise.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

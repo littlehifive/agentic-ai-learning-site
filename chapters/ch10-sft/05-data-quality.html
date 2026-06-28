@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Data quality over quantity</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>10.6 SFT data quality</p>
+    <h1 data-reveal>A small set of <span class="accent">excellent</span> examples beats a huge noisy one</h1>
+    <p class="lead" data-reveal>It is tempting to throw as much data as possible at the model. In practice the opposite often wins. A few thousand carefully written, diverse examples can teach better behaviour than a million sloppy ones, because the model copies whatever it is shown, flaws and all. Quality over quantity.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> teaching an apprentice. A dozen beautifully crafted pieces to copy teach more than a warehouse of rushed, inconsistent work. The apprentice imitates the standard you set, so set a high one.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Quality over quantity</span><span class="def">Fewer, cleaner, more varied examples usually outperform a larger pile of mediocre ones.</span></div>
+      <div class="row"><span class="term">Coverage</span><span class="def">The data should span the tasks you actually care about; a task missing here is hard to add later.</span></div>
+      <div class="row"><span class="term">Garbage in, garbage out</span><span class="def">The model imitates its examples, so errors and bad style in the data show up in the answers.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tree-of-thoughts and search</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>13.2.3 Tree-of-thoughts and search</p>
+    <h1 data-reveal>Don't just guess a path, <span class="accent">explore and backtrack</span></h1>
+    <p class="lead" data-reveal>A single chain commits to one route. Tree-of-thoughts treats reasoning as a branching map: try a few next steps, judge which look promising, follow those, and abandon dead ends. The model can back out of a bad branch and try another, the way a person erases a wrong turn.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Tree-of-thoughts (ToT)</p>
+        <p>At each point the model proposes several possible next steps, scores how hopeful each one looks, keeps the best, and prunes the rest. If a branch turns out impossible, it backtracks and tries elsewhere. On the "Game of 24" puzzle this lifts a base model from near-zero to most problems solved.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Monte Carlo Tree Search (MCTS)</p>
+        <p>The same tree, but smarter about where to spend effort. MCTS plays out a few branches to the end, sees which lead to correct answers, and steadily directs more tries toward the promising parts of the tree. It is the search behind game-playing systems like AlphaGo, here pointed at reasoning steps.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> finding your way through a maze. A single chain walks one corridor and hopes. Tree search peeks down several corridors, retreats from dead ends, and spends the most time on the routes that look like they are heading toward the exit.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Branch</span><span class="def">One candidate next step, opening up its own sub-tree of possibilities.</span></div>
+      <div class="row"><span class="term">Backtrack</span><span class="def">Undo a step that led nowhere and return to an earlier point to try a different branch.</span></div>
+      <div class="row"><span class="term">MCTS</span><span class="def">A search that learns where to look by sampling whole paths and favouring the ones that pay off.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

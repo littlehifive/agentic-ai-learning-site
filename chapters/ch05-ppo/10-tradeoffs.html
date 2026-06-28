@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>When to use PPO, and what it costs</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two-col { margin-top: 36px; }
+  .dcard li { padding-left: 34px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Reading the tradeoffs</p>
+    <h1 data-reveal>Powerful and stable, but <span class="accent">heavy to run</span></h1>
+    <p class="lead" data-reveal>PPO became the default for aligning models to human preferences because it is reliable. That reliability comes at a real cost in machinery and tuning, which is exactly what later methods try to trim.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">What it buys you</p>
+        <ul>
+          <li>Stable training: one bad batch cannot wreck the model.</li>
+          <li>Steady, monotonic improvement step after step.</li>
+          <li>Works from any reward signal, including a learned scorer.</li>
+          <li>Simple first-order math, easy to scale across many machines.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">What it costs you</p>
+        <ul>
+          <li>Four models in memory at once, so it is resource-hungry.</li>
+          <li>Constant fresh generation, often most of the wall-clock time.</li>
+          <li>Several knobs that all interact and need careful tuning.</li>
+          <li>A separate reward model to train and maintain.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footnote" data-reveal>
+      <span class="mark"></span>
+      <span>Reach for PPO when you need robust learning from a flexible reward and can afford the compute. When the cost bites, the next chapters trim it: DPO drops the reward model and the loop, and GRPO drops the value model.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

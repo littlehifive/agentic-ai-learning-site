@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Orientation</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .gains { margin-top: 30px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>20.1 What this chapter is about</p>
+    <h1 data-reveal>Two words to keep straight: the <span class="accent">environment</span> and the <span class="accent">benchmark</span></h1>
+    <p class="lead" data-reveal>An <b>environment</b> is the practice world the agent acts in. A <b>benchmark</b> is a fixed set of tasks in that world, run the same way every time, so different agents can be compared fairly. Environments serve two jobs at once.</p>
+
+    <div class="gains" data-reveal>
+      <div class="gain">
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>Training.</b> The agent can try things, fail, recover, and learn, without harming any real system. The book calls this safe exploration.</span>
+      </div>
+      <div class="gain">
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>Testing.</b> Every agent faces the same tasks under the same conditions, so a score from one lab can be reproduced in another.</span>
+      </div>
+      <div class="gain">
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>Curriculum.</b> Tasks can ramp up in difficulty as the agent improves, just as people master the easy parts before the hard ones.</span>
+      </div>
+      <div class="gain">
+        <span class="ck">&#10003;</span>
+        <span class="t"><b>A common interface.</b> Reset to start, take a step to act, observe the result. The same loop fits coding, web, and desktop tasks alike.</span>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Environment</span><span class="def">The world the agent works in: a browser, a computer desktop, a code repository.</span></div>
+      <div class="row"><span class="term">Benchmark</span><span class="def">A standard task set in that world, scored the same way so agents can be ranked.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

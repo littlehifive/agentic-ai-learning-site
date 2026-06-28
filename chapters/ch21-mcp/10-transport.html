@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Transport</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .tag { font-size: 16px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+  .cardo .h { font-size: 26px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo p b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>21.2 Transport layers</p>
+    <h1 data-reveal>Two ways host and server <span class="accent">actually talk</span></h1>
+    <p class="lead" data-reveal>The protocol stays the same no matter how the messages travel. MCP defines two standard channels: one for tools on your own machine, one for tools running somewhere on the network.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="tag">Local</p>
+        <p class="h">Standard input and output</p>
+        <p>The host launches the server as a child program on the same machine and talks to it through its <b>input and output streams</b>. Nothing touches the network, the server runs in its own process for isolation, and there is no setup. Best for file access, local code, and developer tools.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="tag">Remote</p>
+        <p class="h">Streamable HTTP</p>
+        <p>The server runs as a normal <b>web service</b>. The host sends requests over HTTP and can receive a single reply or a live stream of partial results. This works through ordinary web infrastructure like proxies and firewalls, so it suits cloud-hosted and enterprise tools.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> talking to someone in the same room versus calling them on the phone. The conversation is identical; only the channel changes to fit the distance.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Transport-agnostic</span><span class="def">The same messages work over any channel; the protocol does not care which.</span></div>
+      <div class="row"><span class="term">Stateful session</span><span class="def">The connection stays open, so setup happens once and the server can push updates.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The agentic stack</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1680px; }
+  .lead { font-size: 25px; margin-top: 4px; }
+  .two-col { margin-top: 26px; gap: 30px; }
+  .dcard { padding: 26px 32px; }
+  .dcard .h { font-size: 24px; padding: 12px 20px; margin-bottom: 16px; }
+  .dcard li { padding: 9px 0 9px 32px; font-size: 21px; line-height: 1.36; }
+  .dcard li b { color: var(--navy); font-weight: 800; }
+  .dcard li::before { top: 18px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>28.9, 28.16 &#183; What an agent is made of</p>
+    <h1 data-reveal>The agentic stack, <span class="accent">layer by layer</span></h1>
+    <p class="lead" data-reveal>An agent is a model wrapped in supporting parts that let it perceive, remember, act, and coordinate.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">The layers</p>
+        <ul>
+          <li><b>Grounding (RAG):</b> pull in outside facts so answers rest on real sources, not guesses.</li>
+          <li><b>Memory:</b> working memory in the prompt, plus longer stores for past sessions and learned facts.</li>
+          <li><b>Harness:</b> the loop that runs the agent: think, act, observe, repeat, with limits and guards.</li>
+          <li><b>Tools:</b> the functions the agent can call to do things in the world, from search to writing files.</li>
+          <li><b>Multi-agent:</b> several specialized agents that split a job and hand work between them.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Design patterns</p>
+        <ul>
+          <li><b>ReAct:</b> think, act, observe, loop. The default for general tool use.</li>
+          <li><b>Plan-and-execute:</b> plan all the steps first, then carry them out. For long, structured tasks.</li>
+          <li><b>Supervisor:</b> a router sends each subtask to the right specialist agent.</li>
+          <li><b>Swarm (handoffs):</b> agents pass control and context along, as in support escalation.</li>
+          <li><b>Human-in-the-loop:</b> the agent pauses for approval before high-stakes, irreversible actions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Harness</span><span class="def">The scaffolding around the model that turns one answer into a repeating act-and-observe loop.</span></div>
+      <div class="row"><span class="term">Grounding</span><span class="def">Giving the model real source material to base its answer on, instead of relying on memory alone.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

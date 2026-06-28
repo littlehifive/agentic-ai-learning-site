@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Judge biases</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1660px; }
+  .two { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .bcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 32px; }
+  .bcard .h { font-size: 23px; font-weight: 800; color: var(--navy); margin: 0 0 16px; }
+  .bcard .item { padding: 11px 0; font-size: 20px; line-height: 1.38; color: var(--ink-secondary); }
+  .bcard .item + .item { border-top: 1px solid var(--border); }
+  .bcard .item b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>14.7.2 Position Bias Mitigation</p>
+    <h1 data-reveal>The judge has <span class="accent">blind spots</span>, and they are fixable</h1>
+    <p class="lead" data-reveal>A model judge is not neutral. It leans toward the answer shown first, toward longer replies, and toward its own style. Left unchecked these tilts can swing a verdict by ten to fifteen points. <b>Each one has a known fix.</b></p>
+
+    <div class="two">
+      <div class="bcard" data-reveal>
+        <p class="h">Common biases</p>
+        <div class="item"><b>Position bias:</b> prefers whichever answer it sees first or last.</div>
+        <div class="item"><b>Verbosity bias:</b> rewards longer answers even when the extra text adds nothing.</div>
+        <div class="item"><b>Self-enhancement bias:</b> favours answers that match its own style or its own outputs.</div>
+      </div>
+      <div class="bcard" data-reveal>
+        <p class="h">How to reduce them</p>
+        <div class="item"><b>Swap the order:</b> grade both A-then-B and B-then-A. If the verdict flips, call it a tie.</div>
+        <div class="item"><b>Reason first:</b> make the judge explain before deciding, which curbs snap reactions to length or order.</div>
+        <div class="item"><b>Use a panel:</b> several judges from different model families, then take the majority.</div>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a blind taste test. You hide the labels, serve the samples in random order, and ask several tasters, so no single quirk decides the winner.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The risk</span><span class="def">An unchecked judge can be steered by order or length rather than true quality.</span></div>
+      <div class="row"><span class="term">The habit</span><span class="def">Randomise position, ask for reasoning, and average across judges before you trust the score.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

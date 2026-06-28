@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Discovery and routing</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 34px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 26px 28px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 26px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .stage .s-d { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 50px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 32px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>23.4 Agent discovery and routing</p>
+    <h1 data-reveal>Before it can delegate, an agent has to <span class="accent">find the right one</span></h1>
+    <p class="lead" data-reveal>A registry is a directory that indexes Agent Cards and answers search queries. An orchestrator looks up agents by the skill it needs, instead of hardcoding any addresses, then picks the best match for the job.</p>
+
+    <div class="flow">
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 1</p><p class="s-t">Look up</p>
+        <p class="s-d">Query the registry for agents whose cards list the required skill.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 2</p><p class="s-t">Match</p>
+        <p class="s-d">Compare the task to each candidate's description and pick the closest fit.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 3</p><p class="s-t">Balance</p>
+        <p class="s-d">If several agents qualify, spread load by who is least busy or fastest.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 4</p><p class="s-t">Dispatch</p>
+        <p class="s-d">Send the task to the chosen agent and track it through its lifecycle.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a staffing agency. You describe the role, it searches its roster of profiles, shortlists the best fit, and assigns whoever is available, all without you knowing anyone's phone number in advance.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Registry</span><span class="def">A searchable directory of Agent Cards that says who can do what.</span></div>
+      <div class="row"><span class="term">Load balancing</span><span class="def">Spreading work across equally able agents so none gets overwhelmed.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

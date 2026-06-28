@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Think, then answer</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 30px; display: flex; align-items: stretch; gap: 18px; }
+  .fbox { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 30px; }
+  .fbox .tag { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 12px; }
+  .fbox .who { font-size: 26px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .fbox p.t { font-size: 20px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+  .fbox.think { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+  .farrow { flex: 0 0 56px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 34px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>13.1 Motivation and background</p>
+    <h1 data-reveal>The same model, but now it shows its <span class="accent">working</span></h1>
+    <p class="lead" data-reveal>A standard model maps a question straight to an answer. A reasoning model inserts a middle stage: a private stretch of "thinking" where it lays out steps, tries an approach, notices mistakes, and only then commits to a final reply.</p>
+
+    <div class="flow" data-reveal>
+      <div class="fbox">
+        <p class="tag">Question</p>
+        <p class="who">The prompt</p>
+        <p class="t">A hard problem comes in: a maths puzzle, a piece of code, a proof to complete.</p>
+      </div>
+      <div class="farrow">&#8594;</div>
+      <div class="fbox think">
+        <p class="tag">New stage</p>
+        <p class="who">Thinking out loud</p>
+        <p class="t">The model writes a chain of reasoning steps, explores options, and self-corrects ("Wait, let me reconsider").</p>
+      </div>
+      <div class="farrow">&#8594;</div>
+      <div class="fbox">
+        <p class="tag">Answer</p>
+        <p class="who">The final reply</p>
+        <p class="t">Only the checked conclusion is returned. The thinking did the hard work of getting there.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> the difference between shouting out the first answer that pops into your head and working it through on scratch paper. The scratch paper is where most problems are actually solved.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Reasoning step</span><span class="def">One link in the working, such as a single line of a calculation or a sub-conclusion.</span></div>
+      <div class="row"><span class="term">Self-correction</span><span class="def">The model noticing its own error part-way through and changing course, instead of pressing on.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

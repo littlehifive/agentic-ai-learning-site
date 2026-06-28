@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What goes wrong without memory</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .three { margin-top: 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; flex: 1; }
+  .fcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 36px 38px; display: flex; flex-direction: column; }
+  .fcard .n { font-size: 48px; font-weight: 900; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; margin: 0 0 18px; }
+  .fcard .h { font-size: 27px; font-weight: 800; color: var(--navy); margin: 0 0 14px; line-height: 1.18; }
+  .fcard .d { font-size: 22px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>17.1 The context-window bottleneck</p>
+    <h1 data-reveal>Three ways an agent <span class="accent">fails without memory</span></h1>
+
+    <div class="three">
+      <div class="fcard" data-reveal>
+        <p class="n">1</p>
+        <p class="h">It forgets the context</p>
+        <p class="d">Once an event scrolls out of the window it is lost for good. The agent cannot point back to a decision it made earlier in the same task.</p>
+      </div>
+      <div class="fcard" data-reveal>
+        <p class="n">2</p>
+        <p class="h">It cannot learn from experience</p>
+        <p class="d">With no record of past attempts, every episode is the first. Strategies that worked are not reused, and the same mistakes get repeated.</p>
+      </div>
+      <div class="fcard" data-reveal>
+        <p class="n">3</p>
+        <p class="h">It cannot personalize</p>
+        <p class="d">Preferences, facts, and history must be re-established every session. The user keeps re-explaining themselves, which is slow and frustrating.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> meeting a brilliant colleague who has total amnesia each morning. Talented in the moment, but you re-brief them from zero every single day.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

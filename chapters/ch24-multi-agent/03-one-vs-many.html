@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>One agent or many</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 16px; }
+  .cardo ul { margin: 0; padding: 0; list-style: none; }
+  .cardo li { position: relative; padding: 9px 0 9px 30px; font-size: 21px; line-height: 1.4; color: var(--ink-secondary); }
+  .cardo li::before { content: ''; position: absolute; left: 0; top: 16px; width: 14px; height: 6px; background: var(--gold); border-radius: 3px; }
+  .cardo li b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>24.1 Motivation: why multiple agents?</p>
+    <h1 data-reveal>Reach for a team when one agent <span class="accent">cannot hold it all</span></h1>
+    <p class="lead" data-reveal>Use multiple agents when a task splits into clearly separate roles, or when it needs more context than one agent can keep in its head at once. Below that bar, a single well-designed agent is usually the better choice.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Four reasons to split the work</p>
+        <ul>
+          <li><b>Specialization.</b> A coder, a fact-checker, a writer each tuned for their job.</li>
+          <li><b>Parallelism.</b> Independent sub-tasks run at the same time, not one after another.</li>
+          <li><b>Robustness.</b> A second agent can verify or re-derive a shaky answer.</li>
+          <li><b>Emergent quality.</b> Through debate and refinement, the group can exceed any one member.</li>
+        </ul>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">What the team costs you</p>
+        <ul>
+          <li><b>Coordination overhead.</b> Every message between agents costs tokens, time, and money.</li>
+          <li><b>More failure points.</b> More moving parts means more places things can break.</li>
+          <li><b>Harder to debug.</b> When the group is wrong, finding which agent caused it is tricky.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> hiring. One brilliant generalist needs no meetings. The moment you hire a team, you gain specialists but you also gain standups, handoffs, and the chance that two people redo the same work.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Monolithic agent</span><span class="def">One agent does the whole task; simple, but limited by its single context window.</span></div>
+      <div class="row"><span class="term">Agent society</span><span class="def">Many agents that divide the work and share results; more power, more overhead.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

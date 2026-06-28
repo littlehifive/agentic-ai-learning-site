@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>When to use what</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .dcard .h { font-size: 24px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>19.4 Pattern selection: a decision guide</p>
+    <h1 data-reveal>Three questions point you to the <span class="accent">right pattern</span></h1>
+    <p class="lead" data-reveal>Choosing comes down to how predictable the task is, how many model calls you can afford in time and cost, and whether quality needs iteration. Start at the top of the list and move down only when the simpler choice clearly fails.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">Reach for a fixed workflow when</p>
+        <ul>
+          <li>The structure of the task is known in advance.</li>
+          <li>You want predictable cost and easy testing.</li>
+          <li>Steps are sequential: use <b>prompt chaining</b>.</li>
+          <li>Inputs split into clear types: use <b>routing</b>.</li>
+          <li>Subtasks are independent: use <b>parallelization</b>.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Reach for more autonomy when</p>
+        <ul>
+          <li>You cannot list the subtasks up front: <b>orchestrator-workers</b>.</li>
+          <li>Quality is critical and needs revision: <b>evaluator-optimizer</b>.</li>
+          <li>The task is open-ended exploration with tools.</li>
+          <li>You accept higher cost and harder debugging.</li>
+          <li>You have shown a simpler pattern is not enough.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Composable</span><span class="def">Mix freely; an agent can chain steps, route subtasks, and loop a critique inside itself.</span></div>
+      <div class="row"><span class="term">Rule of thumb</span><span class="def">Add a layer only when the cheaper pattern has visibly broken on real inputs.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

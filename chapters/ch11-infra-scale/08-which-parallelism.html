@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Which parallelism, when</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two-col { grid-template-columns: 1fr 1fr; }
+  .dcard .sub { font-size: 19px; color: var(--ink-muted); font-weight: 700; margin: 0 0 14px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>11.2.6 Combining Strategies</p>
+    <h1 data-reveal>Each split solves a different <span class="accent">squeeze</span></h1>
+    <p class="lead" data-reveal>These methods are not rivals; real systems combine two or three. The choice follows a simple ladder: reach for the lightest one that makes the job fit, and add heavier ones only when you must.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">Start here</p>
+        <ul>
+          <li><b>Sharding (FSDP / ZeRO-3)</b> is the default once a model passes a few billion parameters. It is the biggest memory saver per unit of effort.</li>
+          <li><b>Plain copies (data parallel)</b> are enough only when the whole model already fits on one GPU and you just want to go faster.</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">Add when needed</p>
+        <ul>
+          <li><b>Tensor parallelism</b> when a single layer is too wide. Keep it inside one machine, eight GPUs or fewer, because of the heavy chatter.</li>
+          <li><b>Pipeline parallelism</b> is the last resort, for the very largest models past 100 billion parameters that still will not fit any other way.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> moving house: first split the load across trucks (sharding). If one item is too big for a truck, carry it with several people side by side (tensor). Only call in a relay of trucks down the highway (pipeline) when nothing else works.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The ladder</span><span class="def">Sharding first, then tensor parallelism, then pipeline parallelism, adding each only when the job still does not fit.</span></div>
+      <div class="row"><span class="term">3D parallelism</span><span class="def">The name for combining all three at once, common on the largest training runs.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tiered approval</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .tiers { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .tier { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 32px 34px; display: flex; flex-direction: column; }
+  .tier .tn { font-size: 18px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .tier .th { font-size: 27px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .tier .td { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0 0 16px; }
+  .tier .ex { font-size: 19px; line-height: 1.4; color: var(--ink); margin: auto 0 0; padding-top: 14px; border-top: 1px solid var(--border); }
+  .tier .ex b { color: var(--navy); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>26.7 Human-in-the-loop UI design</p>
+    <h1 data-reveal>Not everything needs a pause: <span class="accent">sort actions by risk</span></h1>
+    <p class="lead" data-reveal>A flat policy fails both ways: approve everything and people stop reading; approve nothing and the agent is useless. A tiered policy auto-approves safe, reversible actions and saves the blocking prompts for the ones that can really cost you.</p>
+
+    <div class="tiers">
+      <div class="tier" data-reveal>
+        <p class="tn">Tier 1</p>
+        <p class="th">Auto-approve</p>
+        <p class="td">Low-risk, reversible, routine. The agent just proceeds, but logs it for the record.</p>
+        <p class="ex"><b>Examples:</b> web search, reading a file, read-only lookups.</p>
+      </div>
+      <div class="tier" data-reveal>
+        <p class="tn">Tier 2</p>
+        <p class="th">Notify</p>
+        <p class="td">Medium risk. A non-blocking note appears with a short window to cancel before it finalizes.</p>
+        <p class="ex"><b>Examples:</b> saving a draft email, posting to a sandbox.</p>
+      </div>
+      <div class="tier" data-reveal>
+        <p class="tn">Tier 3</p>
+        <p class="th">Require approval</p>
+        <p class="td">High-risk, irreversible, or costly. The agent stops and waits for an explicit yes.</p>
+        <p class="ex"><b>Examples:</b> sending mail, deleting data, making a purchase.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Tiered policy</span><span class="def">Match the amount of friction to the stakes of the action.</span></div>
+      <div class="row"><span class="term">Configurable thresholds</span><span class="def">Users set rules ("always ask before sending email") or the agent learns them over time.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How a request flows</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 36px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 24px 28px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .stage .s-d { font-size: 18px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 44px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 32px; font-weight: 700; }
+  .loop { margin-top: 24px; display: flex; align-items: center; gap: 18px; }
+  .loop .line { flex: 1; height: 0; border-top: 3px dashed var(--gold); opacity: 0.8; }
+  .loop .lbl { font-size: 19px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>21.1 How MCP works, end to end</p>
+    <h1 data-reveal>One question, routed to a tool and <span class="accent">back in plain words</span></h1>
+    <p class="lead" data-reveal>Say you ask, "What is in my notes file?" The model does not read the file itself. It asks the host to call a tool, the host routes the request to the right server, the answer comes back, and the model turns it into a normal reply.</p>
+
+    <div class="flow">
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 1</p><p class="s-t">You ask</p>
+        <p class="s-d">You type a request into the host application.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 2</p><p class="s-t">Model decides</p>
+        <p class="s-d">The LLM picks which tool can answer and with what inputs.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 3</p><p class="s-t">Host routes</p>
+        <p class="s-d">The host sends the call to the matching server.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 4</p><p class="s-t">Server runs</p>
+        <p class="s-d">The server does the work and returns a result.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 5</p><p class="s-t">You read</p>
+        <p class="s-d">The model phrases the result as a natural reply.</p>
+      </div>
+    </div>
+
+    <div class="loop" data-reveal>
+      <span class="lbl">The protocol machinery stays hidden</span>
+      <span class="line"></span>
+      <span class="lbl">you only see the question and the answer</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Tool call</span><span class="def">The model's request to run a named action, with its inputs filled in.</span></div>
+      <div class="row"><span class="term">Routing</span><span class="def">The host matching a tool call to the one server that offers that tool.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

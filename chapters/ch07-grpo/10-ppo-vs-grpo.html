@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PPO vs GRPO</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two-col { margin-top: 34px; }
+  .dcard .h { font-size: 25px; }
+  .dcard li { font-size: 22px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>PPO vs GRPO</p>
+    <h1 data-reveal>Same safe loop, <span class="accent">one model lighter</span></h1>
+    <p class="lead" data-reveal>GRPO is not a clean break from PPO. It keeps PPO's careful, small-step update and only swaps out where the bar to beat comes from.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">PPO</p>
+        <ul>
+          <li>Trains a second network, the critic, to predict each answer's score</li>
+          <li>That critic is the bar each choice is judged against</li>
+          <li>Two large models in memory at once: model plus critic</li>
+          <li>A wrong critic guess sends the update the wrong way</li>
+          <li>Generates one answer per prompt, then leans on the critic</li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">GRPO</p>
+        <ul>
+          <li>No critic at all; the group's average reward is the bar</li>
+          <li>That bar is a real measurement, not a learned guess</li>
+          <li>One model in memory: roughly half the footprint</li>
+          <li>An honest average cannot be miscalibrated the same way</li>
+          <li>Generates several answers per prompt and compares them</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">The one-line difference</span> PPO asks a trained examiner to predict your grade; GRPO just hands out the same test five times and grades you on the curve.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

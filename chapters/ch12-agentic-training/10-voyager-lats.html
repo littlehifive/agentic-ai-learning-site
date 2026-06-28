@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Voyager and LATS</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo .h .tag { display: block; font-size: 16px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>12.5.6 Voyager &#183; 12.5.4 LATS</p>
+    <h1 data-reveal>Two more ways to get better: <span class="accent">remember and search</span></h1>
+    <p class="lead" data-reveal>STaR and Reflexion improve the model itself. These two improve what surrounds it. Voyager keeps a growing toolbox of proven skills, while LATS spends extra thinking time exploring several paths before committing to one.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h"><span class="tag">Voyager</span>Build a reusable skill library</p>
+        <p>Each time the agent writes code that solves a task and passes its check, that snippet is saved as a named skill. New tasks retrieve and combine the most relevant saved skills, so the agent keeps getting more capable and never forgets what it has already mastered.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h"><span class="tag">LATS</span>Search over possible trajectories</p>
+        <p>Instead of committing to the first move, LATS expands several candidate actions, plays each forward to see how it turns out, and pushes the result back up a tree. It spends more compute at decision time to find a much better path.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a cook's recipe box versus thinking three moves ahead. Voyager is the box of dishes you have nailed before; LATS is mentally tasting a few versions of the sauce before you serve one.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Skill library</span><span class="def">A store of verified code snippets the agent can retrieve and snap together for new tasks.</span></div>
+      <div class="row"><span class="term">Tree search</span><span class="def">Trying out several action paths and keeping the most promising one, at the cost of more compute.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

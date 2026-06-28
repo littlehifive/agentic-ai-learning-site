@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Security and trust</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .trust { margin-top: 28px; display: flex; align-items: stretch; gap: 16px; }
+  .tlvl { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 22px 22px 24px; display: flex; flex-direction: column; }
+  .tlvl .lv { font-size: 15px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+  .tlvl .nm { font-size: 23px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .tlvl .ds { font-size: 17px; line-height: 1.38; color: var(--ink-secondary); margin: 0; }
+  .tarrow { flex: 0 0 30px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 26px; font-weight: 700; }
+  .scale { margin-top: 12px; display: flex; justify-content: space-between; font-size: 16px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>21.6 Security model</p>
+    <h1 data-reveal>You are handing an agent <span class="accent">real capabilities</span></h1>
+    <p class="lead" data-reveal>A connected tool can delete files, send messages, or run code. So MCP is built around a chain of trust: the user trusts the host, the host vets everything below it, and nothing further out is taken at face value.</p>
+
+    <div class="trust">
+      <div class="tlvl" data-reveal>
+        <p class="lv">Most trusted</p>
+        <p class="nm">Host</p>
+        <p class="ds">Trusted by the user. Sets the rules, asks for consent, and decides which servers may connect.</p>
+      </div>
+      <div class="tarrow" data-reveal>&#8594;</div>
+      <div class="tlvl" data-reveal>
+        <p class="lv">Trusted by host</p>
+        <p class="nm">Client</p>
+        <p class="ds">Carries out the host's rules and checks server replies before passing them on.</p>
+      </div>
+      <div class="tarrow" data-reveal>&#8594;</div>
+      <div class="tlvl" data-reveal>
+        <p class="lv">Trust, but verify</p>
+        <p class="nm">Server</p>
+        <p class="ds">Expected to behave, but its data is not blindly trusted; a bad one could hide instructions.</p>
+      </div>
+      <div class="tarrow" data-reveal>&#8594;</div>
+      <div class="tlvl" data-reveal>
+        <p class="lv">Untrusted</p>
+        <p class="nm">Outside services</p>
+        <p class="ds">Web pages, databases, and files the server touches. All of it must be validated.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> giving a house key to a contractor. You set the rules and stay in charge, you confirm anything irreversible before it happens, and you do not trust a note left by a stranger just because it appeared inside the house.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">User consent</span><span class="def">The host must ask before running a tool that changes things, and keep a log.</span></div>
+      <div class="row"><span class="term">Prompt injection</span><span class="def">Hidden instructions inside data the model reads; treat all outside content as untrusted.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

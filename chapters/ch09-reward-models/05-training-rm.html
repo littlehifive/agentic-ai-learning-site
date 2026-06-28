@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Training the reward model</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .arch { margin-top: 28px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .ablk { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-md);
+    padding: 18px 24px; }
+  .ablk .lab { font-size: 16px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin: 0 0 6px; }
+  .ablk .bd { font-size: 22px; font-weight: 700; color: var(--navy); margin: 0; }
+  .ablk .sm { font-size: 18px; color: var(--ink-secondary); margin: 4px 0 0; }
+  .ablk.head { border-color: var(--gold); border-width: 2px; }
+  .arch .ar { color: var(--gold); font-size: 30px; font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>9.2 Reward Model Architectures</p>
+    <h1 data-reveal>Take a language model and give it a <span class="accent">scoring head</span></h1>
+    <p class="lead" data-reveal>You do not build a reward model from scratch. You start with a normal language model, then swap its word-predicting head for a tiny head that outputs one number. Feed it a prompt and an answer; it reads them and emits a score. Training shows it pairs and pushes the chosen answer's score above the rejected one's.</p>
+
+    <div class="arch" data-reveal>
+      <div class="ablk"><p class="lab">Backbone</p><p class="bd">Pretrained language model</p><p class="sm">reads prompt + answer</p></div>
+      <span class="ar">&#8594;</span>
+      <div class="ablk head"><p class="lab">Scoring head</p><p class="bd">One linear layer</p><p class="sm">outputs a single number</p></div>
+      <span class="ar">&#8594;</span>
+      <div class="ablk"><p class="lab">Output</p><p class="bd">Reward score</p><p class="sm">higher means better</p></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> training a wine judge with flights of two glasses. You never say "rate this from 1 to 100"; you just keep saying "this one is better than that one." Over thousands of pairs the judge develops a consistent internal scale.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Backbone</span><span class="def">The reused language model that does the reading and understanding.</span></div>
+      <div class="row"><span class="term">Scoring head</span><span class="def">A small added layer that collapses everything the model read into one reward number.</span></div>
+      <div class="row"><span class="term">Chosen vs rejected</span><span class="def">The two columns the training data needs: the preferred answer and the dispreferred one.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

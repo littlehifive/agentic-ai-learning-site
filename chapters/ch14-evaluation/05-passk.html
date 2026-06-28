@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pass at k</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .tries { margin-top: 28px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .try { font-family: "SF Mono", Menlo, monospace; font-size: 22px; border-radius: 10px; padding: 16px 22px; box-shadow: var(--shadow-md); font-weight: 700; }
+  .try.fail { background: var(--surface); border: 1px solid var(--border); color: var(--ink-secondary); }
+  .try.pass { background: var(--navy); border: 1px solid var(--navy); color: var(--white); }
+  .try .tag { display: block; font-size: 15px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; opacity: 0.75; }
+  .verdict { margin-left: 18px; font-size: 24px; font-weight: 800; color: var(--navy); }
+  .verdict .accent { color: var(--gold); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>14.5.6 Pass@k for Code</p>
+    <h1 data-reveal>Pass@k: did <span class="accent">at least one</span> of k tries pass the tests?</h1>
+    <p class="lead" data-reveal>For code, correctness is not a matter of opinion: you run the code against tests. Pass@k asks the model for k attempts at a problem and counts it solved if <b>any single attempt passes every test.</b></p>
+
+    <div class="tries">
+      <div class="try fail" data-reveal><span class="tag">Try 1</span>fails tests</div>
+      <div class="try fail" data-reveal><span class="tag">Try 2</span>fails tests</div>
+      <div class="try pass" data-reveal><span class="tag">Try 3</span>passes all</div>
+      <div class="try fail" data-reveal><span class="tag">Try 4</span>fails tests</div>
+      <span class="verdict" data-reveal>pass@4 = <span class="accent">solved</span></span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> free throws in basketball. Pass@1 is making the first shot. Pass@10 is making at least one out of ten. More attempts means a higher chance that one lands, so always read which k a score refers to.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Pass@1</span><span class="def">The model gets one shot. The honest measure of first-try reliability.</span></div>
+      <div class="row"><span class="term">Pass@10, pass@100</span><span class="def">Allow more attempts. Useful when a human or a tool can pick the working one.</span></div>
+      <div class="row"><span class="term">Why it is trusted</span><span class="def">Tests decide pass or fail, so the metric tracks real correctness, not surface polish.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The beta knob</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 36px; }
+  .cardo .bk { font-size: 19px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); margin: 0 0 6px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>6.2 The implicit reward &#183; the one knob</p>
+    <h1 data-reveal>Beta sets <span class="accent">how hard to push</span></h1>
+    <p class="lead" data-reveal>DPO has essentially one dial, called beta. It governs the tension between two pulls: chase the preferred answers aggressively, or stay close to the reference model the training began from. A common starting value is 0.1.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="bk">Large beta</p>
+        <p class="h">Push hard toward the preference</p>
+        <p>The model moves boldly to favour chosen answers. It can improve fast, but stray far from the reference and start forgetting skills it already had.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="bk">Small beta</p>
+        <p class="h">Stay near the reference</p>
+        <p>The model edges toward the preference cautiously, keeping its existing behaviour mostly intact. Safer, but slower, and too small leaves almost no signal to learn from.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a leash on a dog. Short leash, small beta: the model can only wander a little from where it started. Long leash, large beta: free to chase the preferred answer, with more risk of running off.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Beta</span><span class="def">The single dial trading off boldness against staying close to the reference.</span></div>
+      <div class="row"><span class="term">Forgetting</span><span class="def">Losing earlier abilities when the model drifts too far, too fast.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

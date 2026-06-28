@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What removing the critic buys</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo p + p { margin-top: 12px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>7.1 What you gain by removing it</p>
+    <h1 data-reveal>One fewer model means <span class="accent">cheaper and simpler</span></h1>
+    <p class="lead" data-reveal>Because the group does the critic's job, that whole second network disappears. The win is both practical and, surprisingly, often a quality gain too.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Lighter and easier to run</p>
+        <p>The critic was about as large as the model itself. Dropping it frees up a large slice of memory and removes an entire training process to babysit.</p>
+        <p>That makes GRPO the practical choice for very large models, where finding room for two networks at once is the binding constraint.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Often more accurate, not less</p>
+        <p>A measured average from real answers is honest by construction. A half-trained critic can simply be wrong, and a wrong bar sends the update the wrong way.</p>
+        <p>So replacing a shaky guess with a real measurement frequently makes learning more stable, not just cheaper.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The trade</span><span class="def">You pay to generate several answers per prompt, but you save the cost of training and storing a whole second network.</span></div>
+      <div class="row"><span class="term">Net effect</span><span class="def">Less memory, half the engineering, and a baseline that cannot be miscalibrated the way a learned critic can.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

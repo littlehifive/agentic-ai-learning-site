@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The four-model challenge</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .four { margin-top: 34px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .mcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 26px 28px; display: flex; flex-direction: column; }
+  .mcard .role { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .mcard .nm { font-size: 26px; font-weight: 800; color: var(--navy); margin: 0 0 10px; line-height: 1.15; }
+  .mcard .ds { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>11.1 The 4-Model Memory Challenge</p>
+    <h1 data-reveal>Tuning a model with feedback means running <span class="accent">four models at once</span></h1>
+    <p class="lead" data-reveal>Ordinary training keeps one model in memory. Learning from human feedback is different: four separate models must all sit in GPU memory together, working in a tight loop of generate, score, and update.</p>
+
+    <div class="four">
+      <div class="mcard" data-reveal>
+        <p class="role">The learner</p>
+        <p class="nm">Policy</p>
+        <p class="ds">The model being improved. It writes answers and is updated after each round.</p>
+      </div>
+      <div class="mcard" data-reveal>
+        <p class="role">The anchor</p>
+        <p class="nm">Reference</p>
+        <p class="ds">A frozen copy of the starting model. It keeps the learner from drifting too far.</p>
+      </div>
+      <div class="mcard" data-reveal>
+        <p class="role">The judge</p>
+        <p class="nm">Reward</p>
+        <p class="ds">Scores each answer for quality, standing in for human preference.</p>
+      </div>
+      <div class="mcard" data-reveal>
+        <p class="role">The estimator</p>
+        <p class="nm">Value</p>
+        <p class="ds">Predicts how good a situation is, so the learner knows which answers beat expectations.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a writing student (policy) with an editor giving notes (reward), a coach predicting how a draft will land (value), and the student's own earlier style on the wall (reference) so they do not lose their voice. All four are in the room together.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">RLHF</span><span class="def">Reinforcement learning from human feedback: teaching a model what people prefer by rewarding better answers.</span></div>
+      <div class="row"><span class="term">Why it is hard</span><span class="def">Four models in memory at once is many times the size of training just one, so it overflows a single GPU fast.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

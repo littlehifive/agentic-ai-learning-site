@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The implicit reward</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/code.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .formula { font-size: 28px; margin-top: 26px; padding: 14px 22px; }
+  .formula .g { color: var(--gold); font-weight: 800; }
+  .gloss { margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 40px; max-width: 1480px; }
+  .gl { display: grid; grid-template-columns: 30px 1fr; gap: 14px; align-items: start; font-size: 21px; line-height: 1.4; color: var(--ink-secondary); }
+  .gl .d { color: var(--gold); font-size: 26px; font-weight: 900; line-height: 1.1; }
+  .gl b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>6.2 The implicit reward</p>
+    <h1 data-reveal>The model becomes <span class="accent">its own judge</span></h1>
+    <p class="lead" data-reveal>PPO needed a separate reward model to score answers. DPO shows that a score is already hiding inside the model itself: compare how likely the model thinks an answer is now against how likely a frozen reference copy thought it was before.</p>
+
+    <div class="formula" data-reveal>score for an answer = <span class="g">beta</span> &#215; log( <b>policy</b> probability &#247; <b>reference</b> probability )</div>
+
+    <div class="gloss">
+      <div class="gl" data-reveal><span class="d">&#9650;</span><span><b>Above the reference:</b> the trained model now finds this answer more likely than the frozen copy did. Positive score, treated as good.</span></div>
+      <div class="gl" data-reveal><span class="d">&#9660;</span><span><b>Below the reference:</b> the trained model finds it less likely than before. Negative score, treated as bad.</span></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> grading on a curve against your past self. The reward is not an absolute mark; it is how much more, or less, the model leans toward this answer than the version it started from. Training simply pushes the chosen answer above the rejected one.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Policy</span><span class="def">The model being trained; its answer probabilities shift during training.</span></div>
+      <div class="row"><span class="term">Reference</span><span class="def">A frozen copy from the start, kept as the baseline to measure change against.</span></div>
+      <div class="row"><span class="term">Implicit reward</span><span class="def">A score read off the model itself, so no separate scorer is built.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

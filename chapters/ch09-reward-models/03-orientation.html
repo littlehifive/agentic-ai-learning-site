@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Where the reward model sits</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .flow { margin-top: 44px; display: flex; align-items: stretch; gap: 0; }
+  .fnode { flex: 1 1 0; min-width: 0; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 28px 32px; display: flex; flex-direction: column; }
+  .fnode.is-here { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+  .fnode .step { font-size: 17px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .fnode .nm { font-size: 27px; font-weight: 800; color: var(--navy); line-height: 1.15; margin: 0 0 12px; }
+  .fnode .ds { font-size: 20px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .farrow { flex: 0 0 62px; display: flex; align-items: center; justify-content: center; }
+  .farrow span { color: var(--gold); font-size: 34px; font-weight: 700; line-height: 1; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Chapter 9 &#183; Reward Model Training</p>
+    <h1 data-reveal>The reward model is the <span class="accent">middle link</span> in aligning a model</h1>
+    <p class="lead" data-reveal>Aligning a model to human taste happens in three stages. The reward model is stage two: it learns what people prefer, then stands in as an automatic judge while the main model practises against it.</p>
+
+    <div class="flow">
+      <div class="fnode" data-reveal>
+        <p class="step">Stage 1</p>
+        <p class="nm">Collect preferences</p>
+        <p class="ds">People are shown two answers to the same prompt and pick the better one. This builds a dataset of chosen-versus-rejected pairs.</p>
+      </div>
+      <div class="farrow" data-reveal><span>&#8594;</span></div>
+      <div class="fnode is-here" data-reveal>
+        <p class="step">Stage 2 &#183; this chapter</p>
+        <p class="nm">Train the reward model</p>
+        <p class="ds">A model learns to give the chosen answer a higher score than the rejected one, turning preferences into numbers.</p>
+      </div>
+      <div class="farrow" data-reveal><span>&#8594;</span></div>
+      <div class="fnode" data-reveal>
+        <p class="step">Stage 3</p>
+        <p class="nm">Optimise the main model</p>
+        <p class="ds">The main model generates answers, the reward model scores them, and the main model is nudged toward higher-scoring answers.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">RLHF</span><span class="def">Reinforcement Learning from Human Feedback: the three-stage recipe above for tuning a model to human preferences.</span></div>
+      <div class="row"><span class="term">Preference pair</span><span class="def">One prompt with two answers, plus a human label saying which one is the chosen winner.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

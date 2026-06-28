@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>From PPO to GRPO and its variants</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .evo-node .name { font-size: 26px; }
+  .evo-node .fixes { font-size: 19px; }
+  .plain { margin-top: 26px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>How the method evolved</p>
+    <h1 data-reveal>Each step removed the previous one's <span class="accent">bottleneck</span></h1>
+
+    <div class="evo-wrap">
+      <div class="evo-baseline" data-grow-w style="width:100%"></div>
+      <div class="evo-rail">
+        <div class="evo-node" data-reveal>
+          <p class="year">2017</p><p class="name">PPO</p>
+          <p class="fixes"><b>The baseline.</b> Learns from rewards safely, but needs a second network, the critic, to judge each answer.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">critic too costly</span></div>
+        <div class="evo-node" data-reveal>
+          <p class="year">2024</p><p class="name">GRPO</p>
+          <p class="fixes"><b>Drops the critic.</b> Compares a group of answers against their own average, removing a whole model and often improving stability.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">scaled to reasoning</span></div>
+        <div class="evo-node" data-reveal>
+          <p class="year">2025</p><p class="name">DeepSeek-R1</p>
+          <p class="fixes"><b>Proved the recipe.</b> GRPO with simple right-or-wrong rewards drew out step-by-step reasoning all on its own.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">edge cases</span></div>
+        <div class="evo-node evo-node--now" data-reveal>
+          <p class="year">Now</p><p class="name">DAPO, GSPO, Dr. GRPO and more</p>
+          <p class="fixes"><b>Fixes the rough edges.</b> A family of variants, each patching one failure mode of the basic group comparison.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The throughline</span><span class="def">Every step keeps the same safe, small-step update and changes only how the bar to beat is found.</span></div>
+      <div class="row"><span class="term">Where it stands</span><span class="def">GRPO is now the default reinforcement-learning method across the major open-source training libraries.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

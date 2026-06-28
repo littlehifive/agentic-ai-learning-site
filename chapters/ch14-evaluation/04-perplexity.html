@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Perplexity</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .demo { margin-top: 28px; display: flex; gap: 18px; flex-wrap: wrap; align-items: stretch; }
+  .pcard { flex: 1; min-width: 360px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px; }
+  .pcard .lbl { font-size: 17px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 12px; }
+  .pcard .ctx { font-size: 23px; color: var(--ink-secondary); margin: 0 0 14px; line-height: 1.4; }
+  .pcard .ctx b { color: var(--navy); }
+  .pcard .score { font-size: 30px; font-weight: 900; color: var(--gold); margin: 0; font-variant-numeric: tabular-nums; }
+  .pcard .score span { font-size: 20px; font-weight: 600; color: var(--ink-secondary); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>14.5.5 Perplexity</p>
+    <h1 data-reveal>Perplexity: <span class="accent">how surprised</span> the model was by the text</h1>
+    <p class="lead" data-reveal>Show a model some real text and ask, at each word, how confidently it predicted what actually came next. Perplexity bundles that into one number. <b>Lower means less surprised, which means a better fit.</b></p>
+
+    <div class="demo">
+      <div class="pcard" data-reveal>
+        <p class="lbl">Predictable text</p>
+        <p class="ctx">"The cat sat on the <b>mat</b>"</p>
+        <p class="score">low <span>&#183; barely surprised, strong fit</span></p>
+      </div>
+      <div class="pcard" data-reveal>
+        <p class="lbl">Unfamiliar text</p>
+        <p class="ctx">"The cat sat on the <b>quark</b>"</p>
+        <p class="score">high <span>&#183; very surprised, poor fit</span></p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a hesitation meter. Roughly, perplexity is how many words the model was wavering between at each step. Confident and right gives a low number, flustered gives a high one.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">What it scores</span><span class="def">How well the model predicts a held-out piece of text it was not trained to memorise.</span></div>
+      <div class="row"><span class="term">Best used for</span><span class="def">A quick sanity check and spotting drift, comparing the same model on the same text.</span></div>
+      <div class="row"><span class="term">The catch</span><span class="def">A lower number is not automatically more helpful, and it cannot be compared across models with different tokenisers.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

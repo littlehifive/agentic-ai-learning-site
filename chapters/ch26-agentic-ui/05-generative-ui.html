@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Generative UI</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .mock { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px; }
+  .panel .ph { font-size: 18px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 18px; }
+  .txtout { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); font-family: "SF Mono", Menlo, monospace; }
+  .widget { border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; background: var(--surface-subtle); }
+  .widget .wt { font-size: 20px; font-weight: 800; color: var(--navy); margin: 0 0 6px; }
+  .widget .wb { font-size: 44px; font-weight: 900; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; margin: 0 0 16px; }
+  .chart { display: flex; align-items: flex-end; gap: 12px; height: 110px; }
+  .chart .b { flex: 1; background: var(--navy); border-radius: 6px 6px 0 0; }
+  .chart .b.peak { background: var(--gold); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>26.5 Generative UI</p>
+    <h1 data-reveal>The agent can build the <span class="accent">interface</span>, not just the words</h1>
+    <p class="lead" data-reveal>Normally a model returns text or markdown. Generative UI flips that: the model picks a ready-made component, a chart, a form, a map, a calendar, and fills it with the answer. It chooses not only <b>what</b> to say but <b>how</b> to show it, based on the kind of content.</p>
+
+    <div class="mock">
+      <div class="panel" data-reveal>
+        <p class="ph">Text only</p>
+        <p class="txtout">Today in Lisbon it is 21 degrees and sunny. This week peaks Thursday at 27 degrees, with a dip Saturday to 18 degrees.</p>
+      </div>
+      <div class="panel" data-reveal>
+        <p class="ph">Generated widget</p>
+        <div class="widget">
+          <p class="wt">Lisbon &#183; Sunny</p>
+          <p class="wb">21&#176;</p>
+          <div class="chart">
+            <span class="b" style="height:55%"></span>
+            <span class="b" style="height:70%"></span>
+            <span class="b peak" style="height:100%"></span>
+            <span class="b" style="height:85%"></span>
+            <span class="b" style="height:40%"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a good assistant who, asked about the weather, does not read you a paragraph of numbers but hands you a clean little forecast card you can read at a glance.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Generative UI</span><span class="def">The model's tool calls produce interface pieces, so the display adapts to the content.</span></div>
+      <div class="row"><span class="term">Curated components</span><span class="def">For safety it picks from a vetted library rather than inventing raw, untrusted markup.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

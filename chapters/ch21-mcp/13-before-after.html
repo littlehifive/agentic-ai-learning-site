@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Before and after</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two-col { margin-top: 34px; }
+  .dcard.before .h { background: var(--ink-muted); }
+  .dcard.after .h { background: var(--navy); }
+  .dcard li { font-size: 22px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>21.9 MCP versus custom integration</p>
+    <h1 data-reveal>The same goal, with and without a <span class="accent">shared protocol</span></h1>
+    <p class="lead" data-reveal>Custom wiring can be quick for one fixed pairing, but it does not travel. A protocol costs a little more setup and pays it back the moment you add another tool, another agent, or another vendor.</p>
+
+    <div class="two-col">
+      <div class="dcard before" data-reveal>
+        <p class="h">Custom integration, per pairing</p>
+        <ul>
+          <li>A new connector for every agent-and-tool combination</li>
+          <li>Locked to one model or vendor; switching means rewriting</li>
+          <li>Each team re-solves the same plumbing from scratch</li>
+          <li>Fine for a single fixed setup or quick prototype</li>
+        </ul>
+      </div>
+      <div class="dcard after" data-reveal>
+        <p class="h">MCP, one standard for all</p>
+        <ul>
+          <li>Build a tool once; every compliant host can use it</li>
+          <li>Vendor-neutral, so no lock-in and easy to swap models</li>
+          <li>Tap a growing ecosystem of ready-made servers</li>
+          <li>Built-in sessions, live updates, and a consent model</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Use MCP when</span><span class="def">Your tools should work across many models or be shared with others.</span></div>
+      <div class="row"><span class="term">Skip it when</span><span class="def">One fixed model, a quick prototype, or you need the lowest possible latency.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

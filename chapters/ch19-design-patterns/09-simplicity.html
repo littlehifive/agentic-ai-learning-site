@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The simplicity principle</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .ladder { margin-top: 30px; display: flex; align-items: stretch; }
+  .rung { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 24px 26px; display: flex; flex-direction: column; }
+  .rung .rn { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .rung .rt { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .rung .rd { font-size: 19px; line-height: 1.38; color: var(--ink-secondary); margin: 0; }
+  .step-arrow { flex: 0 0 50px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 32px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>19.3 Design principles: keep it simple</p>
+    <h1 data-reveal>Prefer the <span class="accent">simplest thing that works</span></h1>
+    <p class="lead" data-reveal>Autonomy is not free. It costs more calls, more latency, and is harder to debug. The book's first principle is plain: start with the simplest architecture, and add complexity only when you have shown the simpler one fails. A prompt chain that solves the problem beats a multi-agent system that might.</p>
+
+    <div class="ladder" data-reveal>
+      <div class="rung">
+        <p class="rn">First try</p><p class="rt">A single prompt</p>
+        <p class="rd">One well-crafted call. Often enough on its own.</p>
+      </div>
+      <div class="step-arrow">&#8594;</div>
+      <div class="rung">
+        <p class="rn">Then</p><p class="rt">A fixed workflow</p>
+        <p class="rd">Chain, route, or parallelize with a set control flow.</p>
+      </div>
+      <div class="step-arrow">&#8594;</div>
+      <div class="rung">
+        <p class="rn">Only if needed</p><p class="rt">An autonomous agent</p>
+        <p class="rd">Let the model drive when the task truly demands it.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a recipe versus a chef. A workflow is a recipe you follow step by step; an autonomous agent is a chef improvising. Use the recipe whenever it gets you there, and call in the chef only when the dish is genuinely novel.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Transparency</span><span class="def">Favour designs whose every step you can inspect; opaque ones are hard to fix.</span></div>
+      <div class="row"><span class="term">The art</span><span class="def">Knowing when to stop adding layers, not how many you can add.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

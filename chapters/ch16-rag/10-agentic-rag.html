@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Agentic RAG</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .loopflow { margin-top: 30px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 24px 26px; display: flex; flex-direction: column; }
+  .stage .s-t { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 9px; }
+  .stage .s-d { font-size: 18px; line-height: 1.38; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 46px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 30px; font-weight: 700; }
+  .loopback { margin-top: 18px; display: flex; align-items: center; gap: 18px; }
+  .loopback .lbl { font-size: 19px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+  .loopback .line { flex: 1; height: 0; border-top: 3px dashed var(--gold); opacity: 0.8; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>16.7 Agentic RAG</p>
+    <h1 data-reveal>Let the agent decide <span class="accent">when and what to fetch</span></h1>
+    <p class="lead" data-reveal>Plain RAG always retrieves once, then answers. That breaks on multi-step questions. In <b>agentic RAG</b>, the agent treats retrieval as an action it can choose: plan, retrieve, check if it has enough, and loop again if not.</p>
+
+    <div class="loopflow">
+      <div class="stage" data-reveal>
+        <p class="s-t">Plan</p>
+        <p class="s-d">Break the question into the separate pieces of information it actually needs.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-t">Retrieve</p>
+        <p class="s-d">Send each piece to the right source: documents, a database, the web, or code.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-t">Evaluate</p>
+        <p class="s-d">Ask whether the gathered context is now enough to answer well.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-t">Generate</p>
+        <p class="s-d">Once it is enough, write the grounded answer with citations.</p>
+      </div>
+    </div>
+
+    <div class="loopback" data-reveal>
+      <span class="lbl">Not enough yet?</span>
+      <span class="line"></span>
+      <span class="lbl">Refine the query and retrieve again</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a student who consults references mid-problem. Rather than grabbing one book up front, they realise partway through that they are stuck, look up exactly the missing fact, then continue.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

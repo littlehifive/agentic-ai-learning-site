@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Policy gradients, REINFORCE</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .pgrow { margin-top: 26px; display: flex; gap: 18px; }
+  .pgcard { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 28px; }
+  .pgcard .pgh { font-size: 19px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .pgcard .pgh .tag { display: inline-block; font-size: 15px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--navy-deep); background: var(--gold); border-radius: 6px; padding: 3px 10px; margin-right: 10px; }
+  .pgcard .pgd { font-size: 20px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>3.6 Policy gradient methods: REINFORCE</p>
+    <h1 data-reveal>Skip the table. Tune the <span class="accent">behaviour directly</span></h1>
+    <p class="lead" data-reveal>Instead of scoring every action and reading off the best, policy gradients adjust the policy itself. Run it, see how the whole attempt scored, then make the good attempts more likely and the bad ones less likely. REINFORCE is the simplest version of this idea.</p>
+
+    <div class="pgrow">
+      <div class="pgcard" data-reveal>
+        <p class="pgh"><span class="tag">Good run</span> Reward came out high</p>
+        <p class="pgd">Push up the probability of all the actions taken. Do more of that.</p>
+      </div>
+      <div class="pgcard" data-reveal>
+        <p class="pgh"><span class="tag">Bad run</span> Reward came out low</p>
+        <p class="pgd">Push down the probability of those actions. Do less of that.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> coaching by results. The coach does not grade each pass; the team plays a full match, and afterwards the moves from winning games get practised more, the moves from losses less. It is supervised learning where the labels are your own actions, weighted by how well they paid off.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Policy gradient</span><span class="def">The direction to shift the policy so that higher-reward actions become more probable.</span></div>
+      <div class="row"><span class="term">Baseline</span><span class="def">Subtract the average value first, so you reward "better than usual" rather than just "positive". Same target, far less noise.</span></div>
+      <div class="row"><span class="term">The catch</span><span class="def">REINFORCE is very noisy: one full run per update, used once then thrown away. That high variance is what the next methods fix.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

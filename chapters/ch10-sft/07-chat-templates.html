@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chat templates</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/code.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .code-block { margin-top: 26px; font-size: 21px; max-width: 1520px; }
+  .tagk { color: var(--gold); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>10.2 Chat templates and formatting</p>
+    <h1 data-reveal>Special tokens tell the model <span class="accent">who is speaking</span></h1>
+    <p class="lead" data-reveal>A model only sees a flat stream of text, so we wrap each turn in agreed marker tokens that label it as the system, the user, or the assistant. This is the chat template. Use the wrong markers, or none, and the model gets confused about its role and answers noticeably worse.</p>
+
+    <div class="code-block" data-reveal>&lt;<span class="tagk">im_start</span>&gt; system
+You are a helpful assistant. &lt;<span class="tagk">im_end</span>&gt;
+&lt;<span class="tagk">im_start</span>&gt; user
+What is the capital of France? &lt;<span class="tagk">im_end</span>&gt;
+&lt;<span class="tagk">im_start</span>&gt; assistant
+The capital of France is Paris. &lt;<span class="tagk">im_end</span>&gt;</div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a script for a play. The character names in the margin tell each actor which lines are theirs. Strip out the names and the actors lose track of who says what.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Special token</span><span class="def">A reserved marker, like the tags above, that the model treats as structure rather than ordinary words.</span></div>
+      <div class="row"><span class="term">Match the family</span><span class="def">Each model family has its own template; you must use the exact one your model was trained with.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

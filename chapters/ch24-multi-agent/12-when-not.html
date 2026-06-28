@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>When not to use multi-agent</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flags { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px 44px; }
+  .fl { display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: start; padding: 8px 0; }
+  .fl .ck { color: var(--gold); font-size: 28px; font-weight: 900; line-height: 1.1; }
+  .fl .t { font-size: 23px; line-height: 1.4; color: var(--ink); }
+  .fl .t b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>24.8.1 &#38; 24.11 The honest default</p>
+    <h1 data-reveal>Most tasks are better as <span class="accent">one good agent</span></h1>
+    <p class="lead" data-reveal>This is the most important slide. A multi-agent system is not a free upgrade; it adds cost, latency, and failure points. Reach for it only after a single well-designed agent has proven it cannot keep up. The book's own advice: start simple, measure the limits, and add agents only when you must.</p>
+
+    <div class="flags">
+      <div class="fl" data-reveal><span class="ck">&#10005;</span><span class="t"><b>The task is simple enough for one agent.</b> If a single prompt and a few tools do the job, stop there.</span></div>
+      <div class="fl" data-reveal><span class="ck">&#10005;</span><span class="t"><b>The roles are not really distinct.</b> Five copies of the same assistant add cost, not skill.</span></div>
+      <div class="fl" data-reveal><span class="ck">&#10005;</span><span class="t"><b>Latency or budget is tight.</b> Every extra agent and message adds tokens, time, and money.</span></div>
+      <div class="fl" data-reveal><span class="ck">&#10005;</span><span class="t"><b>You need easy debugging.</b> More agents means more places to look when something goes wrong.</span></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> staffing a job. You do not hire a five-person team to answer one email. You hire the team when the work genuinely splits into specialties, and even then you accept the overhead that comes with it.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Start simple</span><span class="def">Begin with one supervisor or even one agent; grow only when it visibly falls short.</span></div>
+      <div class="row"><span class="term">The bar</span><span class="def">Add agents when a task truly splits into separate roles, or needs more context than one can hold.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

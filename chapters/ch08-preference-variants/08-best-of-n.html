@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Best-of-N</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>8.5 Best-of-N &#183; rejection sampling</p>
+    <h1 data-reveal>Skip the training, just keep the <span class="accent">best draft</span></h1>
+    <p class="lead" data-reveal>The problem it fixes: all the methods above are training. Best-of-N needs none. For each prompt, generate several answers, have a scorer rate them, and serve the top one. Quality climbs without ever touching the model's weights. Those winning answers can also be saved and fine-tuned on later, which is how many real models are built.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a writer who drafts an email five times and sends the best one. Same writer, better output, just from picking. Generate sixteen tries and quality often jumps ten to fifteen percent, sometimes matching far heavier methods.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The fix</span><span class="def">No alignment training at all. Sample several answers, score them, keep the winner.</span></div>
+      <div class="row"><span class="term">The price</span><span class="def">You pay at answer time: generating N answers costs roughly N times the compute.</span></div>
+      <div class="row"><span class="term">Reach for it when</span><span class="def">You want a strong, dead-simple baseline, or a way to generate training data for later.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

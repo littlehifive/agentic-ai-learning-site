@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The PPO training loop</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 40px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 26px 28px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 26px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .stage .s-d { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 46px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 32px; font-weight: 700; }
+  .loop { margin-top: 24px; display: flex; align-items: center; gap: 18px; }
+  .loop .line { flex: 1; height: 0; border-top: 3px dashed var(--gold); opacity: 0.8; }
+  .loop .lbl { font-size: 19px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>5.6 PPO for RLHF: the full loop</p>
+    <h1 data-reveal>The whole method is one loop: <span class="accent">generate, score, update, repeat</span></h1>
+    <p class="lead" data-reveal>PPO does not learn from a fixed answer key. It learns from feedback on the model's own output, so it must keep producing fresh answers, judging them, and adjusting. Everything later in this chapter is a detail inside one of these four steps.</p>
+
+    <div class="flow">
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 1</p><p class="s-t">Generate</p>
+        <p class="s-d">The current model writes full answers to a batch of prompts. This is the slow part, often most of the wall-clock time.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 2</p><p class="s-t">Score</p>
+        <p class="s-d">A reward model rates each answer, giving a number for how good it is. This is the only feedback the model gets.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 3</p><p class="s-t">Judge each choice</p>
+        <p class="s-d">Work out which token choices were better or worse than expected, the advantage, so credit lands in the right places.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 4</p><p class="s-t">Update, safely</p>
+        <p class="s-d">Nudge the model toward the better choices, but only by a small, clipped amount so it cannot lurch too far.</p>
+      </div>
+    </div>
+
+    <div class="loop" data-reveal>
+      <span class="lbl">Throw away the old answers</span>
+      <span class="line"></span>
+      <span class="lbl">generate fresh ones and run the loop again</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">On-policy</span><span class="def">The model learns only from answers it just produced; old answers go stale and get discarded.</span></div>
+      <div class="row"><span class="term">Reward model</span><span class="def">A separate trained scorer that stands in for human judgement of answer quality.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>An economy of agents</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>29.2.4 A future direction</p>
+    <h1 data-reveal>Where it points: an <span class="accent">economy of agents</span></h1>
+    <p class="lead" data-reveal>The author sees a future where hundreds of specialized agents, built by different teams, collaborate, negotiate, and hand work off to each other. The A2A protocol is an early hint of this. But an economy needs more than connections: it needs <b>trust between strangers</b>, rules for sharing limited resources, and a clear answer to who is responsible when a chain of agents causes harm.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a city of contractors. One agent hires another, who subcontracts a third. The work gets done fast, but only if there are contracts, reputations, and courts. Today the agents exist; the contracts and courts do not.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Delegation</span><span class="def">One agent handing part of a task to another that is better suited for it.</span></div>
+      <div class="row"><span class="term">Trust calibration</span><span class="def">An agent learning when not to believe a tool result or another agent's claim.</span></div>
+      <div class="row"><span class="term">Governance</span><span class="def">The rules and accountability for who answers when a group of agents does something harmful.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

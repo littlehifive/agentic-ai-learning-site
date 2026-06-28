@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Forgetting vs alignment tax</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>10.5 The alignment tax</p>
+    <h1 data-reveal>Two reasons a tuned model can <span class="accent">lose ability</span></h1>
+    <p class="lead" data-reveal>When a model gets worse on a test after tuning, it is worth knowing why. There are two very different causes, and they call for different fixes. One destroys knowledge; the other just holds it back on purpose.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Catastrophic forgetting</p>
+        <p>An accident. The model's old knowledge is physically overwritten, so a skill is gone. The cure is to retrain or to protect the original weights while tuning.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Alignment tax</p>
+        <p>A deliberate trade-off. To keep answers safe and well-mannered, we rein in the model, so its raw ability dips. The knowledge is still there, just suppressed, and the leash can be loosened.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a star athlete. Forgetting is an injury that takes a skill away; the alignment tax is a strict coach holding them back from risky moves. Ease the coaching and the skill returns; heal an injury and you must rebuild it.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Quick test</span><span class="def">If careful prompting or a few examples bring the skill back, it is the alignment tax. If nothing recovers it, knowledge was forgotten.</span></div>
+      <div class="row"><span class="term">Alignment tax</span><span class="def">The expected cost in raw ability paid in exchange for safer, more helpful behaviour.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

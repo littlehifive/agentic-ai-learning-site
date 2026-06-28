@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The sandbox world</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .loop { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .node { font-size: 24px; font-weight: 800; color: var(--navy); background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 26px; box-shadow: var(--shadow-md); }
+  .node.gold { border-color: var(--gold); border-width: 2px; }
+  .loop .arw { color: var(--gold); font-size: 30px; font-weight: 800; margin: 0 4px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>20.3.1 Code execution sandboxes</p>
+    <h1 data-reveal>An environment is a <span class="accent">sandbox world</span> the agent can poke at</h1>
+    <p class="lead" data-reveal>It is a safe, walled-off copy of something real: a browser, a computer desktop, or a code repository. The agent <b>takes an action</b>, the world <b>changes and shows the result</b>, and the agent acts again. The same simple loop repeats until the task is done.</p>
+
+    <div class="loop" data-reveal>
+      <span class="node">Start fresh</span>
+      <span class="arw">&#8594;</span>
+      <span class="node gold">Agent acts</span>
+      <span class="arw">&#8594;</span>
+      <span class="node">World responds</span>
+      <span class="arw">&#8594;</span>
+      <span class="node">Agent sees result</span>
+      <span class="arw">&#8635;</span>
+      <span class="node">Repeat until done</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a flight simulator for agents. A pilot in training crashes the simulator a hundred times to learn, with no one hurt and no plane lost. The sandbox is that simulator: the agent can fail, recover, and learn without touching a real database or live website.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Sandbox</span><span class="def">A walled-off copy of a real system where mistakes do no lasting harm.</span></div>
+      <div class="row"><span class="term">Action</span><span class="def">A move the agent makes: click a button, run some code, type a command.</span></div>
+      <div class="row"><span class="term">Observation</span><span class="def">What the agent gets back after acting: the new screen, the program output, an error.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

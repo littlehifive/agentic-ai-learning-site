@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why DPO exists</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>6.1 Motivation</p>
+    <h1 data-reveal>The older method works, but it is <span class="accent">a lot of machinery</span></h1>
+    <p class="lead" data-reveal>The standard way to align a model, called PPO, keeps <b>four</b> models running at once and wraps them in a delicate reinforcement-learning loop that is famously hard to keep stable. DPO asks a simple question: can we skip the loop and learn straight from preferences?</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">What PPO needs running</p>
+        <p>The model being trained, a frozen copy to stay close to, a separate reward model that scores answers, and a value head that predicts future reward. Four models, plus the loop that ties them together.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">The key insight behind DPO</p>
+        <p>The math that PPO optimizes has a clean, exact solution. That lets us rewrite the whole goal as one ordinary supervised loss, which quietly chases the same target without any of the loop.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> training a chef. PPO hires a separate food critic, sends out dishes, collects scores, and slowly adjusts. DPO just hands the chef matched plates, this one is better than that one, and lets them learn the difference directly.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Alignment</span><span class="def">Shaping a model so its answers match what people actually prefer.</span></div>
+      <div class="row"><span class="term">The reward model</span><span class="def">A second model PPO trains to score answers. DPO removes the need for it.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

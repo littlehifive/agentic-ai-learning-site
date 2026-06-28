@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The ReAct loop</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 38px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 28px 28px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 28px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .stage .s-d { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 56px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 34px; font-weight: 700; }
+  .loop { margin-top: 24px; display: flex; align-items: center; gap: 18px; }
+  .loop .line { flex: 1; height: 0; border-top: 3px dashed var(--gold); opacity: 0.8; }
+  .loop .lbl { font-size: 19px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>18.5.1 ReAct loop (reason and act)</p>
+    <h1 data-reveal>Think, act, observe, then <span class="accent">think again</span></h1>
+    <p class="lead" data-reveal>The most common way an agent runs is a tight loop. The model reasons about what to do, takes one action with a tool, reads the result, and uses it to decide the next move. It repeats until the task is done.</p>
+
+    <div class="flow">
+      <div class="stage" data-reveal>
+        <p class="s-n">Thought</p><p class="s-t">Reason</p>
+        <p class="s-d">The model thinks on a private scratchpad about what to do next.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Action</p><p class="s-t">Act</p>
+        <p class="s-d">It picks one tool and the arguments to call it with.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Observation</p><p class="s-t">Observe</p>
+        <p class="s-d">The harness runs the tool and feeds the result back in.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Stop</p><p class="s-t">Finish</p>
+        <p class="s-d">When the model gives a final answer, the loop ends.</p>
+      </div>
+    </div>
+
+    <div class="loop" data-reveal>
+      <span class="lbl">Not done yet? Feed the observation back</span>
+      <span class="line"></span>
+      <span class="lbl">and start the next thought</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Scratchpad</span><span class="def">The model's private reasoning, kept in context but not shown to the user.</span></div>
+      <div class="row"><span class="term">Termination</span><span class="def">The loop stops on a final answer, a stop token, or a hard cap on steps.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

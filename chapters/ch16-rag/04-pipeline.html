@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The RAG pipeline</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 36px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 26px 28px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 17px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 27px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .stage .s-d { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 50px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 34px; font-weight: 700; }
+  .phase { margin-top: 26px; display: flex; gap: 22px; }
+  .phase .p { flex: 1; display: flex; align-items: center; gap: 14px; font-size: 19px; font-weight: 700; color: var(--navy); }
+  .phase .p .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .phase .p .muted { color: var(--ink-secondary); font-weight: 400; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>16.2 Core RAG architecture</p>
+    <h1 data-reveal>Three moves: <span class="accent">index, retrieve, generate</span></h1>
+    <p class="lead" data-reveal>A RAG system has two phases. Once, ahead of time, it <b>indexes</b> the documents. Then, on every question, it <b>retrieves</b> the relevant pieces and <b>generates</b> an answer grounded in them.</p>
+
+    <div class="flow">
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 1</p><p class="s-t">Index</p>
+        <p class="s-d">Split documents into passages, turn each into a searchable form, and store them. Done once, offline.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 2</p><p class="s-t">Retrieve</p>
+        <p class="s-d">For the user's question, find the handful of passages most likely to contain the answer.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 3</p><p class="s-t">Generate</p>
+        <p class="s-d">Paste those passages into the prompt and ask the model to answer using only them, with citations.</p>
+      </div>
+    </div>
+
+    <div class="phase" data-reveal>
+      <div class="p"><span class="dot"></span>Offline, once <span class="muted">&#183; build the index</span></div>
+      <div class="p"><span class="dot"></span>Online, per query <span class="muted">&#183; retrieve then generate</span></div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Corpus</span><span class="def">The full collection of documents the system is allowed to draw on.</span></div>
+      <div class="row"><span class="term">Top-k</span><span class="def">The small number of best-matching passages, often three to ten, handed to the model.</span></div>
+      <div class="row"><span class="term">Grounded</span><span class="def">An answer that traces back to the retrieved passages rather than the model's memory.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

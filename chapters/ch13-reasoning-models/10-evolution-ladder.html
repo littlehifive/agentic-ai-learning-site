@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The reasoning-method ladder</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .evo-node .name { font-size: 25px; }
+  .evo-node .fixes { font-size: 19px; }
+  .evo-node .year { min-height: 0; margin: 0 0 8px; }
+  .plain { margin-top: 26px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>13.2 Test-time scaling methods</p>
+    <h1 data-reveal>Each method adds <span class="accent">one new capability</span></h1>
+
+    <div class="evo-wrap">
+      <div class="evo-baseline" data-grow-w style="width:100%"></div>
+      <div class="evo-rail">
+        <div class="evo-node" data-reveal>
+          <p class="year">Step 1</p><p class="name">Chain-of-thought</p>
+          <p class="fixes"><b>Adds explicit steps.</b> The model writes out its working instead of jumping to an answer. One path, no recovery if it slips.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">one fragile path</span></div>
+        <div class="evo-node" data-reveal>
+          <p class="year">Step 2</p><p class="name">Self-consistency</p>
+          <p class="fixes"><b>Adds sampling and voting.</b> Run many chains and take the majority answer, so scattered errors are outvoted by agreeing correct ones.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">no structure</span></div>
+        <div class="evo-node" data-reveal>
+          <p class="year">Step 3</p><p class="name">Tree-of-thoughts</p>
+          <p class="fixes"><b>Adds structured search.</b> Branch into several next steps, judge them, and backtrack from dead ends instead of running blind chains.</p>
+        </div>
+        <div class="evo-link" data-reveal><span class="arrow">&#8594;</span><span class="lim">spends effort evenly</span></div>
+        <div class="evo-node evo-node--now" data-reveal>
+          <p class="year">Step 4</p><p class="name">Monte Carlo tree search</p>
+          <p class="fixes"><b>Adds learned guidance.</b> Plays out branches, learns which pay off, and focuses compute on the most promising parts of the tree.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The pattern</span><span class="def">Each rung keeps the one before it and adds a single idea: steps, then voting, then search, then guided search.</span></div>
+      <div class="row"><span class="term">The cost</span><span class="def">Each rung also spends more compute at answer time. You climb only as far as the problem and your budget require.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz, foundations (LLMs)</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Foundations (LLMs) &#183; click a card to reveal</p>
+    <h1 data-reveal>How a Transformer <span class="accent">reads and learns</span></h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Why is attention in a decoder-only Transformer causal?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">The model writes left to right, so at each position it can only use words that came before. A causal mask blocks future positions during training, matching how generation works. This is also what makes the KV cache possible, since past keys and values never change.</p>
+          <p class="qa-review">Review: Chapter 1</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is the difference between SFT, RLHF, and DPO?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">SFT imitates good demonstrations and teaches format. RLHF trains a reward model from human preferences, then improves the policy with RL. DPO skips the reward model and optimizes directly on preference pairs. The usual order is SFT first, then RLHF or DPO to refine.</p>
+          <p class="qa-review">Review: Chapters 5, 6, 10</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Why use LoRA instead of full fine-tuning?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">LoRA freezes the base model and trains a tiny low-rank add-on, about 0.2 percent of the weights. It is cheaper, more stable, and needs no separate reference copy. The trade-off is a slightly lower quality ceiling, so switch to full fine-tuning only when LoRA hits its capacity limit.</p>
+          <p class="qa-review">Review: Chapters 1, 10</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

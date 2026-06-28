@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Execution-based reward</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1660px; }
+  .two { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 34px; }
+  .cardo.gold { border-left: 6px solid var(--gold); }
+  .cardo .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo p { font-size: 21px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>20.2.3 Reward signal design</p>
+    <h1 data-reveal>Grade by whether the task <span class="accent">actually got done</span></h1>
+    <p class="lead" data-reveal>The cleanest way to score an agent is <b>execution-based reward</b>: run the result and check it. Did the tests pass? Is the right item in the cart? You do not judge how nice the explanation reads. You judge the outcome, which makes the score hard to fake and perfectly aligned with success.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Reading the text</p>
+        <p>An agent can write a confident, well-worded answer that is simply wrong. Grading the words rewards polish, and a clever agent can talk its way to a high score without solving anything.</p>
+      </div>
+      <div class="cardo gold" data-reveal>
+        <p class="h">Running the result</p>
+        <p>Run the actual test suite, or inspect the final state of the world. It either works or it does not. There is no wording to hide behind, so the agent cannot game its way to a pass.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> grading an engineer by whether the bridge actually holds, not by how tidy the blueprint looks. A beautiful drawing earns nothing if the bridge falls down; a working bridge passes even if the sketch is rough.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Execution-based reward</span><span class="def">Score by running the outcome and checking it, not by reading the agent's words.</span></div>
+      <div class="row"><span class="term">Reward hacking</span><span class="def">Scoring high without really doing the task; execution-based grading shuts this down.</span></div>
+      <div class="row"><span class="term">LLM-as-judge</span><span class="def">The fallback when no test exists: a second model rates the result, flexible but pricier and less consistent.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

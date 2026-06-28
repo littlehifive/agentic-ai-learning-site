@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The pattern map</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .map { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; flex: 1; }
+  .col { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px 36px; display: flex; flex-direction: column; }
+  .col .ch { display: inline-block; background: var(--navy); color: var(--white); font-size: 24px; font-weight: 800; border-radius: 10px; padding: 12px 22px; margin: 0 0 8px; }
+  .col .cs { font-size: 20px; color: var(--ink-secondary); line-height: 1.4; margin: 0 0 22px; }
+  .col ul { margin: 0; padding: 0; list-style: none; }
+  .col li { position: relative; padding: 12px 0 12px 36px; font-size: 22px; line-height: 1.38; color: var(--ink); border-top: 1px solid var(--border); }
+  .col li:first-of-type { border-top: none; }
+  .col li::before { content: ''; position: absolute; left: 0; top: 21px; width: 16px; height: 6px; background: var(--gold); border-radius: 3px; }
+  .col li b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>19.1 to 19.2 The taxonomy of building blocks</p>
+    <h1 data-reveal>The whole catalogue splits into <span class="accent">two families</span></h1>
+    <p class="lead" data-reveal>Every pattern in this chapter is a way to wire up one or more model calls. They fall into two groups by who controls the order of work: the system you wrote, or the model itself.</p>
+
+    <div class="map">
+      <div class="col" data-reveal>
+        <span class="ch">Workflows</span>
+        <p class="cs">You hard-wire the control flow. The system, not the model, decides the execution order.</p>
+        <ul>
+          <li><b>Prompt chaining</b> &#183; a fixed sequence of steps</li>
+          <li><b>Routing</b> &#183; classify, then send to the right handler</li>
+          <li><b>Parallelization</b> &#183; run independent subtasks at once</li>
+        </ul>
+      </div>
+      <div class="col" data-reveal>
+        <span class="ch">Toward autonomy</span>
+        <p class="cs">The model takes a hand on the wheel, deciding how to split or refine the work.</p>
+        <ul>
+          <li><b>Orchestrator-workers</b> &#183; the model splits the work itself</li>
+          <li><b>Evaluator-optimizer</b> &#183; draft, critique, repeat until good</li>
+          <li><b>Fully autonomous agents</b> &#183; the model runs its own loop</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Control flow</span><span class="def">The order in which steps run; the heart of what each pattern decides.</span></div>
+      <div class="row"><span class="term">Composable</span><span class="def">Patterns nest inside each other; a big agent can use small workflows for its steps.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

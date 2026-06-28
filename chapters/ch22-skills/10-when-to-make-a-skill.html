@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>When to make a skill</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 34px; }
+  .cardo .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 16px; }
+  .cardo ul { margin: 0; padding: 0; list-style: none; }
+  .cardo li { position: relative; padding: 9px 0 9px 32px; font-size: 21px; line-height: 1.4; color: var(--ink); }
+  .cardo li::before { content: ''; position: absolute; left: 0; top: 16px; width: 16px; height: 6px; background: var(--gold); border-radius: 3px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>22.6 Skills vs. fine-tuning</p>
+    <h1 data-reveal>When should a capability become a <span class="accent">skill</span>?</h1>
+    <p class="lead" data-reveal>Skills add expertise at runtime; fine-tuning bakes it into the model. They are complementary, but the choice of which to use comes down to how fast you need it and how often it changes.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Reach for a skill when</p>
+        <ul>
+          <li>You want it live now, not after hours of training</li>
+          <li>The task expertise changes often, or differs per user</li>
+          <li>You want to swap or combine capabilities at runtime</li>
+          <li>Each piece stays narrow and well-defined, so it composes</li>
+        </ul>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Lean on fine-tuning when</p>
+        <ul>
+          <li>You need a deep, permanent change in behavior</li>
+          <li>The capability is stable and shared by everyone</li>
+          <li>You want zero runtime cost in the context window</li>
+          <li>You are teaching base skills like the tool-use format itself</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a reference book versus going back to school. A skill is the manual you grab off the shelf today. Fine-tuning is the training that becomes second nature, but takes far longer to acquire.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Swarm and handoffs</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 30px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .step { font-size: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 22px; color: var(--navy); font-weight: 700; box-shadow: var(--shadow-md); }
+  .flow .eq { color: var(--gold); font-size: 24px; font-weight: 800; margin: 0 2px; }
+  .flow .lbl { font-size: 16px; color: var(--ink-muted); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>24.2.4 Swarm architecture</p>
+    <h1 data-reveal>Agents pass control <span class="accent">peer to peer</span></h1>
+    <p class="lead" data-reveal>No manager and no shared memory. Each agent follows simple local rules and, when a request is outside its lane, it <b>hands off</b> control and the needed context to a better-suited peer. The task gets done through a chain of handoffs, each agent adding its specialty. Lightweight, with no orchestration overhead.</p>
+
+    <div class="flow" data-reveal>
+      <span class="step">Triage agent</span>
+      <span class="eq">&#8594;<span class="lbl"> hands off</span></span>
+      <span class="step">Billing specialist</span>
+      <span class="eq">&#8594;<span class="lbl"> hands off</span></span>
+      <span class="step">Technical support</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a customer-service phone tree run by people, not menus. Whoever picks up either answers you or transfers you, with your details, to the right desk. No supervisor is listening in; each person just knows when to pass you along.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Handoff</span><span class="def">One agent transferring control, plus the relevant context, to another agent.</span></div>
+      <div class="row"><span class="term">Routine</span><span class="def">The short set of instructions an agent follows to handle its part.</span></div>
+      <div class="row"><span class="term">No global state</span><span class="def">Each agent keeps only its own local context; nothing central tracks the whole job.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

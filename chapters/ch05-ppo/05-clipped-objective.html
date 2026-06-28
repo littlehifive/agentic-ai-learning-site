@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The clipped objective</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/code.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 26px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 32px; }
+  .cardo .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo p { font-size: 20px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo .hl { color: var(--navy); font-weight: 700; }
+  .formula { margin-top: 22px; font-size: 22px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>5.2 The clipped objective</p>
+    <h1 data-reveal>A guardrail caps how far <span class="accent">one update can move</span></h1>
+    <p class="lead" data-reveal>PPO measures how much more or less likely the new model is to make each choice, compared with the model that produced the answer. It will reward improvement, but only up to a fixed limit, usually about twenty percent. Past that limit, extra change earns nothing, so there is no reason to lurch.</p>
+
+    <div class="formula" data-reveal>change limited to within 1 minus &#949; and 1 plus &#949; &nbsp;&#183;&nbsp; typical &#949; = 0.2</div>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">When a choice was good</p>
+        <p>Make it more likely, but <span class="hl">stop at the cap</span>. The lesson is "do not get greedy on one good example." A single lucky answer should not let the model bet everything on that one pattern.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">When a choice was bad</p>
+        <p>Make it less likely, but <span class="hl">stop at the cap</span>. The lesson is "do not forget too aggressively on one bad example." One mistake should not erase a habit that is usually fine.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a guardrail on a mountain road. You can steer freely within the lane, but the rail sets a hard limit on how far any single swerve can take you, so one bad reflex can never send the car over the edge.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Probability ratio</span><span class="def">How much more or less likely the new model is to make a choice than the old one.</span></div>
+      <div class="row"><span class="term">Clip</span><span class="def">Cut off any change beyond the allowed band so extra movement gives no extra credit.</span></div>
+      <div class="row"><span class="term">Trust region</span><span class="def">The small zone around the current model where updates are considered safe.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

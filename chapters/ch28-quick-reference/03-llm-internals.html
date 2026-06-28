@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LLM internals at a glance</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<link rel="stylesheet" href="../../shared/code.css">
+<style>
+  h1 { font-size: 46px; max-width: 1680px; }
+  .lead { font-size: 25px; margin-top: 4px; }
+  .grid4 { margin-top: 26px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 28px; flex: 1; align-content: start; }
+  .rcard { background: var(--surface); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 10px; padding: 22px 28px; }
+  .rcard .head { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 8px; }
+  .rcard .t { font-size: 26px; font-weight: 800; color: var(--navy); }
+  .rcard .formula { font-size: 18px; padding: 4px 12px; }
+  .rcard .d { font-size: 21px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>28.11 to 28.16 &#183; Transformer and architecture</p>
+    <h1 data-reveal>LLM internals, <span class="accent">at a glance</span></h1>
+    <p class="lead" data-reveal>The handful of mechanisms that make up a modern model, each with the one idea that defines it.</p>
+
+    <div class="grid4">
+      <div class="rcard" data-reveal>
+        <div class="head"><span class="t">Self-attention</span><span class="formula">softmax(QK&#8868; / &#8730;d) V</span></div>
+        <p class="d">Each word looks at every earlier word and blends in the ones that matter most for predicting what comes next.</p>
+      </div>
+      <div class="rcard" data-reveal>
+        <div class="head"><span class="t">RoPE</span><span class="formula">&#952;j = 10000^(&#8722;2j/d)</span></div>
+        <p class="d">Encodes position by rotating each word's vector, so the model knows word order without a separate position table.</p>
+      </div>
+      <div class="rcard" data-reveal>
+        <div class="head"><span class="t">GQA</span></div>
+        <p class="d">Several attention heads share one set of keys and values, cutting generation memory roughly fourfold at almost no quality cost.</p>
+      </div>
+      <div class="rcard" data-reveal>
+        <div class="head"><span class="t">Mixture of Experts</span></div>
+        <p class="d">Many small expert sub-networks, but only a few fire per word, so the model is large in skill yet cheap to run.</p>
+      </div>
+      <div class="rcard" data-reveal>
+        <div class="head"><span class="t">LoRA</span><span class="formula">W&#8242; = W0 + (&#945;/r) BA</span></div>
+        <p class="d">Freeze the base model, learn a tiny add-on, and capture a new skill for under one percent of the size.</p>
+      </div>
+      <div class="rcard" data-reveal>
+        <div class="head"><span class="t">SwiGLU feed-forward</span></div>
+        <p class="d">The per-word processing block, with a gate that lets each unit decide how much signal to pass through.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Q, K, V</span><span class="def">Query, key, and value: what a word is looking for, what each word offers, and the content it contributes.</span></div>
+      <div class="row"><span class="term">Rank r (LoRA)</span><span class="def">Size of the add-on. Bigger r means more capacity but more memory; 16 to 64 is the common range.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

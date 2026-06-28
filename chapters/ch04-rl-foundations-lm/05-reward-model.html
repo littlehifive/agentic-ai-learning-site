@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>What a reward model is</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .demo { margin-top: 28px; display: flex; align-items: center; gap: 26px; }
+  .ans { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 22px 26px; }
+  .ans .who { font-size: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 8px; }
+  .ans .txt { font-size: 21px; line-height: 1.4; color: var(--ink); margin: 0; }
+  .ans.win { border-color: var(--gold); border-width: 2px; }
+  .ans.win .who { color: var(--gold); }
+  .vs { font-size: 24px; font-weight: 900; color: var(--ink-muted); flex: 0 0 auto; }
+  .pick { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 8px; }
+  .pick .arw { font-size: 34px; color: var(--gold); font-weight: 700; line-height: 1; }
+  .pick .lab { font-size: 16px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--navy); white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>4.3 Stage 2: reward model training</p>
+    <h1 data-reveal>A reward model turns "I prefer this one" into a <span class="accent">number</span></h1>
+    <p class="lead" data-reveal>You cannot ask a person to grade every answer the model will ever produce. So you collect a smaller set of <b>this is better than that</b> comparisons, and train a model to predict them. That model can then score any new answer, even ones no human saw.</p>
+
+    <div class="demo" data-reveal>
+      <div class="ans win">
+        <p class="who">Answer A &#183; chosen</p>
+        <p class="txt">"Here are three clear steps, with a short example for each."</p>
+      </div>
+      <span class="vs">vs</span>
+      <div class="ans">
+        <p class="who">Answer B &#183; rejected</p>
+        <p class="txt">"It depends. There are many ways to think about this question."</p>
+      </div>
+      <div class="pick">
+        <span class="arw">&#8594;</span>
+        <span class="lab">Score A higher</span>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> training a judge from rankings instead of raw scores. People are bad at saying "this is a 7.3," but good at saying "the left one is better." Enough of those rankings teach a consistent scoring scale.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Preference pair</span><span class="def">Two answers to the same prompt, with a human marking the better one (chosen) and the worse one (rejected).</span></div>
+      <div class="row"><span class="term">Bradley-Terry</span><span class="def">The classic recipe for learning a score from comparisons: a bigger score gap means a stronger preference.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

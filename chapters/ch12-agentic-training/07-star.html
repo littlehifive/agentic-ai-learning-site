@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>STaR</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .flow { margin-top: 30px; display: flex; align-items: stretch; gap: 18px; }
+  .fcard { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 26px; }
+  .fcard .n { font-size: 17px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .fcard .t { font-size: 22px; font-weight: 700; color: var(--navy); line-height: 1.2; margin: 0 0 8px; }
+  .fcard .d { font-size: 18px; color: var(--ink-secondary); line-height: 1.35; margin: 0; }
+  .fa { display: flex; align-items: center; color: var(--gold); font-size: 32px; font-weight: 700; }
+  .loopback { margin: 18px 0 0; text-align: center; font-size: 19px; color: var(--ink-muted); font-weight: 700; }
+  .loopback .accent { color: var(--gold); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>12.5.1 STaR: Self-Taught Reasoner</p>
+    <h1 data-reveal>The model learns from its own <span class="accent">correct work</span></h1>
+    <p class="lead" data-reveal>STaR needs no human grader and no separate reward model. The insight is simple: if the model can solve a problem correctly even occasionally, those wins are free training data. Keep the good attempts, train on them, and the next round produces more good attempts.</p>
+
+    <div class="flow">
+      <div class="fcard" data-reveal>
+        <p class="n">Step 1</p>
+        <p class="t">Generate</p>
+        <p class="d">Have the model work through a batch of problems, showing its reasoning.</p>
+      </div>
+      <div class="fa" data-reveal>&#8594;</div>
+      <div class="fcard" data-reveal>
+        <p class="n">Step 2</p>
+        <p class="t">Filter</p>
+        <p class="d">Keep only the attempts that reached the correct answer. Throw out the rest.</p>
+      </div>
+      <div class="fa" data-reveal>&#8594;</div>
+      <div class="fcard" data-reveal>
+        <p class="n">Step 3</p>
+        <p class="t">Fine-tune</p>
+        <p class="d">Train the model on those successful reasoning traces.</p>
+      </div>
+    </div>
+    <p class="loopback" data-reveal><span class="accent">&#8635;</span> Repeat. Each round the improved model solves more, so the next batch of training data gets better.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a student keeping only the homework they got right and re-studying it. Their hit rate climbs each pass, typically from about 30 percent up to 70 to 90 percent over a few rounds.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Bootstrap</span><span class="def">Improving by pulling on your own successes, with no outside teacher.</span></div>
+      <div class="row"><span class="term">Rationalization</span><span class="def">STaR's twist: for problems it failed, show it the answer and let it reason backward to learn the path.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

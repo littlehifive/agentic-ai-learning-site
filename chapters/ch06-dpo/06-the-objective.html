@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The single objective</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/code.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .formula { font-size: 26px; margin-top: 26px; padding: 14px 22px; }
+  .formula .g { color: var(--gold); font-weight: 800; }
+  .restate { margin-top: 22px; display: flex; align-items: flex-start; gap: 18px; font-size: 24px; line-height: 1.45; color: var(--ink); max-width: 1500px; }
+  .restate .mark { width: 6px; align-self: stretch; min-height: 30px; background: var(--gold); border-radius: 3px; flex-shrink: 0; }
+  .restate b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>6.2 The objective</p>
+    <h1 data-reveal>One loss does the whole job: <span class="accent">widen the gap</span></h1>
+    <p class="lead" data-reveal>With a score for each answer in hand, the goal collapses to a single instruction. Make the chosen answer's score higher than the rejected answer's score, by a comfortable margin. That is the entire training target.</p>
+
+    <div class="formula" data-reveal>train so that <span class="g">score(chosen)</span> is comfortably above <span class="g">score(rejected)</span></div>
+
+    <div class="restate" data-reveal>
+      <span class="mark"></span>
+      <span>Underneath, this is the same cross-entropy loss used in ordinary model training, just applied to a pair. The label is simply <b>chosen should win</b>. No rollouts, no value head, no live scoring loop.</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> nudging two runners apart. Each step, push the preferred answer a little ahead and the other a little back, until there is a clear, settled gap between them.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Margin</span><span class="def">How far ahead the chosen answer should sit; bigger means a firmer preference.</span></div>
+      <div class="row"><span class="term">Supervised step</span><span class="def">Ordinary training on fixed examples, with no environment to interact with.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

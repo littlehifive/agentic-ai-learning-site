@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Key takeaways</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+  .cards { margin-top: 50px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; flex: 1; }
+  .tcard { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 38px 38px 42px; display: flex; flex-direction: column; }
+  .tcard .num { font-size: 56px; font-weight: 900; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; margin: 0 0 20px; }
+  .tcard .t { font-size: 28px; font-weight: 800; color: var(--navy); margin: 0 0 12px; line-height: 1.18; }
+  .tcard .d { font-size: 22px; font-weight: 400; color: var(--ink-secondary); line-height: 1.45; margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Key takeaways</p>
+    <h1 data-reveal>Three things to <span class="accent">carry forward</span></h1>
+
+    <div class="cards">
+      <div class="tcard" data-reveal>
+        <p class="num">1</p>
+        <p class="t">Each variant fixes one thing</p>
+        <p class="d">They all share the DPO recipe. Online DPO fixes drift, KTO fixes the data shape, IPO fixes overfitting, ORPO and SimPO drop the extra model, Best-of-N drops training.</p>
+      </div>
+      <div class="tcard" data-reveal>
+        <p class="num">2</p>
+        <p class="t">Choose by constraint</p>
+        <p class="d">There is no overall winner. Name the limitation that is hurting you, paired data, memory, noise, or drift, and the right variant follows from it.</p>
+      </div>
+      <div class="tcard" data-reveal>
+        <p class="num">3</p>
+        <p class="t">Simple often wins</p>
+        <p class="d">Best-of-N needs no training yet rivals heavy methods, and reference-free training halves the memory. Always benchmark against the simple option first.</p>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

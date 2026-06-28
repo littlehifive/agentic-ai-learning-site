@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Which one, when</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .two-col { margin-top: 32px; }
+  .dcard li { padding-left: 34px; }
+  .dcard li b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>8.6 Choosing a method</p>
+    <h1 data-reveal>Start from your <span class="accent">constraint</span>, not the method</h1>
+    <p class="lead" data-reveal>Do not ask which method is best. Ask what is holding you back, then read across to the variant built to remove it. These are the questions the book walks through, in order.</p>
+
+    <div class="two-col">
+      <div class="dcard" data-reveal>
+        <p class="h">What does your data look like?</p>
+        <ul>
+          <li>Matched good-and-bad pairs &#8594; <b>DPO</b></li>
+          <li>Those pairs are noisy or AI-judged &#8594; <b>IPO</b></li>
+          <li>Only thumbs-up / down on single answers &#8594; <b>KTO</b></li>
+          <li>No preference data, just a scorer &#8594; <b>Best-of-N</b></li>
+        </ul>
+      </div>
+      <div class="dcard" data-reveal>
+        <p class="h">What is your tightest limit?</p>
+        <ul>
+          <li>DPO has stopped improving &#8594; <b>Online DPO</b></li>
+          <li>Memory is the wall &#8594; <b>ORPO</b> or <b>SimPO</b></li>
+          <li>Starting from a raw base model &#8594; <b>ORPO</b></li>
+          <li>You just need a fast, solid baseline &#8594; <b>Best-of-N</b></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footnote" data-reveal>
+      <span class="mark"></span>
+      <span>A useful habit: always measure your fancy method against plain Best-of-N on the same compute budget. If the heavy method cannot beat it, the heavy method has a bug.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

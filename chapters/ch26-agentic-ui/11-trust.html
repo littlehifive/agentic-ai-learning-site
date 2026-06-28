@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trust and transparency</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 34px; }
+  .cardo.low { border-left: 5px solid var(--border); }
+  .cardo.high { border-left: 5px solid var(--gold); }
+  .cardo .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 16px; }
+  .cardo ul { margin: 0; padding: 0; list-style: none; }
+  .cardo li { position: relative; padding: 8px 0 8px 28px; font-size: 20px; line-height: 1.4; color: var(--ink-secondary); }
+  .cardo li::before { content: ''; position: absolute; left: 0; top: 17px; width: 13px; height: 5px; background: var(--gold); border-radius: 3px; }
+  .cardo.low li::before { background: var(--ink-muted); }
+  .cardo .one { font-size: 21px; color: var(--ink); font-family: "SF Mono", Menlo, monospace; line-height: 1.45; margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>26.8 Accessibility and trust</p>
+    <h1 data-reveal>Trust is earned by being <span class="accent">transparent and recoverable</span></h1>
+    <p class="lead" data-reveal>Trust is not a button you add; it grows when a system behaves predictably, explains itself, and lets mistakes be undone. Compare two ways an agent could report booking a flight. Both are correct, but only one builds confidence.</p>
+
+    <div class="two">
+      <div class="cardo low" data-reveal>
+        <p class="h">Low-trust reply</p>
+        <p class="one">"I have booked your flight. Confirmation: AA1234."</p>
+      </div>
+      <div class="cardo high" data-reveal>
+        <p class="h">High-trust reply</p>
+        <ul>
+          <li>The search parameters it used</li>
+          <li>The alternatives it considered and why it chose this one</li>
+          <li>The exact action taken, with a link to the booking</li>
+          <li>An undo option valid for 24 hours</li>
+          <li>A note on what it cannot do: change the booking</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a contractor who not only says "it's fixed" but shows you the work, the receipts, and how to undo it if you change your mind. The extra detail is exactly what makes you call them again.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Undo and rollback</span><span class="def">Every consequential action should be reversible where the technology allows it.</span></div>
+      <div class="row"><span class="term">Audit trail</span><span class="def">A timestamped log of every action and approval, exportable for review.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

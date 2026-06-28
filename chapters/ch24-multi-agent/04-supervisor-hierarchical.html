@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Supervisor and hierarchical</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo p + p { margin-top: 12px; }
+  .cardo b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>24.2.1 &#38; 24.2.3 Centralized and hierarchical</p>
+    <h1 data-reveal>A lead agent <span class="accent">delegates</span> to the right workers</h1>
+    <p class="lead" data-reveal>The most common starting shape. One <b>supervisor</b> holds the big picture, breaks the task into pieces, hands each piece to the worker best suited for it, and stitches the results back together. Everything flows through the hub.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h">Supervisor (hub and spoke)</p>
+        <p>One manager routes each sub-task, gives each worker just the context it needs, gathers the outputs, and handles failures by retrying or re-routing.</p>
+        <p><b>Good because</b> control is simple and every decision sits in one place, so it is easy to debug. <b>Risky because</b> the manager is a single point of failure and a bottleneck.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">Hierarchical (a tree of managers)</p>
+        <p>The same idea, but taller. A top orchestrator delegates to domain sub-managers, who delegate to their own workers. Authority flows down; results flow up; problems escalate.</p>
+        <p><b>Good because</b> each level only tracks its own slice, so it scales to many agents without one mind holding everything.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a company. A supervisor is a manager with a small team. A hierarchy is a CEO who sets strategy, VPs who turn it into plans, and contributors who do the work. Scale without losing accountability.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Supervisor</span><span class="def">A lead agent that splits the task, assigns workers, and combines their results.</span></div>
+      <div class="row"><span class="term">Delegation chain</span><span class="def">The path tasks travel down the tree and results travel back up.</span></div>
+      <div class="row"><span class="term">Escalation</span><span class="def">A worker handing a problem it cannot solve back up to its manager.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

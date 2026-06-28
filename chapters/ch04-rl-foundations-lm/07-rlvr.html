@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RLVR: rewards from a checker</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1660px; }
+  .demo { margin-top: 28px; display: flex; align-items: stretch; gap: 20px; }
+  .step { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 22px 24px 24px; display: flex; flex-direction: column; }
+  .step .s-t { font-size: 22px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .step .s-d { font-size: 18px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .step .chk { font-family: "SF Mono", Menlo, monospace; font-size: 19px; color: var(--navy); background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; display: inline-block; margin-top: 10px; }
+  .step.pass { border-top: 6px solid var(--gold); }
+  .arrow { flex: 0 0 40px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 30px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>4.1 Paradigm 2: verifiable rewards</p>
+    <h1 data-reveal>RLVR: let a <span class="accent">checker</span> grade the answer, not a person</h1>
+    <p class="lead" data-reveal>For tasks with a right answer, you do not need a learned judge at all. Run the model's output through a <b>verifier</b>: solve the math, run the tests, match the final answer. Correct earns reward, wrong earns none. This is RL from Verifiable Rewards, and it is now the standard way to build reasoning models.</p>
+
+    <div class="demo" data-reveal>
+      <div class="step">
+        <p class="s-t">Prompt</p>
+        <p class="s-d">A math or coding problem with a known correct outcome.</p>
+      </div>
+      <div class="arrow">&#8594;</div>
+      <div class="step">
+        <p class="s-t">Model attempts</p>
+        <p class="s-d">It reasons step by step and writes a final answer or a block of code.</p>
+      </div>
+      <div class="arrow">&#8594;</div>
+      <div class="step pass">
+        <p class="s-t">Checker verifies</p>
+        <p class="s-d">An automatic check decides pass or fail. No human in the loop.</p>
+        <span class="chk">tests passed: reward = 1</span>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a self-grading exam with an answer key. Because the key is exact and cheap to run, you can grade millions of attempts a day, and there is almost nothing for the model to fake. DeepSeek-R1 learned to reason this way using rule-based rewards and no human preference data at all.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Verifier</span><span class="def">A program that checks correctness directly: a test suite, a math comparison, a format rule.</span></div>
+      <div class="row"><span class="term">Where it fits</span><span class="def">Only where outcomes are checkable: math, code, logic. For taste and tone you still need human preferences.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

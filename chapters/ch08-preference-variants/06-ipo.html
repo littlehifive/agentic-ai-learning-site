@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IPO</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>8.3 IPO &#183; Identity Preference Optimization</p>
+    <h1 data-reveal>Stop once the gap is <span class="accent">big enough</span></h1>
+    <p class="lead" data-reveal>The problem it fixes: DPO has no natural stopping point. It keeps widening the gap between the chosen and rejected answer, pushing the good one toward certain and the bad one toward impossible. With imperfect labels that turns into memorizing the training set. IPO targets a specific, finite gap and is happy once it gets there.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a thermostat instead of a stuck-open heater. DPO heats the room forever; IPO aims for a set temperature and holds it, so one mislabeled example cannot drag the model to an extreme.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The fix</span><span class="def">Aim for a fixed target margin between good and bad, rather than chasing an ever-larger one.</span></div>
+      <div class="row"><span class="term">Bonus</span><span class="def">A mislabeled pair gets only bounded influence, so the model generalizes instead of memorizing.</span></div>
+      <div class="row"><span class="term">Reach for it when</span><span class="def">Your labels are noisy, or DPO looks great on training data but worse on real tests.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

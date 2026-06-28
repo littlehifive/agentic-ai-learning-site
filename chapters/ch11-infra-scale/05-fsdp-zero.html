@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FSDP and ZeRO sharding</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .shard-vis { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: stretch; }
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px; display: flex; flex-direction: column; }
+  .panel .ph { font-size: 21px; font-weight: 800; color: var(--navy); margin: 0 0 18px; }
+  .gpus { display: flex; gap: 12px; }
+  .gpu { flex: 1; border-radius: 10px; padding: 16px 10px; text-align: center; }
+  .gpu .gname { font-size: 15px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin: 0 0 12px; }
+  .gpu .blk { height: 78px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; line-height: 1.2; }
+  .ddp .gpu { background: var(--surface-subtle); border: 1px solid var(--border); }
+  .ddp .gpu .gname { color: var(--ink-muted); }
+  .ddp .gpu .blk { background: var(--navy); color: var(--white); }
+  .fsdp .gpu { background: var(--surface-subtle); border: 1px solid var(--border); }
+  .fsdp .gpu .gname { color: var(--ink-muted); }
+  .fsdp .gpu .blk { background: var(--gold); color: var(--navy-deep); }
+  .pnote { margin-top: 16px; font-size: 19px; color: var(--ink-secondary); line-height: 1.4; }
+  .pnote b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>11.2.5 Fully Sharded Data Parallelism (FSDP / ZeRO-3)</p>
+    <h1 data-reveal>Give each GPU only <span class="accent">its own slice</span> to hold</h1>
+    <p class="lead" data-reveal>The plain way to use many GPUs makes every one keep a full copy of everything, which still overflows. Sharding flips that: each GPU permanently owns just one slice of the weights, gradients, and optimizer copies, and borrows the rest only for the split second it is needed.</p>
+
+    <div class="shard-vis">
+      <div class="panel ddp" data-reveal>
+        <p class="ph">Plain copies: every GPU holds it all</p>
+        <div class="gpus">
+          <div class="gpu"><p class="gname">GPU 1</p><div class="blk">Full model</div></div>
+          <div class="gpu"><p class="gname">GPU 2</p><div class="blk">Full model</div></div>
+          <div class="gpu"><p class="gname">GPU 3</p><div class="blk">Full model</div></div>
+          <div class="gpu"><p class="gname">GPU 4</p><div class="blk">Full model</div></div>
+        </div>
+        <p class="pnote">Wasteful: the same data is duplicated four times. Still <b>too big for any one GPU</b>.</p>
+      </div>
+      <div class="panel fsdp" data-reveal>
+        <p class="ph">Sharded: each GPU owns one quarter</p>
+        <div class="gpus">
+          <div class="gpu"><p class="gname">GPU 1</p><div class="blk">Slice 1</div></div>
+          <div class="gpu"><p class="gname">GPU 2</p><div class="blk">Slice 2</div></div>
+          <div class="gpu"><p class="gname">GPU 3</p><div class="blk">Slice 3</div></div>
+          <div class="gpu"><p class="gname">GPU 4</p><div class="blk">Slice 4</div></div>
+        </div>
+        <p class="pnote">No GPU holds the whole thing. For a 70B model this cuts the load from impossible to <b>about 70 GB per GPU, which fits</b>.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a moving company splitting one enormous load across many trucks so no single truck is overloaded. When a heavy item needs assembling, the trucks briefly bring their pieces together, then go back to carrying just their share.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Sharding</span><span class="def">Splitting the model, gradients, and optimizer copies into slices so no one GPU holds it all.</span></div>
+      <div class="row"><span class="term">FSDP / ZeRO-3</span><span class="def">The two common names for this: FSDP in PyTorch, ZeRO-3 in DeepSpeed. Same idea.</span></div>
+      <div class="row"><span class="term">The trade</span><span class="def">You save huge amounts of memory, but GPUs must chatter more to gather slices when needed.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

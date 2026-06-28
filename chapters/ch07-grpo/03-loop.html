@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The GRPO loop</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .loop { margin-top: 30px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .lstep { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 28px 30px; display: flex; flex-direction: column; position: relative; }
+  .lstep .n { font-size: 40px; font-weight: 900; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; margin: 0 0 14px; }
+  .lstep .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; line-height: 1.15; }
+  .lstep p { font-size: 20px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+  .loop-back { margin-top: 22px; display: flex; align-items: center; gap: 16px; font-size: 21px; color: var(--ink-secondary); }
+  .loop-back .mark { width: 6px; align-self: stretch; min-height: 28px; background: var(--gold); border-radius: 3px; flex-shrink: 0; }
+  .loop-back b { color: var(--navy); font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>7.2 The GRPO algorithm</p>
+    <h1 data-reveal>The loop, end to end, in <span class="accent">four moves</span></h1>
+    <p class="lead" data-reveal>GRPO keeps the same safe, small-step update as PPO. The only change is where the bar to beat comes from: not a learned network, but the answers themselves.</p>
+
+    <div class="loop">
+      <div class="lstep" data-reveal>
+        <p class="n">1</p>
+        <p class="h">Sample a group</p>
+        <p>Take one prompt and have the model write several answers to it, often eight at once.</p>
+      </div>
+      <div class="lstep" data-reveal>
+        <p class="n">2</p>
+        <p class="h">Score each one</p>
+        <p>Give every answer a reward. For math or code, that can be a simple right-or-wrong check.</p>
+      </div>
+      <div class="lstep" data-reveal>
+        <p class="n">3</p>
+        <p class="h">Compare to the group</p>
+        <p>Measure each answer against the group's average. Above average is good, below average is bad.</p>
+      </div>
+      <div class="lstep" data-reveal>
+        <p class="n">4</p>
+        <p class="h">Nudge the model</p>
+        <p>Make above-average answers a little more likely and below-average ones less, in small steps.</p>
+      </div>
+    </div>
+
+    <div class="loop-back" data-reveal>
+      <span class="mark"></span>
+      <span>Then repeat on the next prompt. <b>No second network is ever trained.</b> The group is the only yardstick.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

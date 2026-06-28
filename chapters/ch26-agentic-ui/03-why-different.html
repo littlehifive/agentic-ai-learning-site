@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why agent UIs differ</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .gains { margin-top: 30px; flex: 0 0 auto; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>26.1 Motivation: beyond the chat box</p>
+    <h1 data-reveal>An agent is a <span class="accent">collaborator</span>, not a vending machine</h1>
+    <p class="lead" data-reveal>A vending machine takes your input and hands back one result. An agent might browse the web, write and run code, and work for minutes. To stay a partner rather than a black box, its interface has to answer the questions a person naturally asks while watching someone work.</p>
+
+    <div class="gains" data-reveal>
+      <div class="gain"><span class="ck">&#10003;</span><span class="t"><b>What is it doing right now?</b> Long tasks need progress; silence breeds distrust.</span></div>
+      <div class="gain"><span class="ck">&#10003;</span><span class="t"><b>Why did it decide that?</b> Showing the reasoning lets people catch errors early.</span></div>
+      <div class="gain"><span class="ck">&#10003;</span><span class="t"><b>Which tools did it use?</b> Knowing the inputs lets people verify the claims.</span></div>
+      <div class="gain"><span class="ck">&#10003;</span><span class="t"><b>Where should I step in?</b> Surface the decisions that truly need a human.</span></div>
+      <div class="gain"><span class="ck">&#10003;</span><span class="t"><b>Can I undo this?</b> Sending mail or changing files needs confirmation and a way back.</span></div>
+      <div class="gain"><span class="ck">&#10003;</span><span class="t"><b>How sure is it?</b> People over-trust confident machines, so the UI must show doubt.</span></div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Automation bias</span><span class="def">The human habit of over-trusting a confident machine; good agent UIs fight it by showing uncertainty.</span></div>
+      <div class="row"><span class="term">Five design goals</span><span class="def">Transparency, control, trust calibration, efficiency, and recoverability.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Group-relative advantage</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .scale { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 32px; display: flex; flex-direction: column; }
+  .cardo .sign { font-size: 40px; font-weight: 900; color: var(--gold); line-height: 1; margin: 0 0 12px; }
+  .cardo .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .cardo p { font-size: 20px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .meanline { margin-top: 24px; font-size: 22px; color: var(--ink-secondary); display: flex; align-items: center; gap: 16px; }
+  .meanline .chip { background: var(--surface-subtle); border: 1px solid var(--border); border-left: 5px solid var(--gold); border-radius: 8px; padding: 10px 18px; font-weight: 700; color: var(--navy); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>7.2 Compare to the group</p>
+    <h1 data-reveal>Graded on a curve, against the <span class="accent">class average</span></h1>
+    <p class="lead" data-reveal>Take the group's average reward as the bar. An answer's <b>advantage</b> is simply how far above or below that average it landed. There is no absolute target, only better-or-worse than the rest of the group.</p>
+
+    <div class="meanline" data-reveal>
+      <span class="chip">Group average = the bar to beat</span>
+      <span>Each answer is then scored relative to it.</span>
+    </div>
+
+    <div class="scale">
+      <div class="cardo" data-reveal>
+        <p class="sign">+</p>
+        <p class="h">Above the average</p>
+        <p>This answer beat its peers on the same question. Make the choices that led to it a little more likely next time.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="sign">&#8722;</p>
+        <p class="h">Below the average</p>
+        <p>This answer lagged the rest of its group. Make those choices a little less likely, even if it was not terrible on its own.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> grading students on a curve. Nobody needs to know the absolute hardest possible score; you only need to know who beat the class average and who fell short of it.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

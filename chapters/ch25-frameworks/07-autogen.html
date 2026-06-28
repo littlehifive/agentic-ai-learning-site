@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AutoGen</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>25.3.2 AutoGen (Microsoft)</p>
+    <h1 data-reveal>Let agents <span class="accent">talk it out</span> in a group chat</h1>
+    <p class="lead" data-reveal>AutoGen treats agents as participants in a conversation. Instead of one fixed loop, several specialists, say a planner, a coder, and a critic, share a chat and take turns. A manager decides who speaks next. A distinctive feature is that one participant can actually run code, test it, and fix it before reporting back.</p>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a war room on a group call. A facilitator picks the next speaker, the experts debate, and one person at the keyboard can run the numbers live and read the result back to the room.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Conversable agent</span><span class="def">A participant with a role, set by its system message, that speaks in the shared chat.</span></div>
+      <div class="row"><span class="term">Group chat manager</span><span class="def">The facilitator that decides whose turn it is, by round-robin or by asking the model.</span></div>
+      <div class="row"><span class="term">Code execution</span><span class="def">An agent that runs code in a sandbox; in production, keep it isolated in a container.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

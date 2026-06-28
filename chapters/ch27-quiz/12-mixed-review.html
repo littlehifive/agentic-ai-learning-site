@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz, mixed review</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Mixed review &#183; click a card to reveal</p>
+    <h1 data-reveal>A few that <span class="accent">cross chapters</span></h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Why decouple generation from training in large RLHF?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Generation is memory-bandwidth bound and training is compute bound, so one set of hardware cannot serve both well. Decoupling lets generation nodes use low precision and big batches while training keeps full precision and sharding. It also makes generation stateless and easy to recover.</p>
+          <p class="qa-review">Review: Chapter 11</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is the lost-in-the-middle problem in RAG?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">With long retrieved context, models attend most to the start and end and overlook the middle, so an answer buried in passage five can be missed. Fix it by re-ranking and keeping only the top few passages, placing the strongest ones at both ends, and compressing the rest.</p>
+          <p class="qa-review">Review: Chapter 15</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">How do you design approval gates for human-in-the-loop agents?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Use three tiers. Auto-approve safe, reversible reads. Notify on impactful but recoverable actions, letting the user undo. Block irreversible or high-stakes actions until explicit approval. Keep gates few so users do not abandon the agent, and show what will change and how to undo.</p>
+          <p class="qa-review">Review: Chapters 17, 25</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

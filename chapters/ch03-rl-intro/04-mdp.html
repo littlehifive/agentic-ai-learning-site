@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Markov Decision Process</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .tuple { margin-top: 26px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .tcell { flex: 1 1 0; min-width: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow-md); padding: 18px 20px; }
+  .tcell .sym { font-family: "SF Mono", Menlo, monospace; font-size: 30px; font-weight: 800; color: var(--gold); line-height: 1; }
+  .tcell .nm { font-size: 21px; font-weight: 800; color: var(--navy); margin: 10px 0 4px; }
+  .tcell .ds { font-size: 17px; line-height: 1.35; color: var(--ink-secondary); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>3.1 The Markov Decision Process (MDP)</p>
+    <h1 data-reveal>The world, written down as <span class="accent">five moving parts</span></h1>
+    <p class="lead" data-reveal>An MDP is the standard way to describe any RL problem. It names the situations the agent can be in, the moves it can make, how the world reacts, the reward it pays, and how much the future counts. The <b>Markov property</b> keeps it simple: the next state depends only on where you are now, not on the whole history of how you got there.</p>
+
+    <div class="tuple">
+      <div class="tcell" data-reveal><p class="sym">S</p><p class="nm">States</p><p class="ds">Every situation the world can be in.</p></div>
+      <div class="tcell" data-reveal><p class="sym">A</p><p class="nm">Actions</p><p class="ds">Every move available to the agent.</p></div>
+      <div class="tcell" data-reveal><p class="sym">P</p><p class="nm">Transitions</p><p class="ds">Odds of landing in each next state after a move.</p></div>
+      <div class="tcell" data-reveal><p class="sym">R</p><p class="nm">Reward</p><p class="ds">The number paid out for a transition.</p></div>
+      <div class="tcell" data-reveal><p class="sym">&#947;</p><p class="nm">Discount</p><p class="ds">How much a future reward is worth today, from 0 to 1.</p></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a board game. The squares are the states, the legal moves are the actions, the dice decide where you land, the points are the reward, and the discount says a point now beats a point ten turns from now.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Markov property</span><span class="def">The future depends only on the current state, not the path that led there. This is what makes the maths tractable.</span></div>
+      <div class="row"><span class="term">Discount factor</span><span class="def">A number near 1 means the agent is patient and plans far ahead; near 0 means it only chases immediate reward.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Decoupled architecture</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .flow { margin-top: 36px; display: flex; align-items: stretch; }
+  .stage { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 26px 28px; display: flex; flex-direction: column; }
+  .stage .s-n { font-size: 16px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .stage .s-t { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .stage .s-d { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { flex: 0 0 50px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 34px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>11.4 Decoupled Architecture</p>
+    <h1 data-reveal>Put the writing and the learning on <span class="accent">separate clusters</span></h1>
+    <p class="lead" data-reveal>Since writing answers and learning need different hardware, production systems stop forcing them onto the same machines. They run a fast writing cluster, tuned for memory, and a separate training cluster, tuned for compute, with a buffer in between.</p>
+
+    <div class="flow">
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 1</p><p class="s-t">Generate</p>
+        <p class="s-d">A writing cluster, often running vLLM, churns out practice answers fast.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 2</p><p class="s-t">Score</p>
+        <p class="s-d">The reward model rates each answer for quality.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 3</p><p class="s-t">Buffer</p>
+        <p class="s-d">Scored answers collect in a shared holding area, ready to be used.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="stage" data-reveal>
+        <p class="s-n">Step 4</p><p class="s-t">Train</p>
+        <p class="s-d">A training cluster updates the model, then ships the new weights back to the writers.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a kitchen with a separate prep station and cooking line. While the line cooks one order (training), the prep station is already working on the next (generating), so neither sits idle waiting for the other.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Decoupled</span><span class="def">Separating the fast writing phase from the heavy training phase so each runs on its best hardware.</span></div>
+      <div class="row"><span class="term">vLLM</span><span class="def">A popular serving engine that makes the writing phase much faster and is the usual choice for the generation cluster.</span></div>
+      <div class="row"><span class="term">Overlap</span><span class="def">Writing the next round while training on the last gives a sizeable speedup, roughly a third faster.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

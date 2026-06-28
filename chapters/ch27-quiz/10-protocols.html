@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz, tools and protocols</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Tools and protocols: MCP, A2A &#183; click a card to reveal</p>
+    <h1 data-reveal>How agents <span class="accent">connect</span></h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What is MCP's N plus M architecture, and why does it matter?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Without a standard, N agents times M tools means N times M custom integrations. MCP standardizes the interface: each agent ships one client and each tool ships one server, so the total is N plus M. Build a tool once and any compatible agent can use it, like USB for agent-tool links.</p>
+          <p class="qa-review">Review: Chapter 20</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">How does A2A differ from MCP, and when do you need both?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">MCP connects an agent to tools with defined schemas. A2A connects agent to agent for opaque task delegation, where you do not see the other agent's internals. A full system uses both: A2A coordinates between agents, and each agent uses MCP to reach its own tools.</p>
+          <p class="qa-review">Review: Chapters 20, 22</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">What are MCP's four core primitives?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">Tools execute actions and have side effects. Resources are read-only data. Prompts are reusable templates that help formulate calls. Sampling reverses direction, letting a server ask the client's LLM for help. The tools-versus-resources split matters for safety: reads are free, actions need approval.</p>
+          <p class="qa-review">Review: Chapter 20</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

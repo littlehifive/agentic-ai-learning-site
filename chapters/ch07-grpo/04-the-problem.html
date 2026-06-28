@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Why drop the critic</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .three { margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 30px 32px; display: flex; flex-direction: column; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>7.1 Motivation</p>
+    <h1 data-reveal>The scoring model was the <span class="accent">weakest link</span></h1>
+    <p class="lead" data-reveal>PPO ran a second network, the <b>critic</b>, whose only job was to predict how good a half-finished answer would turn out. For language that turned out to be a costly, error-prone idea on three fronts.</p>
+
+    <div class="three">
+      <div class="cardo" data-reveal>
+        <p class="h">It costs memory</p>
+        <p>The critic is roughly the size of the model itself. Keeping both in memory can double the hardware bill, which bites hardest on the largest models.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">It is hard to get right</p>
+        <p>Guessing the final score of a sentence that is only half written is genuinely hard. A wrong guess points the update in the wrong direction.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h">It is slow to settle</p>
+        <p>The critic needs many examples before its guesses are stable. Early in training it is noisy, and that noise rattles the model it is supposed to guide.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Critic / value model</span><span class="def">In PPO, a second network that predicts the reward an answer will earn; the bar each choice is judged against.</span></div>
+      <div class="row"><span class="term">GRPO's move</span><span class="def">Replace that prediction with a real measurement: the average reward of a group of answers to the same prompt.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

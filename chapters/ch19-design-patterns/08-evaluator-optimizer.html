@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Evaluator-optimizer</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .eo { margin-top: 30px; display: grid; grid-template-columns: 1fr 70px 1fr; align-items: center; }
+  .role { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px; }
+  .role .rt { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .role .rd { font-size: 20px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .ar { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--gold); }
+  .ar .top { font-size: 30px; font-weight: 700; line-height: 1; }
+  .ar .lbl { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-muted); }
+  .loopbar { margin-top: 22px; display: flex; align-items: center; gap: 18px; }
+  .loopbar .line { flex: 1; height: 0; border-top: 3px dashed var(--gold); opacity: 0.8; }
+  .loopbar .lt { font-size: 20px; font-weight: 700; color: var(--navy); white-space: nowrap; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>19.1.5 Toward autonomy: evaluator-optimizer</p>
+    <h1 data-reveal>One model <span class="accent">drafts</span>, another <span class="accent">critiques</span>, loop until good</h1>
+    <p class="lead" data-reveal>A two-model feedback loop. A generator produces a candidate; a separate evaluator scores it against explicit criteria. If it falls short, the critique is fed back to the generator and the cycle repeats, until the quality bar is met or a retry budget runs out.</p>
+
+    <div class="eo" data-reveal>
+      <div class="role">
+        <p class="rt">Generator</p>
+        <p class="rd">Produces a candidate output, then revises it using the latest critique.</p>
+      </div>
+      <div class="ar"><span class="top">&#8594;</span><span class="lbl">draft</span></div>
+      <div class="role">
+        <p class="rt">Evaluator</p>
+        <p class="rd">Scores the draft against clear criteria and writes a critique of what to fix.</p>
+      </div>
+    </div>
+    <div class="loopbar" data-reveal>
+      <span class="lt">If the score is too low, send the critique back to the generator</span>
+      <span class="line"></span>
+      <span class="lt">and try again</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a writer and an editor passing a draft back and forth. The editor marks up what is weak, the writer revises, and they repeat until the piece clears the bar or the deadline forces them to stop.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Retry budget</span><span class="def">A cap on loops so the cycle always ends, even if perfection is never reached.</span></div>
+      <div class="row"><span class="term">Best for</span><span class="def">Tasks with clear quality criteria: code that must pass tests, a faithful translation.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

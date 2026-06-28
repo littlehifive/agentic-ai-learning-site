@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Picking the group size</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .sizes { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .sz { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px; display: flex; flex-direction: column; }
+  .sz .g { font-size: 38px; font-weight: 900; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; margin: 0 0 12px; }
+  .sz .h { font-size: 22px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .sz p { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .sz--now { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>7.4 Group size analysis</p>
+    <h1 data-reveal>How many answers? <span class="accent">Not too few, not too many</span></h1>
+    <p class="lead" data-reveal>The group size is the main dial. Too few answers and the comparison is a coin flip; too many and you burn compute for little extra signal. There is a comfortable middle.</p>
+
+    <div class="sizes">
+      <div class="sz" data-reveal>
+        <p class="g">2 to 4</p>
+        <p class="h">Cheap but noisy</p>
+        <p>Fine for quick experiments and easy tasks, but the average is unstable when based on so few answers.</p>
+      </div>
+      <div class="sz sz--now" data-reveal>
+        <p class="g">8</p>
+        <p class="h">The default</p>
+        <p>A good balance of clear signal and reasonable cost. The standard starting point for most tasks.</p>
+      </div>
+      <div class="sz" data-reveal>
+        <p class="g">16+</p>
+        <p class="h">For hard problems</p>
+        <p>Worth it on tasks the model rarely gets right, where you need many tries to land any correct answer at all.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">The catch</span><span class="def">A group must contain both wins and losses. If every answer is right (or every one wrong), they all match the average and there is nothing to learn from.</span></div>
+      <div class="row"><span class="term">Goldilocks rule</span><span class="def">Feed the model questions it gets right some of the time, neither always nor never, so each group has a real spread.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

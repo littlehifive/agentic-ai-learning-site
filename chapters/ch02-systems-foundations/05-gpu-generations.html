@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GPU generations</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .evo-wrap { margin-top: 30px; }
+  .evo-node .fixes b { color: var(--gold); }
+  .plain { margin-top: 30px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>2.1.3 Common GPUs for LLM Training and Inference</p>
+    <h1 data-reveal>Each new chip generation does <span class="accent">more, faster</span></h1>
+    <p class="lead" data-reveal>NVIDIA ships a new GPU family every couple of years. The names you hear, A100, H100, B200, are just successive generations. Each one adds more memory and faster math, so a model that once needed a room of chips can later fit on a handful.</p>
+
+    <div class="evo-wrap" data-reveal>
+      <div class="evo-baseline"></div>
+      <div class="evo-rail">
+        <div class="evo-node">
+          <p class="year">2020 &#183; Ampere</p>
+          <p class="name">A100</p>
+          <p class="fixes">Up to <b>80 GB</b> of memory at 2 TB/s. The cost-effective workhorse for fine-tuning and budget training.</p>
+        </div>
+        <div class="evo-link"><span class="arrow">&#8594;</span><span class="lim">3x faster training</span></div>
+        <div class="evo-node">
+          <p class="year">2022 &#183; Hopper</p>
+          <p class="name">H100</p>
+          <p class="fixes">Same 80 GB but 3.35 TB/s and far faster math (FP8). The standard chip for serious training today.</p>
+        </div>
+        <div class="evo-link"><span class="arrow">&#8594;</span><span class="lim">2x over H100</span></div>
+        <div class="evo-node evo-node--now">
+          <p class="year">2024 &#183; Blackwell</p>
+          <p class="name">B200</p>
+          <p class="fixes"><b>192 GB</b> at 8 TB/s and the fastest links yet. Roughly twice an H100 for the largest models.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> car engines getting bigger and more efficient each model year: more horsepower (math speed) and a larger fuel tank (memory), so the same trip takes less time and fewer cars.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">HBM</span><span class="def">The GPU's main memory, stacked right on the chip; more of it means bigger models fit.</span></div>
+      <div class="row"><span class="term">Bandwidth (TB/s)</span><span class="def">How fast that memory can be read; the real limit on how quickly a model runs.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

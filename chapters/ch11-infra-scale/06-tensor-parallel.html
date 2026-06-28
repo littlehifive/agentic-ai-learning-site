@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tensor parallelism</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .tp-vis { margin-top: 30px; display: flex; align-items: center; justify-content: center; gap: 40px; }
+  .layer-box { background: var(--surface); border: 2px solid var(--navy); border-radius: 14px; padding: 22px 26px; text-align: center; box-shadow: var(--shadow-md); }
+  .layer-box .lt { font-size: 19px; font-weight: 800; color: var(--navy); margin: 0 0 16px; }
+  .slices { display: flex; gap: 10px; }
+  .slice { width: 90px; height: 96px; border-radius: 8px; background: var(--gold); color: var(--navy-deep); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; text-align: center; line-height: 1.2; }
+  .splitarrow { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--gold); }
+  .splitarrow .ar { font-size: 40px; font-weight: 700; line-height: 1; }
+  .splitarrow .cap { font-size: 17px; font-weight: 700; color: var(--ink-secondary); max-width: 150px; text-align: center; }
+  .single { width: 130px; height: 96px; border-radius: 8px; background: var(--navy); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>11.2.2 Tensor Parallelism</p>
+    <h1 data-reveal>Split <span class="accent">one layer</span> across several GPUs</h1>
+    <p class="lead" data-reveal>Some single layers are so wide that even one of them is a strain. Tensor parallelism cuts an individual layer into vertical strips, hands each strip to a different GPU, and has them compute their part at the same time, then combine the answer.</p>
+
+    <div class="tp-vis" data-reveal>
+      <div class="layer-box">
+        <p class="lt">One layer, too wide</p>
+        <div class="single">Layer</div>
+      </div>
+      <div class="splitarrow">
+        <span class="ar">&#8594;</span>
+        <span class="cap">cut into strips, one per GPU</span>
+      </div>
+      <div class="layer-box">
+        <p class="lt">Same layer, shared four ways</p>
+        <div class="slices">
+          <span class="slice">GPU 1</span>
+          <span class="slice">GPU 2</span>
+          <span class="slice">GPU 3</span>
+          <span class="slice">GPU 4</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> four cashiers ringing up one giant shopping cart together, each taking a section of the items, then adding their subtotals at the end. The catch: they have to talk to each other constantly, so they must sit side by side, not in different buildings.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Tensor parallelism</span><span class="def">Splitting a single layer's math across GPUs that work on it at the same time.</span></div>
+      <div class="row"><span class="term">Stay close</span><span class="def">It needs constant fast chatter, so it is kept inside one machine where GPUs are wired tightly together, typically 8 or fewer.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

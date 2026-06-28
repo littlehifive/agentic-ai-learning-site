@@ -186,6 +186,19 @@ body.anim-static .cmp-panel { display: block !important; }
 .plain .term { color: var(--navy); font-weight: 800; flex: 0 0 250px; }
 .plain .def { color: var(--ink-secondary); flex: 1; }
 
+/* Cross-section "continue" hyperlink (closing slides) */
+.continue-row { margin-top: 40px; display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+.nextlink { display: inline-flex; align-items: center; gap: 14px; text-decoration: none;
+  background: var(--gold); color: var(--navy-deep); font-weight: 800; font-size: 23px;
+  padding: 18px 32px; border-radius: 999px; transition: transform 0.18s, box-shadow 0.18s; }
+.nextlink:hover { transform: translateY(-3px); box-shadow: 0 14px 32px rgba(0,0,0,0.42); }
+.nextlink .arw { font-size: 26px; line-height: 1; }
+.homelink { display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+  color: rgba(220,230,245,0.85); font-weight: 700; font-size: 19px; border-bottom: 2px solid rgba(241,181,5,0.6); padding-bottom: 2px; }
+.homelink:hover { color: var(--gold); }
+/* On light closing slides */
+.slide:not(.dark) .homelink, body:not(.dark) .homelink { color: var(--ink-secondary); }
+
 /* Vertical history timeline (intro) */
 .timeline { margin-top: 22px; position: relative; padding-left: 42px; }
 .timeline::before { content: ''; position: absolute; left: 11px; top: 8px; bottom: 8px; width: 4px; background: var(--gold); border-radius: 2px; opacity: 0.85; }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reflect: turning events into lessons</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .flow { margin-top: 32px; display: grid; grid-template-columns: 1fr 64px 1fr 64px 1fr; align-items: center; gap: 0; }
+  .fnode { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 30px; height: 100%; display: flex; flex-direction: column; }
+  .fnode .tag { font-size: 16px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 12px; }
+  .fnode .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; line-height: 1.2; }
+  .fnode .d { font-size: 20px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .farr { color: var(--gold); font-size: 40px; font-weight: 700; text-align: center; line-height: 1; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>17.4.4 Reflect: meta-cognitive operations</p>
+    <h1 data-reveal>Reflection turns scattered episodes into a <span class="accent">durable lesson</span></h1>
+    <p class="lead" data-reveal>After repeated failures, an agent can read its own history, spot the common thread, and write down a general rule. Next time, that rule is retrieved and acted on. This is how an episode becomes lasting knowledge.</p>
+
+    <div class="flow">
+      <div class="fnode" data-reveal>
+        <p class="tag">Input</p>
+        <p class="h">Episodic memory</p>
+        <p class="d">Retrieve the specific past events, such as three failed attempts at the same coding problem.</p>
+      </div>
+      <div class="farr" data-reveal>&#8594;</div>
+      <div class="fnode" data-reveal>
+        <p class="tag">Compute</p>
+        <p class="h">Working memory</p>
+        <p class="d">In context, reason across them and name the pattern: "I keep skipping the empty-input case."</p>
+      </div>
+      <div class="farr" data-reveal>&#8594;</div>
+      <div class="fnode" data-reveal>
+        <p class="tag">Output</p>
+        <p class="h">Semantic memory</p>
+        <p class="d">Store the generalized insight: "Always check for empty inputs." It now applies to any future task.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a person reviewing a rough week and concluding "I should sleep before big decisions." The specific bad days fade; the rule stays. This mirrors how the brain turns experience into knowledge during rest.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

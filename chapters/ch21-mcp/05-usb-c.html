@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>USB-C for AI tools</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .plug { margin-top: 28px; display: flex; align-items: center; justify-content: center; gap: 30px; }
+  .pchip { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 22px 30px; font-size: 24px; font-weight: 800; color: var(--navy); text-align: center; min-width: 230px; }
+  .pchip .sub { display: block; font-size: 17px; font-weight: 500; color: var(--ink-secondary); margin-top: 6px; }
+  .pport { width: 96px; height: 96px; border-radius: 50%; background: var(--gold); color: var(--navy-deep); display: flex; align-items: center; justify-content: center; font-size: 19px; font-weight: 900; text-align: center; line-height: 1.1; flex-shrink: 0; }
+  .pconn { color: var(--gold); font-size: 38px; font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>21.1 The standardization insight</p>
+    <h1 data-reveal>MCP is <span class="accent">USB-C for AI tools</span></h1>
+    <p class="lead" data-reveal>USB-C is one connector shape. Any laptop with the port works with any charger, drive, or monitor that has the plug, with no special adapter per device. MCP is that idea for software: one standard plug so any compliant agent can use any compliant tool.</p>
+
+    <div class="plug" data-reveal>
+      <div class="pchip">Any AI assistant<span class="sub">Claude Desktop, an IDE, your own bot</span></div>
+      <span class="pconn">&#8594;</span>
+      <div class="pport">MCP plug</div>
+      <span class="pconn">&#8594;</span>
+      <div class="pchip">Any compliant tool<span class="sub">files, GitHub, a database, search</span></div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a universal power adapter for travel. You carry one plug, and it fits the wall socket in every country. Build a tool to speak MCP once, and every MCP-capable assistant can already use it.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Open standard</span><span class="def">A shared, public set of rules that nobody owns, so any vendor can adopt it freely.</span></div>
+      <div class="row"><span class="term">Vendor-neutral</span><span class="def">It is not tied to one company's model or product, so you avoid lock-in.</span></div>
+      <div class="row"><span class="term">Introduced 2024</span><span class="def">MCP was released by Anthropic in late 2024 as an open standard.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

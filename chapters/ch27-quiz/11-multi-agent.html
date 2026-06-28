@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quiz, multi-agent and frameworks</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 52px; max-width: 1640px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>Multi-agent and frameworks &#183; click a card to reveal</p>
+    <h1 data-reveal>Coordinating <span class="accent">many agents</span></h1>
+
+    <div class="qa-grid">
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">Centralized versus decentralized multi-agent architectures?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">A centralized supervisor routes tasks to workers: easy to debug, but a single point of failure and a token bottleneck. Decentralized peers talk directly: resilient and scalable, but harder to debug with O(n squared) chatter. For large systems, a hierarchy combines local autonomy with global control.</p>
+          <p class="qa-review">Review: Chapter 23</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">When do you choose LangGraph, AutoGen, or CrewAI?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">LangGraph gives an explicit state graph with checkpointing and first-class human-in-the-loop, best for complex production flows. AutoGen suits rapid prototyping of multi-agent conversations and code execution. CrewAI is simplest for role-based teams and quick demos. Go custom when you need maximum control.</p>
+          <p class="qa-review">Review: Chapter 24</p>
+        </div>
+      </div>
+
+      <div class="qa-card" data-reveal>
+        <p class="qa-q">ReAct versus Plan-and-Execute orchestration?</p>
+        <p class="qa-reveal-hint">Reveal &#9656;</p>
+        <div class="qa-a">
+          <p class="txt">ReAct loops think, act, observe, deciding each step from prior results: adaptive but myopic and prone to loops. Plan-and-Execute writes a full plan first, then runs it: efficient and parallelizable but brittle if early steps fail. A common hybrid plans at a high level and uses ReAct within each step.</p>
+          <p class="qa-review">Review: Chapters 17, 18</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script src="../../shared/learn.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

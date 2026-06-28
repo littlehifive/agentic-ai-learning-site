@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The harness as operating system</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .roles { margin-top: 34px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px; }
+  .role { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 24px 28px; display: flex; flex-direction: column; }
+  .role .rn { font-size: 16px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin: 0 0 12px; }
+  .role .rt { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; }
+  .role .rd { font-size: 18px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>18.1 What is an agent harness?</p>
+    <h1 data-reveal>The harness is the agent's <span class="accent">operating system</span></h1>
+    <p class="lead" data-reveal>A model is just a function from text to text. It has no memory, no clock, and no way to act in the world. The harness wraps it with the five things an agent actually needs, and keeps reasoning cleanly separate from running things.</p>
+
+    <div class="roles">
+      <div class="role" data-reveal>
+        <p class="rn">Reasoning</p>
+        <p class="rt">The model</p>
+        <p class="rd">Decides what to do next. The harness never second-guesses its thinking.</p>
+      </div>
+      <div class="role" data-reveal>
+        <p class="rn">Execution</p>
+        <p class="rt">Tools</p>
+        <p class="rd">Dispatches tool calls, handles input and output, and sandboxes them.</p>
+      </div>
+      <div class="role" data-reveal>
+        <p class="rn">Memory</p>
+        <p class="rt">State</p>
+        <p class="rd">Holds the context window, a scratchpad, and a long-term store.</p>
+      </div>
+      <div class="role" data-reveal>
+        <p class="rn">Communication</p>
+        <p class="rt">Routing</p>
+        <p class="rd">Passes messages between the model, the user, and other services.</p>
+      </div>
+      <div class="role" data-reveal>
+        <p class="rn">Observability</p>
+        <p class="rt">Seeing in</p>
+        <p class="rd">Logs and traces every step so you can watch what the agent did.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> an operating system. Your apps do the work, but the OS gives them memory, files, a screen, and a way to talk to the network. The harness does the same for a language model.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Harness</span><span class="def">The runtime around the model that manages memory, tools, state, and recovery.</span></div>
+      <div class="row"><span class="term">Separation of concerns</span><span class="def">The model only reasons; the harness handles everything else around it.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

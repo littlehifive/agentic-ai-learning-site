@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>NVLink and the network fabric</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 46px; max-width: 1640px; }
+  .tiers { margin-top: 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .tier { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px; display: flex; flex-direction: column; }
+  .tier .scope { font-size: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; }
+  .tier .nm { font-size: 26px; font-weight: 800; color: var(--navy); margin: 0 0 6px; }
+  .tier .sp { font-size: 19px; font-weight: 800; color: var(--ink); margin: 0 0 12px; font-variant-numeric: tabular-nums; }
+  .tier .ds { font-size: 19px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>2.1.10 Communication Architecture: NVLink, InfiniBand, PCIe</p>
+    <h1 data-reveal>Big models need many GPUs <span class="accent">talking constantly</span></h1>
+    <p class="lead" data-reveal>One GPU cannot hold the largest models, so dozens or hundreds share the work, and they must swap results many times a second. The cable between them then becomes the bottleneck. There are three tiers, from a blazing-fast link inside one machine down to the network between machines.</p>
+
+    <div class="tiers">
+      <div class="tier" data-reveal>
+        <p class="scope">Same machine</p>
+        <p class="nm">NVLink + NVSwitch</p>
+        <p class="sp">900 to 1800 GB/s</p>
+        <p class="ds">A dedicated high-speed link between GPUs in one box. NVSwitch lets every GPU talk to every other at full speed at once, not just its neighbors.</p>
+      </div>
+      <div class="tier" data-reveal>
+        <p class="scope">Between machines</p>
+        <p class="nm">InfiniBand</p>
+        <p class="sp">~50 GB/s per port</p>
+        <p class="ds">A fast network joining separate servers into one cluster. GPUs can even read each other's memory across the network without bothering the CPU.</p>
+      </div>
+      <div class="tier" data-reveal>
+        <p class="scope">CPU to GPU</p>
+        <p class="nm">PCIe</p>
+        <p class="sp">~32 GB/s</p>
+        <p class="ds">The general-purpose link to the rest of the computer. Far slower, so never use it for GPU-to-GPU traffic when NVLink is available.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> moving between desks in one office (NVLink), driving across town between offices (InfiniBand), and mailing a letter to the loading dock (PCIe). Same goal, wildly different speeds.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">NVLink</span><span class="def">A very fast direct link between GPUs inside the same machine.</span></div>
+      <div class="row"><span class="term">NVSwitch</span><span class="def">A hub so all GPUs in a box can talk to all others at full speed at the same time.</span></div>
+      <div class="row"><span class="term">InfiniBand</span><span class="def">The fast network that connects separate servers into one large cluster.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

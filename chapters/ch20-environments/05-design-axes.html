@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Four design axes</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 28px 34px; }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 12px; }
+  .cardo .h .num { color: var(--gold); font-weight: 900; margin-right: 12px; font-variant-numeric: tabular-nums; }
+  .cardo p { font-size: 21px; line-height: 1.42; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>20.2 Environment design principles</p>
+    <h1 data-reveal>A good environment gets <span class="accent">four things</span> right</h1>
+    <p class="lead" data-reveal>Building one is a craft. Each of these four choices has a failure mode that can quietly ruin a whole benchmark, so designers tune all four together.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="h"><span class="num">1</span>What the agent sees</p>
+        <p>The observation: plain text, structured data, or a screenshot. Show too much, like sneaking in the answer, and scores look great but the agent collapses in the real world.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h"><span class="num">2</span>What the agent can do</p>
+        <p>The action space: run code, call a tool, click and type, send a message. This defines the agent's whole repertoire of moves in this world.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h"><span class="num">3</span>How it is scored</p>
+        <p>The reward signal. The hardest part to get right: it must reward real success, give enough feedback to learn from, and resist being gamed.</p>
+      </div>
+      <div class="cardo" data-reveal>
+        <p class="h"><span class="num">4</span>When it ends</p>
+        <p>The episode structure. A fixed number of steps, stop when the agent says it is done, or run until a budget of time or money runs out.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Observation leakage</span><span class="def">Accidentally letting the agent peek at the answer, which fakes a high score.</span></div>
+      <div class="row"><span class="term">Episode</span><span class="def">One full attempt at a task, from a fresh start to a finish or a cutoff.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

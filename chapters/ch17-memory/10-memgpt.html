@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MemGPT tiering</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .lead { margin-bottom: 6px; }
+  .tiers { margin-top: 26px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .tier { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 26px 30px; display: flex; flex-direction: column; }
+  .tier .lvl { font-size: 17px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 10px; }
+  .tier .h { font-size: 24px; font-weight: 800; color: var(--navy); margin: 0 0 10px; line-height: 1.18; }
+  .tier .d { font-size: 20px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .tier--hot { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>17.3.5 MemGPT and virtual context management</p>
+    <h1 data-reveal>Page memory in and out, like an <span class="accent">operating system</span></h1>
+    <p class="lead" data-reveal>MemGPT treats the limited context like a computer's fast but small memory, and external storage like its large but slow disk. The agent itself moves items between tiers, pulling in what it needs and evicting what it does not.</p>
+
+    <div class="tiers">
+      <div class="tier tier--hot" data-reveal>
+        <p class="lvl">Hot tier</p>
+        <p class="h">In context</p>
+        <p class="d">What is loaded right now. Instant to use, but tiny. The most relevant and important items are paged in here.</p>
+      </div>
+      <div class="tier" data-reveal>
+        <p class="lvl">Warm tier</p>
+        <p class="h">Fast retrieval store</p>
+        <p class="d">A searchable index just outside the window. Quick to query and brought into the hot tier on demand.</p>
+      </div>
+      <div class="tier" data-reveal>
+        <p class="lvl">Cold tier</p>
+        <p class="h">Archival storage</p>
+        <p class="d">Effectively unlimited, slow to scan, kept for the long tail and for auditing. Drilled into only when needed.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> virtual memory on a laptop. The system keeps the pages you are using in fast RAM and swaps the rest out to disk, so a small workspace can serve a huge body of information. The agent decides what to swap based on recency, relevance, and importance.</span>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A2A versus MCP</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two-col { margin-top: 32px; }
+  .dcard.mcp .h { background: var(--ink-muted); }
+  .dcard.a2a .h { background: var(--navy); }
+  .dcard li { font-size: 22px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>23.7 A2A versus MCP: complementary protocols</p>
+    <h1 data-reveal>Two protocols, two directions, <span class="accent">used together</span></h1>
+    <p class="lead" data-reveal>A2A and MCP are often confused, but they solve different problems and pair naturally. MCP reaches <b>downward</b> from an agent to its tools and data. A2A reaches <b>sideways</b> from one reasoning agent to another.</p>
+
+    <div class="two-col">
+      <div class="dcard mcp" data-reveal>
+        <p class="h">MCP, the vertical protocol</p>
+        <ul>
+          <li>Connects an agent to tools, databases, and code runners</li>
+          <li>Only the agent reasons; the other side is a deterministic service</li>
+          <li>Typically stateless, millisecond tool calls</li>
+          <li>Best for "search the web" or "run this query"</li>
+        </ul>
+      </div>
+      <div class="dcard a2a" data-reveal>
+        <p class="h">A2A, the horizontal protocol</p>
+        <ul>
+          <li>Connects one agent to another agent as a peer</li>
+          <li>Both sides reason, plan, and use their own tools</li>
+          <li>Stateful tasks with a full lifecycle and streaming</li>
+          <li>Best for "delegate this to a specialist"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a contractor who uses power tools to do the work themselves (MCP), but phones a licensed electrician when the job needs real expertise (A2A). One reaches for tools; the other calls a peer.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Use MCP when</span><span class="def">The other end is a fixed function the agent fully controls.</span></div>
+      <div class="row"><span class="term">Use A2A when</span><span class="def">The other end must reason about the request and make judgment calls.</span></div>
+      <div class="row"><span class="term">Use both when</span><span class="def">An orchestrator delegates via A2A, and each specialist reaches its tools via MCP.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

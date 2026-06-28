@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Benchmark contamination</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1660px; }
+  .leak { margin-top: 28px; display: flex; align-items: stretch; gap: 16px; }
+  .lk { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 24px 28px; }
+  .lk.bad { border-color: var(--gold); border-width: 2px; }
+  .lk .t { font-size: 22px; font-weight: 800; color: var(--navy); margin: 0 0 8px; line-height: 1.2; }
+  .lk p { font-size: 19px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+  .arrow { display: flex; align-items: center; color: var(--gold); font-size: 34px; font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>14.8.1 Benchmark Contamination</p>
+    <h1 data-reveal>When the test leaked into training, the <span class="accent">score lies</span></h1>
+    <p class="lead" data-reveal>Models learn from enormous slices of the internet, and benchmark questions live on the internet too. If the test questions ended up in the training data, the model can recall the answers instead of working them out. <b>The score looks great and means nothing.</b></p>
+
+    <div class="leak">
+      <div class="lk" data-reveal>
+        <p class="t">Test questions online</p>
+        <p>Public benchmarks sit in the same web text used to train models.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="lk bad" data-reveal>
+        <p class="t">They slip into training</p>
+        <p>The model memorises the exact answers, not the underlying skill.</p>
+      </div>
+      <div class="arrow" data-reveal>&#8594;</div>
+      <div class="lk" data-reveal>
+        <p class="t">Inflated, hollow scores</p>
+        <p>High marks on the test, no real gain on new, unseen problems.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> a student who got the exam paper in advance. A perfect grade tells you nothing about whether they learned anything.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Detect it</span><span class="def">Check for verbatim overlap with training text, or test on problems created after the training cutoff.</span></div>
+      <div class="row"><span class="term">Prevent it</span><span class="def">Keep a private test set that is never published, and refresh benchmarks with fresh questions.</span></div>
+      <div class="row"><span class="term">Related trap</span><span class="def">Even clean tests wear out as the field tunes against them, so treat any benchmark as a temporary signal.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

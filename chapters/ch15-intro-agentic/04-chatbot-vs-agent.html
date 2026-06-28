@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Chatbot vs agent</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .two { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .cardo { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 32px 36px; }
+  .cardo.now { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+  .cardo .h { font-size: 25px; font-weight: 800; color: var(--navy); margin: 0 0 14px; }
+  .cardo p { font-size: 21px; line-height: 1.45; color: var(--ink-secondary); margin: 0; }
+  .cardo .tag { display: inline-block; font-size: 16px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin: 0 0 12px; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>From single-turn response to control loop</p>
+    <h1 data-reveal>The same model, used in two <span class="accent">very different ways</span></h1>
+    <p class="lead" data-reveal>The shift from chatbot to agent is not a bigger model or better wording. It is a change in shape: from one input and one output, to a process with memory, real effects, and a rule for when to stop.</p>
+
+    <div class="two">
+      <div class="cardo" data-reveal>
+        <p class="tag">Chatbot</p>
+        <p class="h">One question in, one answer out</p>
+        <p>The model reads your message, produces a single response, and waits. It holds nothing of its own, changes nothing in the world, and never decides on its own that it is finished. Think of a function call: one input, one output.</p>
+      </div>
+      <div class="cardo now" data-reveal>
+        <p class="tag">Agent</p>
+        <p class="h">A loop with state, effects, and a stop rule</p>
+        <p>The model runs a cycle: it keeps track of what it has done, takes actions that change real systems, and continues until a goal is reached or it asks for help. Think of a program with a loop, not a single call.</p>
+      </div>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> asking a question at an information desk versus hiring an assistant. The desk gives you one answer and you leave. The assistant remembers the task, makes calls, books things, checks the results, and reports back when it is done.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">State</span><span class="def">Memory of what the agent has done, what worked, and what failed, carried across steps.</span></div>
+      <div class="row"><span class="term">Side effect</span><span class="def">A real change the agent makes in the world: a file written, an email sent, a record updated.</span></div>
+      <div class="row"><span class="term">Stopping condition</span><span class="def">The rule that ends the loop: the goal is met, or the agent hands off to a human.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

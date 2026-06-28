@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fault tolerance and checkpointing</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 50px; max-width: 1640px; }
+  .stat { margin-top: 28px; display: flex; align-items: center; gap: 30px; background: var(--surface-subtle); border: 1px solid var(--border); border-left: 6px solid var(--gold); border-radius: 12px; padding: 26px 34px; }
+  .stat .big { font-size: 56px; font-weight: 900; color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+  .stat .txt { font-size: 23px; line-height: 1.4; color: var(--ink); }
+  .stat .txt b { color: var(--navy); font-weight: 800; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>11.7 Fault Tolerance at Scale</p>
+    <h1 data-reveal>With hundreds of GPUs, something <span class="accent">always breaks</span></h1>
+    <p class="lead" data-reveal>Any single GPU is reliable, but run hundreds for days and failures are a certainty, not a risk. A multi-day run will hit several. Without a plan, one dead chip wipes out everyone's progress, so the system is built to expect and survive failures.</p>
+
+    <div class="stat" data-reveal>
+      <span class="big">5 to 15</span>
+      <span class="txt">failures expected during a single multi-day training run on a large cluster. The fix is to <b>save progress often and recover automatically</b> rather than start over.</span>
+    </div>
+
+    <div class="analogy" data-reveal>
+      <span class="mark"></span>
+      <span><span class="lbl">Think of it like</span> writing a long document: you do not retype from scratch when the power flickers because you saved a few minutes ago. Checkpoints are those autosaves, and the system reloads the last one and carries on with one fewer machine.</span>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Checkpoint</span><span class="def">A saved snapshot of the full training state, taken every so often in the background so it does not stall the run.</span></div>
+      <div class="row"><span class="term">Fault tolerance</span><span class="def">Detecting a failed machine, dropping it, and resuming from the last checkpoint without human help.</span></div>
+      <div class="row"><span class="term">Elastic training</span><span class="def">Carrying on with fewer GPUs while a replacement spins up, instead of halting.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>

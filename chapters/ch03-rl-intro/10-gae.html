@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Generalized Advantage Estimation</title>
+<link rel="stylesheet" href="../../shared/fonts.css">
+<link rel="stylesheet" href="../../shared/anim.css">
+<link rel="stylesheet" href="../../shared/taf.css">
+<link rel="stylesheet" href="../../shared/learn.css">
+<style>
+  h1 { font-size: 48px; max-width: 1640px; }
+  .slider { margin-top: 28px; }
+  .strack { position: relative; height: 10px; background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 6px; }
+  .sfill { position: absolute; left: 0; top: 0; bottom: 0; width: 95%; background: var(--gold); border-radius: 6px 0 0 6px; }
+  .sknob { position: absolute; top: -9px; left: 95%; width: 28px; height: 28px; background: var(--navy); border: 3px solid var(--gold); border-radius: 50%; transform: translateX(-50%); }
+  .sends { margin-top: 18px; display: flex; gap: 18px; }
+  .send { flex: 1 1 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow-md); padding: 22px 26px; }
+  .send.mid { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold), var(--shadow-md); }
+  .send .sv { font-family: "SF Mono", Menlo, monospace; font-size: 24px; font-weight: 800; color: var(--gold); margin: 0 0 8px; }
+  .send .st { font-size: 22px; font-weight: 800; color: var(--navy); margin: 0 0 8px; }
+  .send .sd { font-size: 18px; line-height: 1.4; color: var(--ink-secondary); margin: 0; }
+</style>
+</head>
+<body>
+  <div class="slide">
+    <p class="eyebrow" data-reveal>3.8 Generalized Advantage Estimation (GAE)</p>
+    <h1 data-reveal>One dial to balance <span class="accent">steady against accurate</span></h1>
+    <p class="lead" data-reveal>Estimating the advantage forces a choice. Trust the critic and look only one step ahead: very steady, but wrong if the critic is off. Trust the actual rewards all the way to the end: always accurate, but wildly noisy. GAE blends every horizon at once with a single knob, lambda, that slides between the two.</p>
+
+    <div class="slider" data-reveal>
+      <div class="strack"><div class="sfill"></div><div class="sknob"></div></div>
+    </div>
+    <div class="sends">
+      <div class="send" data-reveal>
+        <p class="sv">&#955; = 0</p>
+        <p class="st">Trust the critic</p>
+        <p class="sd">One step ahead only. Low variance, steady updates, but biased if the critic is inaccurate. Can miss long-delayed rewards.</p>
+      </div>
+      <div class="send mid" data-reveal>
+        <p class="sv">&#955; = 0.95</p>
+        <p class="st">The sweet spot</p>
+        <p class="sd">Mostly trusts the critic but corrects with real returns for distant effects. The standard choice for training language models.</p>
+      </div>
+      <div class="send" data-reveal>
+        <p class="sv">&#955; = 1</p>
+        <p class="st">Trust the rewards</p>
+        <p class="sd">Full real returns to the end. Unbiased but very high variance. Updates can swing hard and destabilise training.</p>
+      </div>
+    </div>
+
+    <div class="plain" data-reveal>
+      <p class="plain-h">In plain terms</p>
+      <div class="row"><span class="term">Bias vs variance</span><span class="def">Bias is leaning on a flawed critic; variance is leaning on a chaotic environment. GAE trades one for the other smoothly.</span></div>
+      <div class="row"><span class="term">Credit assignment</span><span class="def">It decides how much a reward now should credit the actions that led here. Higher lambda spreads credit further back in time.</span></div>
+    </div>
+  </div>
+<script src="../../shared/anim.js"></script>
+<script>
+(function () {
+  if (window.parent === window) return;
+  document.addEventListener('keydown', function (e) {
+    var nav = ['ArrowRight', 'ArrowLeft', ' ', 'PageDown', 'PageUp', 'Home', 'End', 'Escape'];
+    if (nav.indexOf(e.key) !== -1 || /^[1-9]$/.test(e.key) || e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      window.parent.postMessage({ deckKey: e.key }, '*');
+    }
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { window.parent.postMessage({ deckFontsReady: true }, '*'); });
+  } else { window.parent.postMessage({ deckFontsReady: true }, '*'); }
+})();
+</script>
+</body>
+</html>
